@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeScreenFragment">
+
+    <fragment
+        android:id="@+id/homeScreenFragment"
+        android:name="bellevuecollege.edu.cookpal.home_screen.HomeScreenFragment"
+        android:label="home_screen_fragment"
+        tools:layout="@layout/home_screen_fragment" >
+        <action
+            android:id="@+id/action_homeScreenFragment_to_recipeResultsFragment"
+            app:destination="@id/recipeResultsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeResultsFragment"
+        android:name="bellevuecollege.edu.cookpal.recipes.RecipeResultsFragment"
+        android:label="recipe_results_fragment"
+        tools:layout="@layout/recipe_results_fragment" />
+</navigation>
