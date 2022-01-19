@@ -1,0 +1,134 @@
+Index: app/src/main/java/com/example/scrapper2/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/**\r\n * Scrapper\r\n * @author Tonny An\r\n * 11/27/21\r\n */\r\n\r\npackage com.example.scrapper2\r\n\r\nimport android.os.Build\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.os.Bundle\r\nimport android.widget.Button\r\nimport com.google.android.material.textfield.TextInputEditText\r\nimport org.json.JSONObject\r\nimport org.jsoup.Jsoup\r\nimport org.jsoup.Jsoup.*\r\nimport org.jsoup.nodes.Document\r\nimport android.os.StrictMode\r\nimport android.os.StrictMode.ThreadPolicy\r\nimport android.text.method.ScrollingMovementMethod\r\nimport android.widget.TextView\r\nimport android.widget.Toast\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    private lateinit var searchBar: TextInputEditText\r\n    private lateinit var enterButton: Button\r\n    private lateinit var jsonString: TextView\r\n    private val allRecipes = \"https://www.allrecipes.com/search/results/?search=\"\r\n    private var search = \"\"\r\n    private var counter = 0\r\n\r\n    //Get IDs\r\n    private fun getId() {\r\n        searchBar = findViewById(R.id.searchBar)\r\n        enterButton = findViewById(R.id.enterButton)\r\n        jsonString = findViewById(R.id.Json)\r\n        jsonString.movementMethod = ScrollingMovementMethod()\r\n\r\n    }\r\n\r\n\r\n    //Get html of results\r\n//    private fun getSearchHtml(url:String): String {\r\n        //TODO(\"Selenium not working with android, find a new way to get more results\")\r\n//        System.setProperty(\r\n//            \"webdriver.chrome.driver\",\r\n//            \"C:\\\\Users\\\\Tonny An\\\\AndroidStudioProjects\\\\Scrapper\\\\chromedriver.exe\"\r\n//        )\r\n//        var driver = ChromeDriver()\r\n//        driver.get(url)\r\n//        var jse = driver as JavascriptExecutor\r\n//        //get height\r\n//        var currentHeight = jse.executeScript(\"return document.body.scrollHeight\") as Long\r\n//        var newHeight = 0 as Long\r\n//        var counter = 0\r\n//        //loop scroll down script\r\n//        while (currentHeight > newHeight || counter == 4) {\r\n//            if (newHeight.toInt() != 0) currentHeight = newHeight\r\n//            jse.executeScript(\"window.scrollTo(0, document.body.scrollHeight);\")\r\n//            Thread.sleep(1000)\r\n//            newHeight = jse.executeScript(\"return document.body.scrollHeight\") as Long\r\n//            counter++\r\n//        }\r\n//        Thread.sleep(500)\r\n//        return driver.pageSource\r\n//    }\r\n\r\n    //get urls of dishes from html, currently limited to 30 results, see getSearchHtml\r\n    private fun getSearchUrls(doc:Document): Array<String?> {\r\n        var searchUrl = arrayOfNulls<String>(30)\r\n        var e = doc.select(\"a[class=card__titleLink manual-link-behavior]\")\r\n        for (element in e) {\r\n            if (element.hasAttr(\"aria-hidden\")) {\r\n                searchUrl[counter] = element.attr(\"href\")\r\n                counter++\r\n            }\r\n        }\r\n        return searchUrl\r\n    }\r\n\r\n    //get dish name\r\n    private fun getName(doc: Document): String {\r\n        var result = \"No name\"\r\n        //get headline part of html\r\n        val name = doc.select(\"h1.headline\")\r\n        if (name != null)\r\n        //replace tags and everything else with empty space\r\n            result = Jsoup.parse(name.toString()).text()\r\n        return result\r\n    }\r\n    //get dish description\r\n    private fun getDescript(doc:Document): String{\r\n        var result = \"No description\"\r\n        val description = doc.select(\"div[class=\\\"recipe-summary\\\"]\")\r\n        if (description != null)\r\n            result = parse(description.toString()).text()\r\n        return result\r\n    }\r\n    //get name of author\r\n    private fun getAuthor(doc: Document): String {\r\n        var result = \"No author\"\r\n        //get elements with author\r\n        val author = doc.select(\"span[class~=author-name author]\")\r\n        if (author != null)\r\n        //remove tags and everything else with empty space\r\n            result = Jsoup.parse(author.toString()).text()\r\n        return result\r\n    }\r\n\r\n    //returns string of ingredients\r\n    private fun getIngredients(doc: Document): String {\r\n        var result = \"No ingredients\"\r\n        //get elements where ingredients are at\r\n        val ingredients = doc.select(\"span.ingredients-item-name\")\r\n        if (ingredients != null)\r\n        //remove tags and everything else with empty space\r\n            result = Jsoup.parse(ingredients.toString()).text()\r\n        return result\r\n    }\r\n\r\n    //gets instructions\r\n    private fun getInstructions(doc: Document): String {\r\n        var result = \"No instructions\"\r\n        //get elements where instructions are\r\n        val instructions = doc.getElementsByTag(\"fieldset\")\r\n        if (instructions != null)\r\n        //remove tags and everything else with empty space\r\n            result = Jsoup.parse(instructions.toString()).text()\r\n        return result\r\n    }\r\n\r\n    //gets rating\r\n    private fun getRatings(doc: Document): String {\r\n        var result = \"0\"\r\n        //get elements where ratings are\r\n        val ratings = doc.selectFirst(\"span.review-star-text\")\r\n        if (ratings != null)\r\n        //remove tags and everything else with empty space\r\n            result = Jsoup.parse(ratings.toString()).text()\r\n        return result\r\n    }\r\n\r\n    //gets number of ratings\r\n    private fun getNumRatings(doc: Document): String {\r\n        var result = \"0\"\r\n        //get elements where number of ratings are\r\n        val numRatings = doc.selectFirst(\"span.ugc-ratings-item\")\r\n        if (numRatings != null)\r\n        //remove tags and everything else with empty space\r\n            result = Jsoup.parse(numRatings.toString()).text()\r\n        return result\r\n    }\r\n\r\n    //get url for 1 image\r\n    private fun getImageUrl(doc: Document): String {\r\n        //default case for url\r\n        var result = \"no image\"\r\n        //trims the document to only look at the primary media section\r\n        val doc2 = doc.selectFirst(\"div[class~=primary-media]\")\r\n        //look for image url\r\n        val realUrls = doc2?.selectFirst(\"img[src]\")\r\n        //if url is found\r\n        if (realUrls != null) {\r\n            //remove img src tag\r\n            val firstR: String = realUrls.toString().replace(\"<img src=\\\"\", \"\")\r\n            //remove everything after alt attribute\r\n            result = firstR.replace(\"\\\" alt.*\".toRegex(), \"\")\r\n        }\r\n        return result\r\n    }\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n        if (Build.VERSION.SDK_INT > 9) {\r\n            val policy = ThreadPolicy.Builder().permitAll().build()\r\n            StrictMode.setThreadPolicy(policy)\r\n        }\r\n        getId()\r\n        enterButton.setOnClickListener {\r\n            //user input search, trimmed and replaces space with +\r\n            search = searchBar.text.toString().trim().replace(\" \", \"+\")\r\n            //The full url\r\n            var fullUrl = allRecipes + search\r\n            //get html of page\r\n            var html:Document = connect(fullUrl).get()\r\n            //array of urls\r\n            var urls = getSearchUrls(html)\r\n            var jsonArray = arrayOfNulls<JSONObject>(counter)\r\n            var toDisplay = \"\"\r\n            //iterate through array of urls /\r\n            for (i in urls){\r\n                if(i!=null) {\r\n                    //create jsons of dishes\r\n                    var dishDoc: Document = connect(i).get()\r\n                    var json = JSONObject()\r\n                    var name = getName(dishDoc)\r\n                    var descript = getDescript(dishDoc)\r\n                    var rating = getRatings(dishDoc)\r\n                    var nRating = getNumRatings(dishDoc)\r\n                    json.put(\"Name\", name)\r\n                    json.put(\"Description\", descript)\r\n                    json.put(\"Author\", getAuthor(dishDoc))\r\n                    json.put(\"Ingredients\", getIngredients(dishDoc))\r\n                    json.put(\"Instructions\", getInstructions(dishDoc))\r\n                    json.put(\"Ratings\", rating)\r\n                    json.put(\"Number of ratings\", nRating)\r\n                    json.put(\"Image url\", getImageUrl(dishDoc))\r\n                    toDisplay += \"$name\\n$descript\\nRating: $rating $nRating\\n\"\r\n                    toDisplay += \"------------------------------------------------------------------------------\\n\"\r\n                }\r\n                jsonString.setText(toDisplay)\r\n            }\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/scrapper2/MainActivity.kt b/app/src/main/java/com/example/scrapper2/MainActivity.kt
+--- a/app/src/main/java/com/example/scrapper2/MainActivity.kt	(revision a819ea357120293a8e3dad70d8e24f9a779fdb6a)
++++ b/app/src/main/java/com/example/scrapper2/MainActivity.kt	(date 1641180418712)
+@@ -21,6 +21,11 @@
+ import android.widget.TextView
+ import android.widget.Toast
+ 
++
++import org.openqa.selenium.JavascriptExecutor
++import org.openqa.selenium.chrome.ChromeDriver
++import org.openqa.selenium.chrome.ChromeOptions
++
+ class MainActivity : AppCompatActivity() {
+ 
+     private lateinit var searchBar: TextInputEditText
+@@ -39,32 +44,37 @@
+ 
+     }
+ 
++    private fun generateChromeDriver(): ChromeDriver {
++        val cp = ChromeOptions();
++        cp.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--headless")
++        return ChromeDriver(cp)
++    }
+ 
+     //Get html of results
+-//    private fun getSearchHtml(url:String): String {
++    private fun getSearchHtml(url:String): String {
+         //TODO("Selenium not working with android, find a new way to get more results")
+-//        System.setProperty(
+-//            "webdriver.chrome.driver",
+-//            "C:\\Users\\Tonny An\\AndroidStudioProjects\\Scrapper\\chromedriver.exe"
+-//        )
+-//        var driver = ChromeDriver()
+-//        driver.get(url)
+-//        var jse = driver as JavascriptExecutor
+-//        //get height
+-//        var currentHeight = jse.executeScript("return document.body.scrollHeight") as Long
+-//        var newHeight = 0 as Long
+-//        var counter = 0
+-//        //loop scroll down script
+-//        while (currentHeight > newHeight || counter == 4) {
+-//            if (newHeight.toInt() != 0) currentHeight = newHeight
+-//            jse.executeScript("window.scrollTo(0, document.body.scrollHeight);")
+-//            Thread.sleep(1000)
+-//            newHeight = jse.executeScript("return document.body.scrollHeight") as Long
+-//            counter++
+-//        }
+-//        Thread.sleep(500)
+-//        return driver.pageSource
+-//    }
++        System.setProperty(
++            "webdriver.chrome.driver",
++            "C:\\Users\\Tonny An\\AndroidStudioProjects\\Scrapper\\chromedriver.exe"
++        )
++        var driver = generateChromeDriver()
++        driver.get(url)
++        var jse = driver as JavascriptExecutor
++        //get height
++        var currentHeight = jse.executeScript("return document.body.scrollHeight") as Long
++        var newHeight = 0 as Long
++        var counter = 0
++        //loop scroll down script
++        while (currentHeight > newHeight || counter == 4) {
++            if (newHeight.toInt() != 0) currentHeight = newHeight
++            jse.executeScript("window.scrollTo(0, document.body.scrollHeight);")
++            Thread.sleep(1000)
++            newHeight = jse.executeScript("return document.body.scrollHeight") as Long
++            counter++
++        }
++        Thread.sleep(500)
++        return driver.pageSource
++    }
+ 
+     //get urls of dishes from html, currently limited to 30 results, see getSearchHtml
+     private fun getSearchUrls(doc:Document): Array<String?> {
+@@ -178,11 +188,21 @@
+             StrictMode.setThreadPolicy(policy)
+         }
+         getId()
++
++
++        var htmlString = getSearchHtml(allRecipes + "cheese")
++
++
+         enterButton.setOnClickListener {
+             //user input search, trimmed and replaces space with +
+             search = searchBar.text.toString().trim().replace(" ", "+")
+             //The full url
+             var fullUrl = allRecipes + search
++
++
++            var htmlString = getSearchHtml(fullUrl)
++
++
+             //get html of page
+             var html:Document = connect(fullUrl).get()
+             //array of urls
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'kotlin-android'\r\n}\r\n\r\nandroid {\r\n    compileSdk 31\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.scrapper2\"\r\n        minSdk 21\r\n        targetSdk 31\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = '1.8'\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.core:core-ktx:1.7.0'\r\n    implementation 'androidx.appcompat:appcompat:1.4.0'\r\n    implementation 'com.google.android.material:material:1.4.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'\r\n    implementation files('libs/json-simple-1.1.1.jar')\r\n    implementation files('libs/jsoup-1.14.3.jar')\r\n    implementation files('libs/async-http-client-2.12.3.jar')\r\n    implementation files('libs\\\\async-http-client-netty-utils-2.12.3.jar')\r\n    implementation files('libs\\\\auto-common-1.2.1.jar')\r\n    implementation files('libs\\\\auto-service-1.0.1.jar')\r\n    implementation files('libs\\\\auto-service-annotations-1.0.1.jar')\r\n    implementation files('libs\\\\byte-buddy-1.12.1.jar')\r\n    implementation files('libs\\\\checker-qual-3.12.0.jar')\r\n    implementation files('libs\\\\commons-exec-1.3.jar')\r\n    implementation files('libs\\\\error_prone_annotations-2.7.1.jar')\r\n    implementation files('libs\\\\failsafe-2.4.4.jar')\r\n    implementation files('libs\\\\failureaccess-1.0.1.jar')\r\n    implementation files('libs\\\\guava-31.0.1-jre.jar')\r\n    implementation files('libs\\\\j2objc-annotations-1.3.jar')\r\n    implementation files('libs\\\\jackson-annotations-2.13.0.jar')\r\n    implementation files('libs\\\\jackson-core-2.13.0.jar')\r\n    implementation files('libs\\\\jackson-databind-2.13.0.jar')\r\n    implementation files('libs\\\\jakarta.activation-1.2.2.jar')\r\n    implementation files('libs\\\\jcommander-1.81.jar')\r\n    implementation files('libs\\\\jsr305-3.0.2.jar')\r\n    implementation files('libs\\\\jtoml-2.0.0.jar')\r\n    implementation files('libs\\\\netty-buffer-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-codec-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-codec-http-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-codec-socks-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-common-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-handler-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-handler-proxy-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-reactive-streams-2.0.4.jar')\r\n    implementation files('libs\\\\netty-resolver-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-transport-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-transport-native-epoll-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-transport-native-kqueue-4.1.69.Final.jar')\r\n    implementation files('libs\\\\netty-transport-native-unix-common-4.1.69.Final.jar')\r\n    implementation files('libs\\\\opentelemetry-api-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-api-metrics-1.9.0-alpha.jar')\r\n    implementation files('libs\\\\opentelemetry-context-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-exporter-logging-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-common-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-extension-autoconfigure-1.9.0-alpha.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-extension-autoconfigure-spi-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-logs-1.9.0-alpha.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-metrics-1.9.0-alpha.jar')\r\n    implementation files('libs\\\\opentelemetry-sdk-trace-1.9.0.jar')\r\n    implementation files('libs\\\\opentelemetry-semconv-1.9.0-alpha.jar')\r\n    implementation files('libs\\\\reactive-streams-1.0.3.jar')\r\n    implementation files('libs\\\\selenium-api-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-api-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-chrome-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-chrome-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-chromium-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-chromium-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-devtools-v85-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-devtools-v85-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-devtools-v94-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-devtools-v94-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-devtools-v95-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-devtools-v95-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-devtools-v96-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-devtools-v96-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-edge-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-edge-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-firefox-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-firefox-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-firefox-xpi-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-firefox-xpi-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-http-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-http-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-ie-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-ie-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-java-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-json-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-json-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-opera-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-opera-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-remote-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-remote-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-safari-driver-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-safari-driver-4.1.0-sources.jar')\r\n    implementation files('libs\\\\selenium-support-4.1.0.jar')\r\n    implementation files('libs\\\\selenium-support-4.1.0-sources.jar')\r\n    implementation files('libs\\\\slf4j-api-1.7.32.jar')\r\n\r\n    testImplementation 'junit:junit:4.+'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision a819ea357120293a8e3dad70d8e24f9a779fdb6a)
++++ b/app/build.gradle	(date 1641180986829)
+@@ -29,6 +29,9 @@
+     kotlinOptions {
+         jvmTarget = '1.8'
+     }
++    packagingOptions {
++        resources.excludes.add("META-INF/*")
++    }
+ }
+ 
+ dependencies {
+@@ -121,7 +124,7 @@
+     implementation files('libs\\selenium-support-4.1.0.jar')
+     implementation files('libs\\selenium-support-4.1.0-sources.jar')
+     implementation files('libs\\slf4j-api-1.7.32.jar')
+-
++    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+     testImplementation 'junit:junit:4.+'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
