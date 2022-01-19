@@ -11,12 +11,25 @@
         tools:context=".home_screen.HomeScreenFragment">
 
         <ImageButton
+            android:id="@+id/drinksButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="175dp"
+            android:contentDescription="@+string/drinks button"
+            android:layout_toEndOf="@+id/burgerButton"
+            android:background="#00000000"
+            app:srcCompat="@drawable/ic_drinks_button" />
+
+        <ImageButton
             android:id="@+id/burgerButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="175dp"
+            android:contentDescription="@+string/burger button"
             android:layout_toEndOf="@+id/RiceButtton"
             android:background="#00000000"
             app:srcCompat="@drawable/ic_burgerbutton" />
@@ -29,7 +42,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:contentDescription="Grey banner"
+            android:contentDescription="@+string/Grey banner"
             app:srcCompat="@drawable/ic_rectangle_1"
             tools:ignore="ImageContrastCheck" />
 
@@ -41,6 +54,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
             android:layout_marginTop="175dp"
+            android:contentDescription="@+string/rice button"
             android:background="#00000000"
             app:srcCompat="@drawable/ic_new_rice_button" />
 
@@ -65,6 +79,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:contentDescription="@+string/profile button"
             app:srcCompat="@drawable/ic_profile"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -77,7 +92,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
-            android:contentDescription="TODO"
+            android:contentDescription="@+string/search button"
             android:minWidth="48dp"
             android:minHeight="48dp"
             app:srcCompat="@drawable/ic_search"
