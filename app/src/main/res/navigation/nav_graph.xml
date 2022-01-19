@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_recipeResultsFragment"
             app:destination="@id/recipeResultsFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
         android:name="bellevuecollege.edu.cookpal.recipes.RecipeResultsFragment"
         android:label="recipe_results_fragment"
         tools:layout="@layout/recipe_results_fragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="bellevuecollege.edu.cookpal.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

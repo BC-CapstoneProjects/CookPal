@@ -27,6 +27,9 @@ class HomeScreenFragment : Fragment() {
         binding.searchButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)
         }
+        binding.profile.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_profileFragment)
+        }
         return binding.root
     }
 }

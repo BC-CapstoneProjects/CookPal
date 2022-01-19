@@ -7,4 +7,6 @@
     <string name="search_hint">spring roll,pho,banhmi</string>
     <string name="add_remove_favorite">Add or remove favorite</string>
     <string name="recipe_image">Recipe image</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

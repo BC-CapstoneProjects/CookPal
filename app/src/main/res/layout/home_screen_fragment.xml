@@ -17,9 +17,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="175dp"
-            android:contentDescription="@+string/drinks button"
             android:layout_toEndOf="@+id/burgerButton"
             android:background="#00000000"
+            android:contentDescription="@+string/drinks button"
             app:srcCompat="@drawable/ic_drinks_button" />
 
         <ImageButton
@@ -29,9 +29,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="175dp"
-            android:contentDescription="@+string/burger button"
             android:layout_toEndOf="@+id/RiceButtton"
             android:background="#00000000"
+            android:contentDescription="@+string/burger button"
             app:srcCompat="@drawable/ic_burgerbutton" />
 
         <ImageView
