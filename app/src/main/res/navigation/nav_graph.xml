@@ -15,7 +15,8 @@
             app:destination="@id/recipeResultsFragment" />
         <action
             android:id="@+id/action_homeScreenFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
