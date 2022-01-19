@@ -2,6 +2,7 @@ package bellevuecollege.edu.cookpal
 
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.webkit.WebView
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -22,8 +23,7 @@ fun bindRecipeImage(imgView: ImageView, recipe: Recipe?) {
         val imgUri = recipe.imgSrcUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
             .load(imgUri)
-            .apply(
-                RequestOptions()
+            .apply(RequestOptions()
                 .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_broken_image))
             .listener(object : RequestListener<Drawable> {
@@ -76,3 +76,11 @@ status: IngredientSearchApiStatus) {
         }
     }
 }
+
+@BindingAdapter("viewRecipeInstructions")
+fun bindRecipeInstructions(webview: WebView, recipe: Recipe?) {
+    recipe?.let {
+        webview.loadUrl(recipe.sourceUrl)
+    }
+}
+

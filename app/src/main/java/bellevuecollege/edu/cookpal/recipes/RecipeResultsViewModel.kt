@@ -7,12 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.network.IngredientSearchApi
 import bellevuecollege.edu.cookpal.network.Recipe
+import bellevuecollege.edu.cookpal.recipe_parser.extractAllRecipesInformation
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 enum class IngredientSearchApiStatus { LOADING, ERROR, DONE}
 
 class RecipeResultsViewModel : ViewModel() {
+    private var ALL_RECIPES_NAME: String = "allrecipes"
     private var _searchTerm: String = "banh mi"
 
     // The internal MutableLiveData String that stores the most recent response
@@ -24,6 +28,10 @@ class RecipeResultsViewModel : ViewModel() {
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
+
+    private val _navigateToSelectedRecipe = MutableLiveData<Recipe>()
+    val navigateToSelectedRecipe: LiveData<Recipe>
+        get() = _navigateToSelectedRecipe
 
     private val _searchButtonVisible = MutableLiveData<Boolean?>()
     val searchButtonVisible: LiveData<Boolean?>
@@ -50,17 +58,39 @@ class RecipeResultsViewModel : ViewModel() {
             try {
                 val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm, 1)
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")
-                _recipes.value = searchResponse.recipes.map {
-                        recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl,
-                    response = "ID: " + recipe.id + "\nTitle: " + recipe.title + "\nImageUrl: " +
-                            recipe.imageUrl + "\nSourceUrl: " + recipe.sourceUrl)
-                }
+
+                _recipes.value = searchResponse.recipes
+                    .filter {
+                        it.sourceUrl.contains(ALL_RECIPES_NAME)}
+                    .map { recipe ->
+                        Recipe(
+                            rId = recipe.id,
+                            title = recipe.title,
+                            imgSrcUrl = recipe.imageUrl,
+                            sourceUrl = recipe.sourceUrl
+                        )
+                    }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = IngredientSearchApiStatus.ERROR
                 _recipes.value = ArrayList()
             }
         }
+    }
+
+    // Parse recipe info from Recipe source_url. Details include but not limited to: summary,
+    // ingredients and cooking instructions
+    fun displayRecipeDetails(recipe: Recipe) {
+        // Get Recipe details. We need to wrap jsoup call in a coroutine as Jsoup get takes time
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                extractAllRecipesInformation(recipe)
+            }
+            _navigateToSelectedRecipe.value = recipe
+        }
+    }
+
+    fun displayRecipeDetailsComplete() {
+        _navigateToSelectedRecipe.value = null
     }
 }

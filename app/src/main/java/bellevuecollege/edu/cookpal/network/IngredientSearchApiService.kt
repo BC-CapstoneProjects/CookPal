@@ -21,7 +21,18 @@ interface IngredientSearchApiService {
     ): IngredientSearchRecipesResponse
 }
 
+interface RecipeDetailsApiService {
+    @GET("api/get")
+    suspend fun getRecipeDetails(
+        @Query("rId") recipeId: String
+    ): RecipeDetailsResponseMetadata
+}
+
 object IngredientSearchApi {
     val retrofitIngredientSearchGetRecipes : IngredientSearchApiService by lazy {
         retrofit.create(IngredientSearchApiService::class.java) }
+
+    val retrofitGetRecipeDetails : RecipeDetailsApiService by lazy {
+        retrofit.create(RecipeDetailsApiService::class.java)
+    }
 }

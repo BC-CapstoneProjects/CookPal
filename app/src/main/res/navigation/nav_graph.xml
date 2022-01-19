@@ -18,5 +18,19 @@
         android:id="@+id/recipeResultsFragment"
         android:name="bellevuecollege.edu.cookpal.recipes.RecipeResultsFragment"
         android:label="recipe_results_fragment"
-        tools:layout="@layout/recipe_results_fragment" />
+        tools:layout="@layout/recipe_results_fragment" >
+        <action
+            android:id="@+id/action_recipeResultsFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsFragment"
+        android:label="recipe_details_fragment"
+        tools:layout="@layout/recipe_details_fragment">
+
+        <argument
+            android:name="selectedRecipe"
+            app:argType="bellevuecollege.edu.cookpal.network.Recipe" />
+    </fragment>
 </navigation>

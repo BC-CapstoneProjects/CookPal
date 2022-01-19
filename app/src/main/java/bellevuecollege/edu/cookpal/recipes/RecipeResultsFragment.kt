@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import bellevuecollege.edu.cookpal.databinding.RecipeResultsFragmentBinding
 
 class RecipeResultsFragment : Fragment() {
@@ -29,10 +31,20 @@ class RecipeResultsFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
         binding.recipesGrid.adapter = RecipeGridAdapter(RecipeGridAdapter.OnClickListener {
+            // A meal is clicked, parse recipes and display info
             if (it.isLoadedSuccessful) {
-                Toast.makeText(activity, "Loading recipe details. To be implemented.", Toast.LENGTH_SHORT).show()
+                viewModel.displayRecipeDetails(it)
             } else {
                 Toast.makeText(activity, "Failed to load", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+            if (null != it) {
+                this.findNavController().navigate(
+                    RecipeResultsFragmentDirections.actionRecipeResultsFragmentToRecipeDetailsFragment(it)
+                )
+                viewModel.displayRecipeDetailsComplete()
             }
         })
 

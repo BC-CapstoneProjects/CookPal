@@ -17,6 +17,15 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         fun bind(ingredientRecipe: Recipe) {
             // Recipe image
             binding.recipe = ingredientRecipe
+            // Recipe title
+//            binding.recipeName.text = ingredientRecipe.title
+            // Recipe favorite
+//            if (ingredientRecipe.isFavorite) {
+//                binding.favButton.setImageResource(R.drawable.ic_favorite_24dp)
+//            } else {
+//                binding.favButton.setImageResource(R.drawable.ic_favorite_border_24dp)
+//            }
+
             binding.executePendingBindings()
         }
     }
