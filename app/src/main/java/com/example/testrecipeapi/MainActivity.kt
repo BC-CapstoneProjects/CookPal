@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
                             val name = (rec as JSONObject).get("label")
 
-                            list.add(rec.toString())
+                            list.add(name.toString())
                         }
                     }
                 }
