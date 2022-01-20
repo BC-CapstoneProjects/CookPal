@@ -82,4 +82,8 @@ dependencies {
 
     // Jsoup
     implementation "org.jsoup:jsoup:$version_jsoup"
+
+    //Gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
 }

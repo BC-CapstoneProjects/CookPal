@@ -5,12 +5,12 @@ import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-
+// data class to hold recipes info responded from website
 data class IngredientSearchRecipesResponse(
     @SerializedName("count")
     @Expose
     val count: Int,
-
+    // data info of a recipe: image, sourceURL, title...
     @SerializedName("recipes")
     @Expose
     val recipes: List<RecipeResponse>
@@ -25,7 +25,7 @@ data class RecipeResponse (
     val publisherId: String,
     val title: String
 )
-
+// An example of recipe details gotten from RecipeAPI
 // {"recipe":{
 // "ingredients":["6 cups of milk","1/2 cup (1 stick) butter","1/2 cup yellow cornmeal","1/4 cup flour","1 teaspoon salt","1/2 cup molasses","3 eggs, beaten","1/3 cup of granulated sugar","1 teaspoon of cinnamon","1 teaspoon of nutmeg","1 cup golden raisins (optional)","Whipped cream or vanilla ice cream\n"],
 // "image_url":"https://res.cloudinary.com/dk4ocuiwa/image/upload/v1575163942/RecipesApi/indianpuddinga300x200bd7240d9.jpg",
