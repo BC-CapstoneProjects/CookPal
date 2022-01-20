@@ -34,6 +34,7 @@ class RecipeResultsFragment : Fragment() {
             // A meal is clicked, parse recipes and display info
             if (it.isLoadedSuccessful) {
                 viewModel.displayRecipeDetails(it)
+
             } else {
                 Toast.makeText(activity, "Failed to load", Toast.LENGTH_SHORT).show()
             }

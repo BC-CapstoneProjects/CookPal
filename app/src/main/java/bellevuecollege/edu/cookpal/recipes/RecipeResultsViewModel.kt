@@ -78,16 +78,8 @@ class RecipeResultsViewModel : ViewModel() {
         }
     }
 
-    // Parse recipe info from Recipe source_url. Details include but not limited to: summary,
-    // ingredients and cooking instructions
     fun displayRecipeDetails(recipe: Recipe) {
-        // Get Recipe details. We need to wrap jsoup call in a coroutine as Jsoup get takes time
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                extractAllRecipesInformation(recipe)
-            }
-            _navigateToSelectedRecipe.value = recipe
-        }
+        _navigateToSelectedRecipe.value = recipe
     }
 
     fun displayRecipeDetailsComplete() {

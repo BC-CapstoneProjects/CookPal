@@ -1,7 +1,6 @@
 package bellevuecollege.edu.cookpal.recipe_details
 
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
 import java.io.File
@@ -22,6 +22,7 @@ class RecipeDetailsFragment : Fragment() {
     private lateinit var mTTS: TextToSpeech
     private lateinit var recipeVoiceFile: File
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var binding: RecipeDetailsFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +41,23 @@ class RecipeDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val application = requireNotNull(activity).application
-        val binding = RecipeDetailsFragmentBinding.inflate(inflater)
+        binding = RecipeDetailsFragmentBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
         val recipeDetails = RecipeDetailsFragmentArgs.fromBundle(requireArguments()).selectedRecipe
         val viewModelFactory = RecipeDetailsViewModelProvider(recipeDetails, application)
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory).get(RecipeDetailsViewModel::class.java)
+        mediaPlayer = MediaPlayer()
 
         val tempView = binding.viewModel
         if (tempView != null) {
-            val instructions = tempView.selectedRecipe.value?.cookingInstructions
+
+            tempView.selectedRecipe.observe(viewLifecycleOwner, Observer { parsedRecipe ->
+                binding.recipeSummary.text = parsedRecipe.summary
+                binding.recipeIngredients.text = parsedRecipe.ingredients
+                binding.recipeInstructions.text = parsedRecipe.cookingInstructions
+            })
 
             // Setup Record button handler
             binding.recordRecipeInstructionsButton.setOnClickListener {
@@ -63,7 +70,7 @@ class RecipeDetailsFragment : Fragment() {
                     recipeVoiceFile.delete()
                 }
                 val b = Bundle()
-
+                val instructions = tempView.selectedRecipe.value?.cookingInstructions
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
                         // Save cooking instructions as a sound file, this may take time
@@ -77,7 +84,6 @@ class RecipeDetailsFragment : Fragment() {
                                 if(utteranceId == UTTERANCE_ID) {
                                     Log.d("Recipe Details Fragment", "word is read, resuming with the next word")
                                     if (recipeVoiceFile.exists()) {
-                                        mediaPlayer = MediaPlayer()
                                         mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
                                         mediaPlayer.prepare()
                                     }
@@ -110,6 +116,7 @@ class RecipeDetailsFragment : Fragment() {
 
             // Setup Speak button handler
             binding.speakRecipeInstructionsButton.setOnClickListener {
+                val instructions = tempView.selectedRecipe.value?.cookingInstructions
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
                         mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
@@ -151,11 +158,22 @@ class RecipeDetailsFragment : Fragment() {
 
     override fun onPause() {
         mTTS.stop()
+        if (mTTS.isSpeaking){
+            //if speaking then Pause
+            mTTS.stop()
+        }
+        else if (mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+        }
         super.onPause()
     }
 
     override fun onDestroy() {
         mTTS.shutdown()
+        mediaPlayer.stop()
+        if (recipeVoiceFile.exists()) {
+            recipeVoiceFile.delete()
+        }
         super.onDestroy()
     }
 }
