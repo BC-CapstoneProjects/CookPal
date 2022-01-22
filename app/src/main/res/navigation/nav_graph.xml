@@ -24,7 +24,7 @@
         tools:layout="@layout/recipe_results_fragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="bellevuecollege.edu.cookpal.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:name="bellevuecollege.edu.cookpal.loginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
