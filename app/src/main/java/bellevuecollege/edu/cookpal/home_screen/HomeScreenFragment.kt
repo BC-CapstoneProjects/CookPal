@@ -28,7 +28,7 @@ class HomeScreenFragment : Fragment() {
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)
         }
         binding.profile.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_profileFragment)
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
         }
         return binding.root
     }

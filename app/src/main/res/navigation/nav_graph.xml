@@ -14,9 +14,8 @@
             android:id="@+id/action_homeScreenFragment_to_recipeResultsFragment"
             app:destination="@id/recipeResultsFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@android:anim/slide_in_left" />
+            android:id="@+id/action_homeScreenFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
@@ -24,7 +23,7 @@
         android:label="recipe_results_fragment"
         tools:layout="@layout/recipe_results_fragment" />
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/loginFragment"
         android:name="bellevuecollege.edu.cookpal.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
