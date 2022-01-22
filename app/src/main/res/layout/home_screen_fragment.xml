@@ -10,6 +10,7 @@
         android:padding="0dp"
         tools:context=".home_screen.HomeScreenFragment">
 
+        <!--Drink button settings-->
         <ImageButton
             android:id="@+id/drinksButton"
             android:layout_width="100dp"
@@ -22,6 +23,7 @@
             android:contentDescription="@+string/drinks button"
             app:srcCompat="@drawable/ic_drinks_button" />
 
+        <!--Burger Button settings-->
         <ImageButton
             android:id="@+id/burgerButton"
             android:layout_width="100dp"
@@ -34,6 +36,7 @@
             android:contentDescription="@+string/burger button"
             app:srcCompat="@drawable/ic_burgerbutton" />
 
+        <!--Background banner-->
         <ImageView
             android:id="@+id/greyBanner"
             android:layout_width="wrap_content"
@@ -46,6 +49,7 @@
             app:srcCompat="@drawable/ic_rectangle_1"
             tools:ignore="ImageContrastCheck" />
 
+        <!--Rice Button settings-->
         <ImageButton
             android:id="@+id/RiceButtton"
             android:layout_width="100dp"
@@ -58,6 +62,7 @@
             android:background="#00000000"
             app:srcCompat="@drawable/ic_new_rice_button" />
 
+        <!--Slogan settings-->
         <TextView
             android:id="@+id/Slogan"
             android:layout_width="300dp"
@@ -69,8 +74,10 @@
             android:fontFamily="@font/sofia_pro_bold"
             android:text="Find your next favorite recipe"
             android:textColor="#000000"
-            android:textSize="32sp" />
+            android:textSize="32sp"
+            tools:ignore="HardcodedText"/>
 
+        <!--Profile button settings-->
         <ImageButton
             android:id="@+id/profile"
             android:layout_width="wrap_content"
@@ -83,6 +90,7 @@
             app:srcCompat="@drawable/ic_profile"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <!--Search button settings-->
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
