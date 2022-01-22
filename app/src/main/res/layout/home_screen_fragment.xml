@@ -49,17 +49,30 @@
             app:srcCompat="@drawable/ic_rectangle_1"
             tools:ignore="ImageContrastCheck" />
 
-        <!--Rice Button settings-->
+        <!--All Foods Button settings-->
         <ImageButton
-            android:id="@+id/RiceButtton"
+            android:id="@+id/allFoodsButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
             android:layout_marginTop="175dp"
-            android:contentDescription="@+string/rice button"
             android:background="#00000000"
+            android:contentDescription="@+string/all foods button"
+            app:srcCompat="@drawable/ic_allfoodsbutton" />
+
+        <!--Rice Button settings-->
+        <ImageButton
+            android:id="@+id/RiceButtton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="175dp"
+            android:layout_toEndOf="@+id/allFoodsButton"
+            android:background="#00000000"
+            android:contentDescription="@+string/rice button"
             app:srcCompat="@drawable/ic_new_rice_button" />
 
         <!--Slogan settings-->
