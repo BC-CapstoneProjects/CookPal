@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.FragmentLoginBinding
+import bellevuecollege.edu.cookpal.home_screen.HomeScreenViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -15,6 +16,12 @@ import bellevuecollege.edu.cookpal.databinding.FragmentLoginBinding
  * create an instance of this fragment.
  */
 class LoginFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = LoginFragment()
+    }
+
+    private lateinit var viewModel: LoginFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +40,4 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
 }

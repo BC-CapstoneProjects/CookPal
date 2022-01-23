@@ -5,9 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.HomeScreenFragmentBinding
+import bellevuecollege.edu.cookpal.recipes.RecipeResultsViewModel
+
+import androidx.recyclerview.widget.LinearLayoutManager
+import bellevuecollege.edu.cookpal.network.Recipe
+import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
 
 class HomeScreenFragment : Fragment() {
 
@@ -15,14 +22,31 @@ class HomeScreenFragment : Fragment() {
         fun newInstance() = HomeScreenFragment()
     }
 
-    private lateinit var viewModel: HomeScreenViewModel
+    private val viewModel: HomeScreenViewModel by lazy {
+        ViewModelProvider(this).get(HomeScreenViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = HomeScreenFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
+
+        binding.viewModel = viewModel
+
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recipesGrid.layoutManager = layoutManager
+
+        //@TODO may need to add another adapter(?)
+        binding.recipesGrid.adapter = RecipeGridAdapter(RecipeGridAdapter.OnClickListener {
+            if (it.isLoadedSuccessful) {
+                Toast.makeText(activity, "Loading recipe details. To be implemented.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity, "Failed to load", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         binding.searchButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)

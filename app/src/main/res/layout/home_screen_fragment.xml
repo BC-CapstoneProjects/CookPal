@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="bellevuecollege.edu.cookpal.home_screen.HomeScreenViewModel" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -118,6 +124,23 @@
             android:minHeight="48dp"
             app:srcCompat="@drawable/ic_search"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipesGrid"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="185dp"
+            android:clipToPadding="true"
+            android:padding="2dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:listData="@{viewModel.recipes}"
+            app:spanCount="1"
+            tools:itemCount="8"
+            tools:listitem="@layout/horizontal_grid_recipe" />
+
     </RelativeLayout>
 
 </layout>
