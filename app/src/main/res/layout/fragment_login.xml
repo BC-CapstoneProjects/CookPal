@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".profile.LoginFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".profile.LoginFragment">
 
         <!--Background banner-->
         <ImageView
@@ -112,14 +111,8 @@
             android:fontFamily="@font/sofia_pro_regular"
             android:text="Forgot Password"
             android:textAllCaps="false"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
 
     </RelativeLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-</FrameLayout>
+</layout>
