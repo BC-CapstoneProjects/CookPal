@@ -32,8 +32,14 @@ class LoginFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
+        //button listener for loginFragment to signUpFragment
         binding.signUpButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
+
+        //button listener for loginFragment to profileFragment
+        binding.loginButton.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
         }
 
         // Inflate the layout for this fragment
