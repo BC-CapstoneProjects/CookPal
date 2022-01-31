@@ -17,10 +17,7 @@
         tools:context=".home_screen.HomeScreenFragment">
 
 
-
-
         <!--Drink button settings-->
-
         <ImageButton
             android:id="@+id/drinksButton"
             android:layout_width="100dp"
