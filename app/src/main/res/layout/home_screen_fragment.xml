@@ -16,7 +16,11 @@
         android:padding="0dp"
         tools:context=".home_screen.HomeScreenFragment">
 
+
+
+
         <!--Drink button settings-->
+
         <ImageButton
             android:id="@+id/drinksButton"
             android:layout_width="100dp"
@@ -54,6 +58,19 @@
             android:contentDescription="@+string/Grey banner"
             app:srcCompat="@drawable/ic_rectangle_1"
             tools:ignore="ImageContrastCheck" />
+
+        <!--Upload Recipe button settings-->
+        <ImageButton
+            android:id="@+id/uploadRecipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="17dp"
+            android:layout_toEndOf="@+id/favoriteRecipeButton"
+            android:background="#00000000"
+            android:contentDescription="@+string/Upload arrow"
+            app:srcCompat="@drawable/ic_upload_arrow" />
 
         <!--All Foods Button settings-->
         <ImageButton
@@ -108,6 +125,19 @@
             android:contentDescription="@+string/profile button"
             app:srcCompat="@drawable/ic_profile"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <!--Favorite Recipe button settings-->
+        <ImageButton
+            android:id="@+id/favoriteRecipeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/profile"
+            android:background="#00000000"
+            android:contentDescription="@+string/favorite recipe button"
+            app:srcCompat="@drawable/ic_star_shape" />
 
         <!--Search button settings-->
         <ImageButton

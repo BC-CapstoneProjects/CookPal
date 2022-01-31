@@ -17,10 +17,10 @@
             android:id="@+id/action_homeScreenFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_favoriteRecipesFragment2"
+            android:id="@+id/action_homeScreenFragment_to_favoriteRecipesFragment"
             app:destination="@id/favoriteRecipesFragment2" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_uploadRecipeFragment2"
+            android:id="@+id/action_homeScreenFragment_to_uploadRecipeFragment"
             app:destination="@id/uploadRecipeFragment2" />
     </fragment>
     <fragment

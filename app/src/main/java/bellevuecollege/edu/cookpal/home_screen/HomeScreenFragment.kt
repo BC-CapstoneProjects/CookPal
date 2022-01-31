@@ -48,11 +48,21 @@ class HomeScreenFragment : Fragment() {
             }
         })
 
+        //button listener for home screen to recipe search
         binding.searchButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)
         }
+        //button listener for home screen to login screen
         binding.profile.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+        }
+        //button listener for home screen to favorite recipes
+        binding.favoriteRecipeButton.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_favoriteRecipesFragment)
+        }
+        //button listener for home screen to upload recipe
+        binding.uploadRecipe.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
         return binding.root
     }
