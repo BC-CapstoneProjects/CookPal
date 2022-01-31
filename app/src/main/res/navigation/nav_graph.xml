@@ -18,10 +18,10 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_homeScreenFragment_to_favoriteRecipesFragment"
-            app:destination="@id/favoriteRecipesFragment2" />
+            app:destination="@id/favoriteRecipesFragment" />
         <action
             android:id="@+id/action_homeScreenFragment_to_uploadRecipeFragment"
-            app:destination="@id/uploadRecipeFragment2" />
+            app:destination="@id/uploadRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
@@ -54,8 +54,8 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_changePasswordFragment2"
-            app:destination="@id/changePasswordFragment2" />
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -63,26 +63,26 @@
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
-        android:id="@+id/changePasswordFragment2"
+        android:id="@+id/changePasswordFragment"
         android:name="bellevuecollege.edu.cookpal.profile.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
     <fragment
-        android:id="@+id/favoriteRecipesFragment2"
+        android:id="@+id/favoriteRecipesFragment"
         android:name="bellevuecollege.edu.cookpal.favorites.FavoriteRecipesFragment"
         android:label="fragment_favorite_recipes"
         tools:layout="@layout/fragment_favorite_recipes" />
     <fragment
-        android:id="@+id/uploadRecipeFragment2"
+        android:id="@+id/uploadRecipeFragment"
         android:name="bellevuecollege.edu.cookpal.favorites.UploadRecipeFragment"
         android:label="fragment_upload_recipe"
         tools:layout="@layout/fragment_upload_recipe" >
         <action
-            android:id="@+id/action_uploadRecipeFragment2_to_uploadPhotoFragment2"
-            app:destination="@id/uploadPhotoFragment2" />
+            android:id="@+id/action_uploadRecipeFragment_to_uploadPhotoFragment"
+            app:destination="@id/uploadPhotoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/uploadPhotoFragment2"
+        android:id="@+id/uploadPhotoFragment"
         android:name="bellevuecollege.edu.cookpal.favorites.UploadPhotoFragment"
         android:label="fragment_upload_photo"
         tools:layout="@layout/fragment_upload_photo" />
