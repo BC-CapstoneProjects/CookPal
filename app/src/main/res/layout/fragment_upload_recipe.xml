@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,25 +12,63 @@
         android:layout_height="match_parent"
         tools:context=".favorites.UploadRecipeFragment">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:id="@+id/textView2"
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="name"
+            android:text="TextView" />
 
-        <!--Upload recipe image button-->
-        <!--TODO change location of button-->
-        <ImageButton
+        <Button
             android:id="@+id/uploadRecipeImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="149dp"
-            android:layout_marginEnd="188dp"
-            android:background="#00000000"
-            android:contentDescription="@+string/upload recipe image button"
-            android:src="@drawable/ic_camera_icon" />
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="320dp"
+            android:layout_marginEnd="30dp"
+            android:text="Button" />
+
+        <EditText
+            android:id="@+id/stepsEditText"
+            android:layout_width="310dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="400dp"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="steps"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+
+        <EditText
+            android:id="@+id/ingredientsEditText"
+            android:layout_width="310dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="steps"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+        <ImageButton
+            android:id="@+id/confirm_upload_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="350dp"
+            android:layout_marginEnd="30dp"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <ImageButton
+            android:id="@+id/cancel_upload_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/btn_dialog" />
 
     </RelativeLayout>
 
