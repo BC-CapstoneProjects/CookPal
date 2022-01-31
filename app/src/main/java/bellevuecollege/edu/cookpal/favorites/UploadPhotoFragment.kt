@@ -35,7 +35,7 @@ class UploadPhotoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upload_photo, container, false)
+        return inflater.inflate(R.layout.fragment_capture_photo, container, false)
     }
 
     companion object {
