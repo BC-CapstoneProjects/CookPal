@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_favoriteRecipesFragment2"
+            app:destination="@id/favoriteRecipesFragment2" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_uploadRecipeFragment2"
+            app:destination="@id/uploadRecipeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
@@ -33,6 +39,9 @@
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -43,5 +52,38 @@
         android:id="@+id/profileFragment"
         android:name="bellevuecollege.edu.cookpal.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment2"
+            app:destination="@id/changePasswordFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="bellevuecollege.edu.cookpal.profile.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/changePasswordFragment2"
+        android:name="bellevuecollege.edu.cookpal.profile.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/favoriteRecipesFragment2"
+        android:name="bellevuecollege.edu.cookpal.favorites.FavoriteRecipesFragment"
+        android:label="fragment_favorite_recipes"
+        tools:layout="@layout/fragment_favorite_recipes" />
+    <fragment
+        android:id="@+id/uploadRecipeFragment2"
+        android:name="bellevuecollege.edu.cookpal.favorites.UploadRecipeFragment"
+        android:label="fragment_upload_recipe"
+        tools:layout="@layout/fragment_upload_recipe" >
+        <action
+            android:id="@+id/action_uploadRecipeFragment2_to_uploadPhotoFragment2"
+            app:destination="@id/uploadPhotoFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadPhotoFragment2"
+        android:name="bellevuecollege.edu.cookpal.favorites.UploadPhotoFragment"
+        android:label="fragment_upload_photo"
+        tools:layout="@layout/fragment_upload_photo" />
 </navigation>
