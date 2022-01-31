@@ -96,8 +96,11 @@ class RecipeDetailsFragment : Fragment() {
                         })
 
                         // Enable related buttons
-                        binding.deleteRecipeInstructionsButton.isEnabled = true
-                        binding.playRecipeInstructionsButton.isEnabled = true
+//                        binding.deleteRecipeInstructionsButton.isEnabled = true
+                        binding.deleteRecipeInstructionsButton.isEnabled = false
+//                        binding.playRecipeInstructionsButton.isEnabled = true
+                        binding.playRecipeInstructionsButton.isEnabled = false
+
                     }
                 }
             }

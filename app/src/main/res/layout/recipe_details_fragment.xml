@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@{viewModel.selectedRecipe.title}"
+                android:textSize="25dp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -94,6 +95,16 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></TextView>
 
+            <TextView
+                android:id="@+id/recipe_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@{viewModel.selectedRecipe.cookingInstructions}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></TextView>
+
             <Button
                 android:id="@+id/speak_recipe_instructions_button"
                 android:layout_width="wrap_content"
@@ -149,15 +160,6 @@
                 app:layout_constraintStart_toEndOf="@+id/delete_recipe_instructions_button"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
 
-            <TextView
-                android:id="@+id/recipe_instructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@{viewModel.selectedRecipe.cookingInstructions}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
