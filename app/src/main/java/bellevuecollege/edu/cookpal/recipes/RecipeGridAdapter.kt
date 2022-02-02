@@ -36,6 +36,7 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         return IngredientSearchRecipeViewHolder(GridRowRecipeBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
+    //Knows what position in recipe grid user clicked on
     override fun onBindViewHolder(holder: IngredientSearchRecipeViewHolder, position: Int) {
         val recipe = getItem(position)
         holder.itemView.setOnClickListener {
