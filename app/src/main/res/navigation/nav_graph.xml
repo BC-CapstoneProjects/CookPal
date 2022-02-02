@@ -29,6 +29,15 @@
         android:label="recipe_results_fragment"
         tools:layout="@layout/recipe_results_fragment" />
     <fragment
+        android:id="@+id/selectVoiceFragment"
+        android:name="bellevuecollege.edu.cookpal.profile.SelectVoiceFragment"
+        android:label="fragment_select_voice"
+        tools:layout="@layout/fragment_select_voice" >
+        <action
+            android:id="@+id/action_selectVoiceFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/loginFragment"
         android:name="bellevuecollege.edu.cookpal.profile.LoginFragment"
         android:label="fragment_login"
@@ -56,6 +65,9 @@
         <action
             android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_selectVoiceFragment"
+            app:destination="@id/selectVoiceFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
