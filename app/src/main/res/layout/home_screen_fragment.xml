@@ -16,68 +16,7 @@
         android:padding="0dp"
         tools:context=".home_screen.HomeScreenFragment">
 
-        <ToggleButton
-            android:id="@+id/drinksButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
-            android:layout_toEndOf="@+id/burgerButton"
-            android:background="@drawable/drinks_button_state"
-            android:contentDescription="@+string/drinks button"
-            app:srcCompat="@drawable/ic_drinks_button"
-            android:textOff=""
-            android:textOn=""/>
-
-        <ToggleButton
-            android:id="@+id/burgerButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
-            android:layout_toEndOf="@+id/RiceButtton"
-            android:background="@drawable/burger_button_state"
-            android:contentDescription="@+string/burger button"
-            android:onClick="@{() -> viewModel.getIngredientSearchRecipes2()}"
-            android:textOff=""
-            android:textOn=""
-            app:srcCompat="@drawable/ic_burgerbutton" />
-
-
-        <ToggleButton
-            android:id="@+id/allFoodsButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="190dp"
-            android:background="@drawable/all_foods_button_state"
-            android:contentDescription="@+string/all foods button"
-            android:textOff=""
-            android:textOn=""
-            app:srcCompat="@drawable/ic_allfoodsbutton" />
-
-        <ToggleButton
-            android:id="@+id/RiceButtton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
-            android:layout_toEndOf="@+id/allFoodsButton"
-            android:background="@drawable/rice_button_state"
-            android:contentDescription="@+string/rice button"
-            android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
-            android:textOff=""
-            android:textOn=""
-            app:srcCompat="@drawable/rice_button_state" />
-
-
-
-
+        <!--Gray Banner settings-->
         <ImageView
             android:id="@+id/greyBanner"
             android:layout_width="wrap_content"
@@ -89,6 +28,65 @@
             android:contentDescription="@+string/Grey banner"
             app:srcCompat="@drawable/ic_rectangle_1"
             tools:ignore="ImageContrastCheck" />
+
+        <!--Radio group settings-->
+        <RadioGroup
+            android:id="@+id/foodButtonsGroup"
+            android:layout_width="370dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="175dp"
+            android:orientation='horizontal'>
+
+            <!--All foods button settings-->
+            <RadioButton
+                android:id="@+id/allFoodsButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/all_foods_button_state"
+                android:button="@null" />
+
+            <!--Empty space between buttons-->
+            <Space
+                android:layout_width="25dp"
+                android:layout_height="wrap_content" />
+
+            <!--Rice button settings-->
+            <RadioButton
+                android:id="@+id/riceButtons"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/rice_button_state"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
+                android:button="@null" />
+
+            <Space
+                android:layout_width="25dp"
+                android:layout_height="wrap_content" />
+
+            <!--Burger button settings-->
+            <RadioButton
+                android:id="@+id/burgerButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/burger_button_state"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes2()}"
+                android:button="@null" />
+
+            <Space
+                android:layout_width="25dp"
+                android:layout_height="wrap_content" />
+
+            <!--Drinks button settings-->
+            <RadioButton
+                android:id="@+id/drinksButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/drinks_button_state"
+                android:button="@null" />
+        </RadioGroup>
 
         <!--Upload Recipe button settings-->
         <ImageButton
@@ -102,10 +100,6 @@
             android:background="#00000000"
             android:contentDescription="@+string/Upload arrow"
             app:srcCompat="@drawable/ic_upload_arrow" />
-
-        <!--All Foods Button settings-->
-
-
 
         <!--Slogan settings-->
         <TextView
@@ -169,10 +163,10 @@
             android:id="@+id/popularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/recipesGrid"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="18dp"
-            android:layout_marginBottom="160dp"
+            android:layout_marginTop="0dp"
             android:fontFamily="@font/sofia_pro_bold"
             android:text="Popular"
             android:textColor="#000000"
@@ -184,9 +178,9 @@
             android:id="@+id/nowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="160dp"
+            android:layout_below="@+id/recipesGrid"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/popularText"
             android:fontFamily="@font/sofia_pro_regular"
             android:text="Now"
@@ -194,15 +188,15 @@
             android:textSize="32sp"
             tools:ignore="HardcodedText" />
 
-        <!--Popular now black border settings-->
+        <!--Black outline settings-->
         <ImageView
             android:id="@+id/popularBlackBox"
             android:layout_width="355dp"
             android:layout_height="100dp"
+            android:layout_below="@+id/nowText"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/search_box"
             android:contentDescription="Popular now border"
             tools:ignore="HardcodedText" />
@@ -212,22 +206,23 @@
             android:id="@+id/popularImage"
             android:layout_width="100dp"
             android:layout_height="85dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginBottom="57dp"
-            tools:background="#f00"
+            android:layout_alignStart="@+id/popularBlackBox"
+            android:layout_alignTop="@+id/popularBlackBox"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="Popular recipe image"
+            tools:background="#f00"
             tools:ignore="HardcodedText" />
 
+        <!--Main recipe grid settings-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipesGrid"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:layout_below="@+id/foodButtonsGroup"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
-            android:layout_marginBottom="185dp"
+            android:layout_marginTop="0dp"
             android:clipToPadding="true"
             android:padding="2dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
