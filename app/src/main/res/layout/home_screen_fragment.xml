@@ -196,7 +196,6 @@
             tools:ignore="HardcodedText" />
 
         <!--Popular image settings-->
-
         <ImageView
             android:id="@+id/popularImage"
             android:layout_width="100dp"
