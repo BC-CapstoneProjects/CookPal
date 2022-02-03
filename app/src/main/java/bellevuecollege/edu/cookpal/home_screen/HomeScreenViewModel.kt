@@ -27,14 +27,6 @@ class HomeScreenViewModel : ViewModel() {
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
 
-    private val _searchButtonVisible = MutableLiveData<Boolean?>()
-    val searchButtonVisible: LiveData<Boolean?>
-        get() = _searchButtonVisible
-
-    fun setSearchTerm(searchKeyWord: String) {
-        _searchTerm = searchKeyWord
-        _searchButtonVisible.value = searchKeyWord.isNotEmpty()
-    }
     /**
      * Call getIngredientSearchRecipes() on init so we can display status immediately.
      */
