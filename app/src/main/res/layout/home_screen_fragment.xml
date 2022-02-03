@@ -95,7 +95,7 @@
             android:background="#00000000"
             android:contentDescription="@+string/rice button"
             android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
-            app:srcCompat="@drawable/ic_new_rice_button" />
+            app:srcCompat="@drawable/rice_button_state" />
 
         <!--Slogan settings-->
         <TextView
