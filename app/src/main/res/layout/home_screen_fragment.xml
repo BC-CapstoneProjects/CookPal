@@ -41,6 +41,7 @@
             android:layout_toEndOf="@+id/RiceButtton"
             android:background="#00000000"
             android:contentDescription="@+string/burger button"
+            android:onClick="@{() -> viewModel.getIngredientSearchRecipes2()}"
             app:srcCompat="@drawable/ic_burgerbutton" />
 
         <!--Background banner-->
@@ -93,6 +94,7 @@
             android:layout_toEndOf="@+id/allFoodsButton"
             android:background="#00000000"
             android:contentDescription="@+string/rice button"
+            android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
             app:srcCompat="@drawable/ic_new_rice_button" />
 
         <!--Slogan settings-->

@@ -16,6 +16,7 @@ enum class IngredientSearchApiStatus { LOADING, ERROR, DONE}
 class HomeScreenViewModel : ViewModel() {
 
     private var _searchTerm: String = "rice"
+    private var _searchTerm2: String = "banh mi"
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
@@ -58,4 +59,24 @@ class HomeScreenViewModel : ViewModel() {
         }
     }
 
+    fun getIngredientSearchRecipes2() {
+        viewModelScope.launch {
+            Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm2}")
+            _status.value = IngredientSearchApiStatus.LOADING
+            try {
+                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm2, 1)
+                Log.d("HomeScreenViewModel", "Successfully get recipes")
+                _recipes.value = searchResponse.recipes.map {
+                        recipe ->
+                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl,
+                        response = "ID: " + recipe.id + "\nTitle: " + recipe.title + "\nImageUrl: " +
+                                recipe.imageUrl + "\nSourceUrl: " + recipe.sourceUrl)
+                }
+                _status.value = IngredientSearchApiStatus.DONE
+            } catch (e: Exception) {
+                _status.value = IngredientSearchApiStatus.ERROR
+                _recipes.value = ArrayList()
+            }
+        }
+    }
 }
