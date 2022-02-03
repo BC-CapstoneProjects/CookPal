@@ -66,9 +66,6 @@ class HomeScreenFragment : Fragment() {
         binding.uploadRecipe.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
-        binding.RiceButtton.setOnClickListener {
-            RiceButtton.setImageResource(R.drawable.ic_new_rice_button2)
-        }
         return binding.root
     }
 }

@@ -16,35 +16,68 @@
         android:padding="0dp"
         tools:context=".home_screen.HomeScreenFragment">
 
-
-        <!--Drink button settings-->
-        <ImageButton
+        <ToggleButton
             android:id="@+id/drinksButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="175dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="190dp"
             android:layout_toEndOf="@+id/burgerButton"
-            android:background="#00000000"
+            android:background="@drawable/drinks_button_state"
             android:contentDescription="@+string/drinks button"
-            app:srcCompat="@drawable/ic_drinks_button" />
+            app:srcCompat="@drawable/ic_drinks_button"
+            android:textOff=""
+            android:textOn=""/>
 
-        <!--Burger Button settings-->
-        <ImageButton
+        <ToggleButton
             android:id="@+id/burgerButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="175dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="190dp"
             android:layout_toEndOf="@+id/RiceButtton"
-            android:background="#00000000"
+            android:background="@drawable/burger_button_state"
             android:contentDescription="@+string/burger button"
             android:onClick="@{() -> viewModel.getIngredientSearchRecipes2()}"
+            android:textOff=""
+            android:textOn=""
             app:srcCompat="@drawable/ic_burgerbutton" />
 
-        <!--Background banner-->
+
+        <ToggleButton
+            android:id="@+id/allFoodsButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="190dp"
+            android:background="@drawable/all_foods_button_state"
+            android:contentDescription="@+string/all foods button"
+            android:textOff=""
+            android:textOn=""
+            app:srcCompat="@drawable/ic_allfoodsbutton" />
+
+        <ToggleButton
+            android:id="@+id/RiceButtton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="190dp"
+            android:layout_toEndOf="@+id/allFoodsButton"
+            android:background="@drawable/rice_button_state"
+            android:contentDescription="@+string/rice button"
+            android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
+            android:textOff=""
+            android:textOn=""
+            app:srcCompat="@drawable/rice_button_state" />
+
+
+
+
         <ImageView
             android:id="@+id/greyBanner"
             android:layout_width="wrap_content"
@@ -71,31 +104,8 @@
             app:srcCompat="@drawable/ic_upload_arrow" />
 
         <!--All Foods Button settings-->
-        <ImageButton
-            android:id="@+id/allFoodsButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="175dp"
-            android:background="#00000000"
-            android:contentDescription="@+string/all foods button"
-            app:srcCompat="@drawable/ic_allfoodsbutton" />
 
-        <!--Rice Button settings-->
-        <ImageButton
-            android:id="@+id/RiceButtton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="175dp"
-            android:layout_toEndOf="@+id/allFoodsButton"
-            android:background="#00000000"
-            android:contentDescription="@+string/rice button"
-            android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
-            app:srcCompat="@drawable/rice_button_state" />
+
 
         <!--Slogan settings-->
         <TextView
