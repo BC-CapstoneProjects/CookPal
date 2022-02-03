@@ -66,6 +66,10 @@ class HomeScreenFragment : Fragment() {
         binding.uploadRecipe.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
+        //button listener for popular button to recipe details
+        binding.popularButton.setOnClickListener { view: View ->
+            view.findNavController().navigate((R.id.action_homeScreenFragment_to_recipeDetailsFragment))
+        }
         return binding.root
     }
 }
