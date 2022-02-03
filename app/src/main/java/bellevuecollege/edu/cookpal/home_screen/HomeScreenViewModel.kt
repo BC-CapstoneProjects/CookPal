@@ -20,6 +20,7 @@ class HomeScreenViewModel : ViewModel() {
 
     private var _searchTerm: String = "rice"
     private var _searchTerm2: String = "banh mi"
+    private var _searchTerm3: String = "tea"
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
@@ -68,6 +69,27 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm2, 1)
+                Log.d("HomeScreenViewModel", "Successfully get recipes")
+                _recipes.value = searchResponse.recipes.map {
+                        recipe ->
+                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl,
+                        response = "ID: " + recipe.id + "\nTitle: " + recipe.title + "\nImageUrl: " +
+                                recipe.imageUrl + "\nSourceUrl: " + recipe.sourceUrl)
+                }
+                _status.value = IngredientSearchApiStatus.DONE
+            } catch (e: Exception) {
+                _status.value = IngredientSearchApiStatus.ERROR
+                _recipes.value = ArrayList()
+            }
+        }
+    }
+
+    fun getIngredientSearchRecipes3() {
+        viewModelScope.launch {
+            Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm3}")
+            _status.value = IngredientSearchApiStatus.LOADING
+            try {
+                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm3, 1)
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 _recipes.value = searchResponse.recipes.map {
                         recipe ->

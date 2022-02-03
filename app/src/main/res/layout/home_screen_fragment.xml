@@ -41,6 +41,7 @@
             android:orientation='horizontal'>
 
             <!--All foods button settings-->
+            <!--TODO Implement button functionality-->
             <RadioButton
                 android:id="@+id/allFoodsButton"
                 android:layout_width="60dp"
@@ -85,6 +86,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/drinks_button_state"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes3()}"
                 android:button="@null" />
         </RadioGroup>
 
@@ -199,6 +201,50 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/search_box"
             android:contentDescription="Popular now border"
+            tools:ignore="HardcodedText" />
+
+        <!--Popular name settings-->
+        <TextView
+            android:id="@+id/popularName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/popularBlackBox"
+            android:layout_alignEnd="@+id/popularBlackBox"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="80dp"
+            android:fontFamily="@font/sofia_pro_bold"
+            android:text="Recipe Name"
+            android:textColor="#4E5156"
+            android:textSize="24sp"
+            tools:ignore="HardcodedText" />
+
+        <!--Popular description settings-->
+        <TextView
+            android:id="@+id/popularDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/popularName"
+            android:layout_alignEnd="@+id/popularBlackBox"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="70dp"
+            android:fontFamily="@font/sofia_pro_regular"
+            android:text="Recipe description"
+            android:textColor="#4E5156"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        <!--Popular button settings-->
+        <ImageButton
+            android:id="@+id/popularButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/popularBlackBox"
+            android:layout_alignBottom="@+id/popularBlackBox"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="15dp"
+            android:background="#0000"
+            app:srcCompat="@drawable/ic_popular_button"
+            android:contentDescription="Popular now button"
             tools:ignore="HardcodedText" />
 
         <!--Popular image settings-->
