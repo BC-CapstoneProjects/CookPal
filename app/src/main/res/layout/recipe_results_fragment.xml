@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="bellevuecollege.edu.cookpal.recipes.RecipeResultsViewModel" />
+    </data>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="bellevuecollege.edu.cookpal.recipes.RecipeResultsFragment">
+
+            <ImageButton
+                android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#00FFFFFF"
+                android:enabled="@{viewModel.searchButtonVisible}"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
+                android:contentDescription="@+string/Search button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_search"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageView
+                android:id="@+id/greyBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@+string/Gray banner"
+                app:srcCompat="@drawable/ic_rectangle_1" />
+
+            <EditText
+                android:id="@+id/searchBox"
+                android:layout_width="320dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/margin"
+                android:hint="@string/search_hint"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:background="@drawable/search_box"
+                android:padding="10dp"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/done_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/done_button"
+                tools:textSize="16sp"
+                android:importantForAutofill="no" />
+
+            <ImageView
+                android:id="@+id/status_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@+string/loading animation"
+                app:ingredientSearchApiStatus="@{viewModel.status}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipes_grid"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:padding="6dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchBox"
+                app:listData="@{viewModel.recipes}"
+                app:spanCount="1"
+                tools:itemCount="8"
+                tools:listitem="@layout/grid_row_recipe" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
