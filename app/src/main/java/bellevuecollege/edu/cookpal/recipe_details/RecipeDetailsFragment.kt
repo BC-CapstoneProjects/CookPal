@@ -174,8 +174,8 @@ class RecipeDetailsFragment : Fragment() {
     override fun onDestroy() {
         mTTS.shutdown()
         mediaPlayer.stop()
-        if (recipeVoiceFile.exists()) {
-            recipeVoiceFile.delete()
+        if (this::recipeVoiceFile.isInitialized) {
+                recipeVoiceFile.delete()
         }
         super.onDestroy()
     }

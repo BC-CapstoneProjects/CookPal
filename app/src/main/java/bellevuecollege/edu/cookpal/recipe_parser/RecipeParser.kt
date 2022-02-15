@@ -11,9 +11,7 @@ import org.jsoup.nodes.Document
 //for Summary box info of recipe
 const val ALL_RECIPES_SUMMARY_CSS_QUERY = ".recipe-meta-container"
 //for Ingredients box info of recipe
-//const val ALL_RECIPES_INGREDIENTS_CSS_QUERY = ".ingredients-section:first-of-type li label span span"
-//for Instruction box info of recipe
-//const val ALL_RECIPES_INSTRUCTIONS_CSS_QUERY = ".instructions-section:first-of-type li label span span, .instructions-section li div div p"
+const val ALL_RECIPES_INGREDIENTS_CSS_QUERY = ".ingredients-section:first-of-type li label span span"
 
 fun extractAllRecipesInformation(recipe: Recipe) {
     var doc: Document? = null
@@ -29,12 +27,16 @@ fun extractAllRecipesInformation(recipe: Recipe) {
     Log.d("Parse recipe", "${recipe.summary}")
 
     // Ingredients
-    //doc?.select(ALL_RECIPES_INGREDIENTS_CSS_QUERY)
-    //    ?.map { it -> recipe.ingredients += it.text() + "\n" }
-    //Log.d("Parse recipe", "${recipe.ingredients}")
+    doc?.select(ALL_RECIPES_INGREDIENTS_CSS_QUERY)
+        ?.map { it -> recipe.ingredients += it.text() + "\n" }
+    Log.d("Parse recipe", "${recipe.ingredients}")
 
-    // Cooking Instructions
+    }
+
+
+//for Instruction box info of recipe
+//const val ALL_RECIPES_INSTRUCTIONS_CSS_QUERY = ".instructions-section:first-of-type li label span span, .instructions-section li div div p"
+// Cooking Instructions
 //    doc?.select(ALL_RECIPES_INSTRUCTIONS_CSS_QUERY)
 //        ?.map { it -> recipe.cookingInstructions += it.text() + "\n"}
 //    Log.d("Parse recipe", "${recipe.cookingInstructions}")
-}
