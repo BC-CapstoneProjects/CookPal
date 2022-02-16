@@ -15,6 +15,8 @@ import bellevuecollege.edu.cookpal.recipes.RecipeResultsViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class HomeScreenFragment : Fragment() {
 
@@ -64,6 +66,14 @@ class HomeScreenFragment : Fragment() {
         binding.uploadRecipe.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
+
+        var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+
+        if (fbu == null)
+        {
+            getView()?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
+        }
+
         return binding.root
     }
 }
