@@ -17,6 +17,17 @@
             android:layout_height="match_parent">
 
             <!--Profile picture settings-->
+            <TextView
+                android:id="@+id/userNametext"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="20dp"
+                android:text="Name"
+                android:textAlignment="center"
+                android:textColor="#666666"
+                android:textSize="32sp" />
+
             <ImageButton
                 android:id="@+id/profilePicture"
                 android:layout_width="wrap_content"
