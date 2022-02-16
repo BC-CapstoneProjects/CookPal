@@ -1,6 +1,7 @@
 package bellevuecollege.edu.cookpal.home_screen
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -71,8 +72,11 @@ class HomeScreenFragment : Fragment() {
 
         if (fbu == null)
         {
-            getView()?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
-        }
+            Handler().postDelayed({
+                getView()?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
+
+            }, 50)
+         }
 
         return binding.root
     }
