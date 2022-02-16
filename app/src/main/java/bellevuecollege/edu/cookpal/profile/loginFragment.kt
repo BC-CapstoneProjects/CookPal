@@ -96,7 +96,7 @@ class LoginFragment : Fragment() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(getActivity(), "signIn Authentication failed.",
+                    Toast.makeText(getActivity(), "email or password is incorrect",
                         Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
