@@ -39,6 +39,14 @@ class ProfileFragment : Fragment() {
             view.findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
         }
 
+        binding.profilePicture.setOnClickListener { view: View ->
+         //   view.findNavController().navigate(R.id.act)
+
+            FirebaseAuth.getInstance().signOut()
+            view.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+
+        }
+
         var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
         var username : String? = fbu?.displayName
