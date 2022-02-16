@@ -90,9 +90,8 @@ class LoginFragment : Fragment() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
-                    Toast.makeText(getActivity(), "signIn Authentication success.",
-                        Toast.LENGTH_SHORT).show()
-                    updateUI(user)
+                    
+                    view?.findNavController()?.navigate(R.id.action_loginFragment_to_homeScreenFragment)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
