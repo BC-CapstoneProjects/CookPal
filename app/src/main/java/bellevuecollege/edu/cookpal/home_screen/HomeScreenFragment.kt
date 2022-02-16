@@ -56,7 +56,7 @@ class HomeScreenFragment : Fragment() {
         }
         //button listener for home screen to login screen
         binding.profile.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_profileFragment)
         }
         //button listener for home screen to favorite recipes
         binding.favoriteRecipeButton.setOnClickListener { view: View ->
