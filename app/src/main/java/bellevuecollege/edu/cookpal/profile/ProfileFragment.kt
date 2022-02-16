@@ -49,7 +49,7 @@ class ProfileFragment : Fragment() {
 
         var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
-        var username : String? = fbu?.displayName
+        var username : String? = fbu?.email
         binding.userNametext.text = username
 
         // Inflate the layout for this fragment
