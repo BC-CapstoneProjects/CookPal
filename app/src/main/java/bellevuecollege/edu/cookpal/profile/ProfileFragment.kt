@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import bellevuecollege.edu.cookpal.databinding.FragmentProfileBinding
 import bellevuecollege.edu.cookpal.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 /**
@@ -36,6 +38,11 @@ class ProfileFragment : Fragment() {
         binding.changePassButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
         }
+
+        var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+
+        var username : String? = fbu?.displayName
+        binding.userNametext.text = username
 
         // Inflate the layout for this fragment
         return binding.root
