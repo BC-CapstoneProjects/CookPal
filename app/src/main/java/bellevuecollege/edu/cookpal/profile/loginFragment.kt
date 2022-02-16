@@ -52,6 +52,8 @@ class LoginFragment : Fragment() {
             var emailAdd : String = binding.emailAddress.text.toString()
             var pwd : String = binding.password.text.toString()
             createAccount(emailAdd, pwd)
+            binding.emailAddress.setText("")
+            binding.password.setText("")
           //  view.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
 
