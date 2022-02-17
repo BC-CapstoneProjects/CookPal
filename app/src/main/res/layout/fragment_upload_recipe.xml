@@ -12,15 +12,15 @@
         android:layout_height="match_parent"
         tools:context=".favorites.UploadRecipeFragment">
 
-        <TextView
-            android:id="@+id/textView2"
+        <EditText
+            android:id="@+id/nameEditText"
             android:layout_width="310dp"
             android:layout_height="50dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="30dp"
-            android:autofillHints="name"
-            android:text="TextView" />
+            android:hint="name"
+             />
 
         <Button
             android:id="@+id/uploadRecipeImageButton"
@@ -29,7 +29,7 @@
             android:layout_marginStart="270dp"
             android:layout_marginTop="320dp"
             android:layout_marginEnd="30dp"
-            android:text="Button" />
+            android:text="upload photo" />
 
         <EditText
             android:id="@+id/stepsEditText"
@@ -41,7 +41,8 @@
             android:autofillHints="steps"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:hint="steps" />
 
 
         <EditText
@@ -54,7 +55,8 @@
             android:autofillHints="steps"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:hint="ingredients" />
 
         <ImageButton
             android:id="@+id/confirm_upload_recipe"

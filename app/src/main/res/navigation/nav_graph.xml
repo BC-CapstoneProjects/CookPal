@@ -25,12 +25,28 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
         android:name="bellevuecollege.edu.cookpal.recipes.RecipeResultsFragment"
         android:label="recipe_results_fragment"
-        tools:layout="@layout/recipe_results_fragment" />
+        tools:layout="@layout/recipe_results_fragment" >
+        <action
+            android:id="@+id/action_recipeResultsFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectVoiceFragment"
+        android:name="bellevuecollege.edu.cookpal.profile.SelectVoiceFragment"
+        android:label="fragment_select_voice"
+        tools:layout="@layout/fragment_select_voice" >
+        <action
+            android:id="@+id/action_selectVoiceFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="bellevuecollege.edu.cookpal.profile.LoginFragment"
@@ -65,6 +81,9 @@
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_selectVoiceFragment"
+            app:destination="@id/selectVoiceFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -95,4 +114,9 @@
         android:name="bellevuecollege.edu.cookpal.favorites.UploadPhotoFragment"
         android:label="fragment_upload_photo"
         tools:layout="@layout/fragment_upload_photo" />
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="bellevuecollege.edu.cookpal.recipes.RecipeDetailsFragment"
+        android:label="fragment_recipe_details"
+        tools:layout="@layout/fragment_recipe_details" />
 </navigation>

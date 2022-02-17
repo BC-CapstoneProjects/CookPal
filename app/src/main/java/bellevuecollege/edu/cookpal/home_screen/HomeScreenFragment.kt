@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import bellevuecollege.edu.cookpal.R
@@ -16,8 +17,12 @@ import bellevuecollege.edu.cookpal.recipes.RecipeResultsViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+
+import kotlinx.android.synthetic.main.home_screen_fragment.*
+
 
 class HomeScreenFragment : Fragment() {
 
@@ -68,6 +73,7 @@ class HomeScreenFragment : Fragment() {
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
 
+
         var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
         if (fbu == null)
@@ -77,6 +83,12 @@ class HomeScreenFragment : Fragment() {
 
             }, 50)
          }
+
+
+        //button listener for popular button to recipe details
+        binding.popularButton.setOnClickListener { view: View ->
+            view.findNavController().navigate((R.id.action_homeScreenFragment_to_recipeDetailsFragment))
+        }
 
         return binding.root
     }

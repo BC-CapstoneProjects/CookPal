@@ -39,6 +39,7 @@ class ProfileFragment : Fragment() {
             view.findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
         }
 
+
         binding.profilePicture.setOnClickListener { view: View ->
          //   view.findNavController().navigate(R.id.act)
 
@@ -51,6 +52,12 @@ class ProfileFragment : Fragment() {
 
         var username : String? = fbu?.email
         binding.userNametext.text = username
+
+
+        binding.micButton.setOnClickListener{ view : View ->
+            view.findNavController().navigate(R.id.action_profileFragment_to_selectVoiceFragment)
+        }
+
 
         // Inflate the layout for this fragment
         return binding.root

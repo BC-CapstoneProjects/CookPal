@@ -77,6 +77,10 @@ class LoginFragment : Fragment() {
             //view.findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
         }
 
+        binding.forgotPassButton.setOnClickListener{ view: View ->
+            view.findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }

@@ -25,6 +25,7 @@
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
+                android:contentDescription="@+string/Search button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_search"
@@ -36,6 +37,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@+string/Gray banner"
                 app:srcCompat="@drawable/ic_rectangle_1" />
 
             <EditText
@@ -47,15 +49,20 @@
                 android:hint="@string/search_hint"
                 android:inputType="text"
                 android:minHeight="48dp"
+                android:background="@drawable/search_box"
+                android:padding="10dp"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toStartOf="@+id/done_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/done_button"
-                tools:textSize="16sp" />
+                tools:textSize="16sp"
+                android:importantForAutofill="no" />
 
             <ImageView
                 android:id="@+id/status_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@+string/loading animation"
                 app:ingredientSearchApiStatus="@{viewModel.status}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
