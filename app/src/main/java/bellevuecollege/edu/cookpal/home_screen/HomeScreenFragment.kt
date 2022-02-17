@@ -1,6 +1,7 @@
 package bellevuecollege.edu.cookpal.home_screen
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,12 @@ import bellevuecollege.edu.cookpal.recipes.RecipeResultsViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
+
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+
 import kotlinx.android.synthetic.main.home_screen_fragment.*
+
 
 class HomeScreenFragment : Fragment() {
 
@@ -56,7 +62,7 @@ class HomeScreenFragment : Fragment() {
         }
         //button listener for home screen to login screen
         binding.profile.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_profileFragment)
         }
         //button listener for home screen to favorite recipes
         binding.favoriteRecipeButton.setOnClickListener { view: View ->
@@ -66,10 +72,24 @@ class HomeScreenFragment : Fragment() {
         binding.uploadRecipe.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
+
+
+        var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+
+        if (fbu == null)
+        {
+            Handler().postDelayed({
+                getView()?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
+
+            }, 50)
+         }
+
+
         //button listener for popular button to recipe details
         binding.popularButton.setOnClickListener { view: View ->
             view.findNavController().navigate((R.id.action_homeScreenFragment_to_recipeDetailsFragment))
         }
+
         return binding.root
     }
 }
