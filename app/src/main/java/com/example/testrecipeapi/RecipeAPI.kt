@@ -11,9 +11,9 @@ import java.net.URL
 class RecipeAPI {
     companion object {
         @RequiresApi(Build.VERSION_CODES.N)
-        fun search(searchval : String): MutableList<String> {
+        fun search(searchval : String): ArrayList<Recipe> {
 
-            var list = mutableListOf("")
+            var flist = ArrayList<Recipe>()
 
             try {
 
@@ -41,11 +41,56 @@ class RecipeAPI {
                             for (i in 0 until ary.length()) {
                                 val item = ary.getJSONObject(i)
 
+                                var fitem :Recipe = Recipe()
                                 val rec = item["recipe"]
 
                                 val name = (rec as JSONObject).get("label")
+                                fitem.image = (rec as JSONObject).get("image") as String
+                                fitem.label = (rec as JSONObject).get("label") as String
+                                fitem.url = (rec as JSONObject).get("url") as String
+                                fitem.totalTime = (rec as JSONObject).get("totalTime") as Double
 
-                                list.add(name.toString())
+                                var jsAry = (rec as JSONObject).get("cuisineType") as JSONArray
+
+                                for (i in 0 until jsAry.length()) {
+                                    val str = jsAry.getString(i)
+
+                                    fitem.cuisineType.add(str)
+                                }
+
+                                jsAry = (rec as JSONObject).get("mealType") as JSONArray
+
+                                for (i in 0 until jsAry.length()) {
+                                    val str = jsAry.getString(i)
+
+                                    fitem.mealType.add(str)
+                                }
+
+                                jsAry = (rec as JSONObject).get("dishType") as JSONArray
+
+                                for (i in 0 until jsAry.length()) {
+                                    val str = jsAry.getString(i)
+
+                                    fitem.dishType.add(str)
+                                }
+
+                                jsAry = (rec as JSONObject).get("ingredients") as JSONArray
+
+                                for (i in 0 until jsAry.length()) {
+                                    val ingredient = jsAry.getJSONObject(i)
+                                    val ing : Ingredient = Ingredient()
+
+                                    ing.text = ingredient.getString("text")
+                                    ing.food = ingredient.getString("food")
+                                    ing.foodCategory = ingredient.getString("foodCategory")
+                                    ing.measure = ingredient.getString("measure")
+                                    ing.quantity = ingredient.getDouble("quantity")
+                                    ing.weight = ingredient.getDouble("weight")
+
+                                    fitem.ingredients.add(ing)
+                                }
+
+                                flist.add(fitem)
                             }
                         }
                     }
@@ -56,7 +101,11 @@ class RecipeAPI {
                 println(e.message)
             }
 
-            return list;
+            return flist;
         }
     }
+}
+
+private fun <E> MutableList<E>.add(element: Recipe) {
+
 }

@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
 
                         var resultStr = ""
 
-                        for (item: String in list) {
-                            resultStr += item + "\n"
+                        for (item: Recipe in list) {
+                            resultStr += item.label + "\n"
                         }
 
                         txtRes.text = resultStr
