@@ -2,7 +2,7 @@ package apilib;
 
 public class main {
     public static void main(String[] args) {
-        MainKotlin x = new MainKotlin();
-        x.main();
+        TasteOfHomeAPI x = new TasteOfHomeAPI();
+        x.retrieveRecipes("bacon",1,2);
     }
 }

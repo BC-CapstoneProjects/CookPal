@@ -35,7 +35,6 @@ class DriverPool {
         for (thread in threadPool) {
             thread.join()
         }
-        println(resultQueue.size)
         return resultQueue.toList()
     }
 
@@ -55,7 +54,8 @@ class DriverPool {
             "--no-sandbox",
             "--disable-dev-shm-usage",
             "--user-data-dir=C:/ChromeProfiles/Profile$chromeProfileIndex",
-            // "--headless"
+            "--headless",
+            "--log-level=3"
         )
         chromeProfileIndex++
         return ChromeDriver(cp)
@@ -78,8 +78,12 @@ class DriverPool {
 
         override fun run() {
             while (!urlQueue.isEmpty()) {
-                driver.get(urlQueue.poll())
-                outputQueue.add((driver.pageSource))
+                val url = urlQueue.poll()
+                if (url!==null){
+                    driver.get(url)
+                    outputQueue.add((driver.pageSource))
+                }
+
             }
         }
 
