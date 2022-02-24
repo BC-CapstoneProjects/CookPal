@@ -41,6 +41,8 @@ android {
         dataBinding true
     }
     compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -89,6 +91,12 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
+
+    // Amplify core dependency
+    implementation 'com.amplifyframework:core:1.32.0'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
