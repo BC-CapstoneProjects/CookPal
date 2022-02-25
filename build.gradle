@@ -25,8 +25,9 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${version_android_gradle_plugin}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$version_kotlin"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
+		classpath 'com.google.gms:google-services:4.3.10'
     }
 }
 

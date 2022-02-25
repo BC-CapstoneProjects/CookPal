@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "142337939295",
+    "project_id": "cookpal-14d40",
+    "storage_bucket": "cookpal-14d40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142337939295:android:5c43505f934fc73a9648ea",
+        "android_client_info": {
+          "package_name": "bellevuecollege.edu.cookpal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142337939295-6267t42gctvv10tncmficq0kdo7kujlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhWxwwtBRYVCMzZ3es48IgOh_iYTYTWkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142337939295-6267t42gctvv10tncmficq0kdo7kujlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142337939295:android:ab132b181f26a9889648ea",
+        "android_client_info": {
+          "package_name": "com.bc.cookpal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142337939295-6267t42gctvv10tncmficq0kdo7kujlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhWxwwtBRYVCMzZ3es48IgOh_iYTYTWkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142337939295-6267t42gctvv10tncmficq0kdo7kujlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

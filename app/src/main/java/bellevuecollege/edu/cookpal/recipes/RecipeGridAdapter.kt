@@ -1,7 +1,9 @@
 package bellevuecollege.edu.cookpal.recipes
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -45,10 +47,12 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         return IngredientSearchRecipeViewHolder(GridRowRecipeBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
+    /* Knows what position in recipe grid user clicked on */
     override fun onBindViewHolder(holder: IngredientSearchRecipeViewHolder, position: Int) {
         val recipe = getItem(position)
         holder.itemView.setOnClickListener {
             onClickListener.onClick(recipe)
+
         }
         holder.bind(recipe)
     }
