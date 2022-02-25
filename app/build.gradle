@@ -64,6 +64,8 @@ dependencies {
   // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
   implementation 'com.google.firebase:firebase-auth-ktx'
   implementation 'com.google.firebase:firebase-firestore-ktx'
+  
+  implementation 'com.google.firebase:firebase-database:19.6.0'
 
   // Add the dependencies for any other desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
