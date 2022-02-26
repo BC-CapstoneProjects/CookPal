@@ -278,5 +278,4 @@
             tools:listitem="@layout/horizontal_grid_recipe" />
 
     </RelativeLayout>
-
 </layout>
