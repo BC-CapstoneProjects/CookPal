@@ -1,28 +1,24 @@
 package bellevuecollege.edu.cookpal.home_screen
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.os.Handler
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.HomeScreenFragmentBinding
-import bellevuecollege.edu.cookpal.recipes.RecipeResultsViewModel
-
-import androidx.recyclerview.widget.LinearLayoutManager
-import bellevuecollege.edu.cookpal.network.Recipe
+import bellevuecollege.edu.cookpal.profile.UserProfile
+import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
-
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-
-import kotlinx.android.synthetic.main.home_screen_fragment.*
-
 
 class HomeScreenFragment : Fragment() {
 
@@ -34,6 +30,8 @@ class HomeScreenFragment : Fragment() {
         ViewModelProvider(this).get(HomeScreenViewModel::class.java)
     }
 
+    private val up:UserProfile = UserProfile()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +40,8 @@ class HomeScreenFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
+
 
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -82,8 +82,14 @@ class HomeScreenFragment : Fragment() {
                 getView()?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
 
             }, 50)
-         }
 
+         }
+        else{
+            UserProfileHelper.loadProfile() { data ->
+
+                up.setProfile(data)
+            }
+        }
 
         //button listener for popular button to recipe details
         binding.popularButton.setOnClickListener { view: View ->
