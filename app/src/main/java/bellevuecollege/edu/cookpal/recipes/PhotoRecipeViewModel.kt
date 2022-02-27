@@ -56,7 +56,7 @@ class PhotoRecipeViewModel : ViewModel() {
                                             title = it.name,
                                             imgSrcUrl = it.filePath,
                                             sourceUrl = "",
-                                            cookingInstructions = it.steps,
+                                            cookingInstructions = it.instructions,
                                             ingredients = it.ingredients,
                                             summary = it.summary
                                         )

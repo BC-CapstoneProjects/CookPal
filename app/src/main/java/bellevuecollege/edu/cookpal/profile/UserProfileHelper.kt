@@ -39,7 +39,7 @@ class UserProfileHelper {
             databaseReference!!.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot){
 
-                        val data= dataSnapshot.getValue() as Map<String, String>
+                        val data= dataSnapshot.value as Map<String, String>
 
                         myCallback.invoke(data)
                 }

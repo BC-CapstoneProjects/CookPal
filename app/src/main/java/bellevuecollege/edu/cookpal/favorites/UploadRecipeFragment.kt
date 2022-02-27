@@ -104,7 +104,7 @@ class UploadRecipeFragment : Fragment() {
         if (filePath == null) return
 
         val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/photo_images/$filename")
+        val ref = FirebaseStorage.getInstance().getReference("/recipe_photos/$filename")
 
         binding.uploadProgressBar.visibility = View.INVISIBLE
         binding.uploadProgressText.visibility = View.INVISIBLE
@@ -140,7 +140,7 @@ class UploadRecipeFragment : Fragment() {
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
-        val ref = FirebaseDatabase.getInstance().getReference("/photo_recipes")
+        val ref = FirebaseDatabase.getInstance().getReference("/recipe_data")
 
         val photoRecipe = PhotoRecipe(
             profileImageUrl,
@@ -165,7 +165,7 @@ class UploadRecipeFragment : Fragment() {
 
 class PhotoRecipe(
     val filePath: String, val name: String, val summary: String,
-    val steps: String, val ingredients: String
+    val instructions: String, val ingredients: String
 ) {
     constructor() : this("", "", "", "", "") {}
 }
