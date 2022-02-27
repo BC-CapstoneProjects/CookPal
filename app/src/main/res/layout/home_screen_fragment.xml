@@ -104,7 +104,7 @@
             app:srcCompat="@drawable/ic_upload_arrow" />
 
         <ImageButton
-            android:id="@+id/listCloudRecipes"
+            android:id="@+id/listPhotoRecipes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

@@ -33,8 +33,6 @@ import java.util.*
  */
 class UploadRecipeFragment : Fragment() {
     private val TAG = "UploadRecipeFragment"
-    val PERMISSION_REQUEST_CODE = 1001
-    val PICK_IMAGE_REQUEST = 900;
     private lateinit var filePath: Uri
     private lateinit var binding: FragmentUploadRecipeBinding
 
@@ -106,7 +104,7 @@ class UploadRecipeFragment : Fragment() {
         if (filePath == null) return
 
         val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        val ref = FirebaseStorage.getInstance().getReference("/photo_images/$filename")
 
         binding.uploadProgressBar.visibility = View.INVISIBLE
         binding.uploadProgressText.visibility = View.INVISIBLE
@@ -142,12 +140,13 @@ class UploadRecipeFragment : Fragment() {
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
-        val ref = FirebaseDatabase.getInstance().getReference("/photo_recipes/$uid")
+        val ref = FirebaseDatabase.getInstance().getReference("/photo_recipes")
 
         val photoRecipe = PhotoRecipe(
-            uid, profileImageUrl,
+            profileImageUrl,
             binding.photoRecipeName.text.toString(),
-            binding.recipeSteps.text.toString(),
+            binding.photoRecipeSummary.text.toString(),
+            binding.recipeInstructions.text.toString(),
             binding.recipeIngredients.text.toString()
         )
 
@@ -165,6 +164,8 @@ class UploadRecipeFragment : Fragment() {
 }
 
 class PhotoRecipe(
-    val uid: String, val filePath: String, val name: String,
+    val filePath: String, val name: String, val summary: String,
     val steps: String, val ingredients: String
-)
+) {
+    constructor() : this("", "", "", "", "") {}
+}

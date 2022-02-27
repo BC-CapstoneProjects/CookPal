@@ -19,8 +19,6 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         fun bind(ingredientRecipe: Recipe) {
             // Recipe image
             binding.recipe = ingredientRecipe
-            // Recipe title
-//            binding.recipeName.text = ingredientRecipe.title
             // Recipe favorite
 //            if (ingredientRecipe.isFavorite) {
 //                binding.favButton.setImageResource(R.drawable.ic_favorite_24dp)
@@ -38,7 +36,7 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         }
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-            return oldItem.rId == newItem.rId
+            return oldItem.imgSrcUrl == newItem.imgSrcUrl
         }
     }
 
