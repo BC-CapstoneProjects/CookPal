@@ -103,6 +103,18 @@
             android:contentDescription="@+string/Upload arrow"
             app:srcCompat="@drawable/ic_upload_arrow" />
 
+        <ImageButton
+            android:id="@+id/listCloudRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="17dp"
+            android:layout_toEndOf="@+id/uploadRecipe"
+            android:background="#00000000"
+            android:contentDescription="@+string/Upload arrow"
+            app:srcCompat="@drawable/ic_download_arrow" />
+
         <!--Slogan settings-->
         <TextView
             android:id="@+id/Slogan"
