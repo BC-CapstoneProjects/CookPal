@@ -88,12 +88,13 @@ class HomeScreenFragment : Fragment() {
             }, 50)
 
          }
-        else{
-            UserProfileHelper.loadProfile() { data ->
-
-                up.setProfile(data)
-            }
-        }
+        // TODO: loadProfile() crash program. Need to fix it.
+//        else{
+//            UserProfileHelper.loadProfile() { data ->
+//
+//                up.setProfile(data)
+//            }
+//        }
 
         //button listener for popular button to recipe details
         binding.popularButton.setOnClickListener { view: View ->

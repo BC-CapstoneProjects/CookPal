@@ -16,7 +16,7 @@ import java.lang.Exception
 
 class PhotoRecipeViewModel : ViewModel() {
     private val TAG = "PhotoRecipeViewModel"
-    private val PHOTO_RECIPES_NAME = "photo_recipes"
+    private val PHOTO_RECIPES_NAME = "recipe_data"
 
     private lateinit var databaseRef: DatabaseReference
 
