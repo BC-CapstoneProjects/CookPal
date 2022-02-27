@@ -73,6 +73,10 @@ class HomeScreenFragment : Fragment() {
             view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
 
+        // button listener for home screen to list photo recipes from Firebase storage
+        binding.listPhotoRecipes.setOnClickListener {view: View ->
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
+        }
 
         var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 

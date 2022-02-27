@@ -32,12 +32,10 @@ class RecipeResultsFragment : Fragment() {
         binding.viewModel = viewModel
         binding.recipesGrid.adapter = RecipeGridAdapter(RecipeGridAdapter.OnClickListener {
             // A meal is clicked, parse recipes and display info
-            if (it.isLoadedSuccessful) {
-                viewModel.displayRecipeDetails(it)
-
-            } else {
-                Toast.makeText(activity, "Failed to load", Toast.LENGTH_SHORT).show()
+            if (!it.isLoadedSuccessful) {
+                Toast.makeText(activity, "Failed to load image, parsing recipe", Toast.LENGTH_SHORT).show()
             }
+            viewModel.displayRecipeDetails(it)
         })
 
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
