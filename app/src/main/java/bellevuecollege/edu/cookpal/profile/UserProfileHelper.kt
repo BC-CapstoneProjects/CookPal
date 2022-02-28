@@ -30,6 +30,18 @@ class UserProfileHelper {
             databaseReference = firebaseDatabase!!.getReference("users").child(uid);
             return databaseReference
         }
+
+        private fun createDefaultProfile()
+        {
+            var firebaseDatabase: FirebaseDatabase? = null
+            var databaseReference: DatabaseReference? = null
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+
+            databaseReference = firebaseDatabase!!.getReference("/users/" + fbu?.uid)
+            databaseReference.setValue(UserProfile())
+        }
+
         fun loadProfile(myCallback: (result: Map<String, String>?) -> Unit){
 
             var databaseReference: DatabaseReference? = null
@@ -39,9 +51,27 @@ class UserProfileHelper {
             databaseReference!!.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot){
 
-                        val data= dataSnapshot.getValue() as Map<String, String>
+                    try
+                    {
+                        val value = dataSnapshot.getValue()
 
-                        myCallback.invoke(data)
+                        if (value == null)
+                        {
+                            createDefaultProfile()
+                            myCallback(null)
+                        }
+                        else
+                        {
+                            val data = value as Map<String, String>
+
+                            myCallback.invoke(data)
+                        }
+                    }
+                    catch (ee:Exception)
+                    {
+                        Log.d("","mes");
+                    }
+
                 }
                 override fun onCancelled(error: DatabaseError) {
                     // Failed to read value
