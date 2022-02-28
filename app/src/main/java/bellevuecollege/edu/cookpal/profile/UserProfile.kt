@@ -9,6 +9,10 @@ class UserProfile {
 
     }
 
+    constructor(email:String){
+        emailAddress = email
+    }
+
     constructor(mp :Map<String, String>?) {
         setProfile(mp)
     }
@@ -40,7 +44,7 @@ class UserProfile {
 
         }
     }
-    var name : String = "test"
-    var emailAddress : String = "testem"
+    var name : String = ""
+    var emailAddress : String = ""
     val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
 }

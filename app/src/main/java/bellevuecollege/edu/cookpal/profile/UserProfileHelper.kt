@@ -39,7 +39,7 @@ class UserProfileHelper {
             var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
             databaseReference = firebaseDatabase!!.getReference("/users/" + fbu?.uid)
-            databaseReference.setValue(UserProfile())
+            databaseReference.setValue(fbu?.email?.let { UserProfile(it) })
         }
 
         fun loadProfile(myCallback: (result: Map<String, String>?) -> Unit){
