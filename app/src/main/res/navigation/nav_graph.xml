@@ -39,6 +39,16 @@
             app:destination="@id/recipeDetailsFragment" />
     </fragment>
     <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsFragment"
+        android:label="recipe_details_fragment"
+        tools:layout="@layout/recipe_details_fragment">
+
+        <argument
+            android:name="selectedRecipe"
+            app:argType="bellevuecollege.edu.cookpal.network.Recipe" />
+    </fragment>
+    <fragment
         android:id="@+id/selectVoiceFragment"
         android:name="bellevuecollege.edu.cookpal.profile.SelectVoiceFragment"
         android:label="fragment_select_voice"
@@ -114,9 +124,4 @@
         android:name="bellevuecollege.edu.cookpal.favorites.UploadPhotoFragment"
         android:label="fragment_upload_photo"
         tools:layout="@layout/fragment_upload_photo" />
-    <fragment
-        android:id="@+id/recipeDetailsFragment"
-        android:name="bellevuecollege.edu.cookpal.recipes.RecipeDetailsFragment"
-        android:label="fragment_recipe_details"
-        tools:layout="@layout/fragment_recipe_details" />
 </navigation>

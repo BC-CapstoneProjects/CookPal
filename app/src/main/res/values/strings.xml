@@ -4,7 +4,7 @@
     <string name="recipe">Cooking Instructions</string>
     <string name="favorites">Favorite Recipes</string>
     <string name="search">Search Recipes</string>
-    <string name="search_hint">spring roll,pho,banhmi</string>
+    <string name="search_hint">chicken, beef, cake</string>
     <string name="add_remove_favorite">Add or remove favorite</string>
     <string name="recipe_image">Recipe image</string>
     <!-- TODO: Remove or change this placeholder text -->

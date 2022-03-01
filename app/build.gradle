@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -66,6 +66,8 @@ dependencies {
   // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
   implementation 'com.google.firebase:firebase-auth-ktx'
   implementation 'com.google.firebase:firebase-firestore-ktx'
+  
+  implementation 'com.google.firebase:firebase-database:19.6.0'
 
   // Add the dependencies for any other desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
@@ -105,4 +107,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Jsoup
+    implementation "org.jsoup:jsoup:$version_jsoup"
+
+    //Gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
 }
