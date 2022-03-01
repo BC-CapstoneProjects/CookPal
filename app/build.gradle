@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -102,4 +102,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Jsoup
+    implementation "org.jsoup:jsoup:$version_jsoup"
+
+    //Gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
 }

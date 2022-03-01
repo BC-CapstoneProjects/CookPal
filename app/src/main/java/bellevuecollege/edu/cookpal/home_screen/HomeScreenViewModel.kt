@@ -51,9 +51,7 @@ class HomeScreenViewModel : ViewModel() {
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 _recipes.value = searchResponse.recipes.map {
                         recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl,
-                        response = "ID: " + recipe.id + "\nTitle: " + recipe.title + "\nImageUrl: " +
-                                recipe.imageUrl + "\nSourceUrl: " + recipe.sourceUrl)
+                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl)
                 }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
@@ -72,9 +70,7 @@ class HomeScreenViewModel : ViewModel() {
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 _recipes.value = searchResponse.recipes.map {
                         recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl,
-                        response = "ID: " + recipe.id + "\nTitle: " + recipe.title + "\nImageUrl: " +
-                                recipe.imageUrl + "\nSourceUrl: " + recipe.sourceUrl)
+                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl)
                 }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
@@ -93,9 +89,7 @@ class HomeScreenViewModel : ViewModel() {
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 _recipes.value = searchResponse.recipes.map {
                         recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl,
-                        response = "ID: " + recipe.id + "\nTitle: " + recipe.title + "\nImageUrl: " +
-                                recipe.imageUrl + "\nSourceUrl: " + recipe.sourceUrl)
+                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl)
                 }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
