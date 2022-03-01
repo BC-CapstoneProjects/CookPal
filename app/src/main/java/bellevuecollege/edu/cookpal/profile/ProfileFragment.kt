@@ -1,7 +1,12 @@
 package bellevuecollege.edu.cookpal.profile
 
+import android.app.Activity.RESULT_OK
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +18,7 @@ import bellevuecollege.edu.cookpal.databinding.FragmentProfileBinding
 import bellevuecollege.edu.cookpal.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 /**
@@ -28,6 +34,26 @@ class ProfileFragment : Fragment() {
 
     private lateinit var viewModel: ProfileFragmentViewModel
     private val up:UserProfile = UserProfile()
+
+    val REQUEST_IMAGE_CAPTURE = 1
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            imageView3.setImageBitmap(imageBitmap)
+val dt = data.data
+var t = 0
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +76,10 @@ class ProfileFragment : Fragment() {
             FirebaseAuth.getInstance().signOut()
             view.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
 
+        }
+
+        binding.takepicProfile.setOnClickListener { view: View ->
+            dispatchTakePictureIntent()
         }
 
         var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
