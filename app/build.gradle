@@ -23,7 +23,7 @@ apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
@@ -96,6 +96,8 @@ dependencies {
 
     // Amplify core dependency
     implementation 'com.amplifyframework:core:1.32.0'
+    implementation 'com.amplifyframework:aws-predictions:1.32.0'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.32.0'
 
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'

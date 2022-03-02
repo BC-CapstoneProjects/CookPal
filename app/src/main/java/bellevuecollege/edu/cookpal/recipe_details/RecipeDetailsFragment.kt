@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
-import java.io.File
-import java.lang.Exception
+import com.amplifyframework.core.Amplify
+import java.io.*
 import java.util.*
 
 class RecipeDetailsFragment : Fragment() {
@@ -23,6 +23,12 @@ class RecipeDetailsFragment : Fragment() {
     private lateinit var recipeVoiceFile: File
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var binding: RecipeDetailsFragmentBinding
+
+
+    /**
+     * AMPLIFY TEST
+     */
+    private val mp = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,35 @@ class RecipeDetailsFragment : Fragment() {
                     mTTS.language = Locale.US
                 }
             })
+    }
+
+    //Text to speech
+    private fun convertTextToSpeech() {
+        Amplify.Predictions.convertTextToSpeech("This actually works, nice",
+            { playAudio(it.audioData) },
+            { Log.e("MyAmplifyApp", "Failed to convert text to speech", it) }
+        )
+    }
+
+    //Audio
+    private fun playAudio(data: InputStream) {
+        val cacheDir = requireActivity().externalCacheDir
+        val mp3File = File(cacheDir, "audio.mp3")
+        try {
+            FileOutputStream(mp3File).use { out ->
+                val buffer = ByteArray(8 * 1024)
+                var bytesRead: Int
+                while (data.read(buffer).also { bytesRead = it } != -1) {
+                    out.write(buffer, 0, bytesRead)
+                }
+                mp.reset()
+                mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
+                mp.setDataSource(FileInputStream(mp3File).fd)
+                mp.prepareAsync()
+            }
+        } catch (error: IOException) {
+            Log.e("MyAmplifyApp", "Error writing audio file.")
+        }
     }
 
     override fun onCreateView(
@@ -177,4 +212,5 @@ class RecipeDetailsFragment : Fragment() {
         }
         super.onDestroy()
     }
+
 }
