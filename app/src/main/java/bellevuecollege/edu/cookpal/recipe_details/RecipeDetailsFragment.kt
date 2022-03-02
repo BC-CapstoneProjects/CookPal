@@ -36,7 +36,6 @@ class RecipeDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        convertTextToSpeech()
         // Setup Text To Speech engine
         mTTS = TextToSpeech(activity?.applicationContext,
             TextToSpeech.OnInitListener { status ->
@@ -48,8 +47,8 @@ class RecipeDetailsFragment : Fragment() {
     }
 
     //Text to speech
-    private fun convertTextToSpeech() {
-        Amplify.Predictions.convertTextToSpeech("This actually works, nice",
+    private fun convertTextToSpeech(data: String) {
+        Amplify.Predictions.convertTextToSpeech(data,
             { playAudio(it.audioData) },
             { Log.e("MyAmplifyApp", "Failed to convert text to speech", it) }
         )
@@ -70,6 +69,7 @@ class RecipeDetailsFragment : Fragment() {
                 mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
                 mp.setDataSource(FileInputStream(mp3File).fd)
                 mp.prepareAsync()
+
             }
         } catch (error: IOException) {
             Log.e("MyAmplifyApp", "Error writing audio file.")
@@ -160,8 +160,9 @@ class RecipeDetailsFragment : Fragment() {
                 val instructions = tempView.selectedRecipe.value?.cookingInstructions
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
-                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
-                        binding.pauseRecipeInstructionsButton.isEnabled = true
+                        convertTextToSpeech(instructions)
+//                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+//                        binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
                     } else {
                         Log.e("Recipe Details Fragment", "No recipe instructions supplied for TTS")
