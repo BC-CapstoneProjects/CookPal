@@ -43,8 +43,15 @@ class UserProfile {
         } catch (e: Exception) {
 
         }
+
+        try {
+            profilePhotoPath = mp.get("profilePhotoPath") as String
+        } catch (e: Exception) {
+
+        }
     }
     var name : String = ""
     var emailAddress : String = ""
+    var profilePhotoPath : String = ""
     val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
 }
