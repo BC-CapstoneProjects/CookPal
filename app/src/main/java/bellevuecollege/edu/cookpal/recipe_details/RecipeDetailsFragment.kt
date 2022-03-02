@@ -13,7 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.predictions.aws.AWSPredictionsPlugin
 import java.io.*
 import java.util.*
 
