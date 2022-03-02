@@ -33,6 +33,7 @@ class RecipeDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        convertTextToSpeech()
         // Setup Text To Speech engine
         mTTS = TextToSpeech(activity?.applicationContext,
             TextToSpeech.OnInitListener { status ->

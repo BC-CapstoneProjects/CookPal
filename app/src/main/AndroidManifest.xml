@@ -4,6 +4,7 @@
     package="bellevuecollege.edu.cookpal">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".AmplifyApp"
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
