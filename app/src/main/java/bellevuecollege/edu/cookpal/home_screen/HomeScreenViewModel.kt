@@ -1,20 +1,16 @@
 package bellevuecollege.edu.cookpal.home_screen
 
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.network.IngredientSearchApi
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.IngredientSearchApiStatus
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
-enum class IngredientSearchApiStatus { LOADING, ERROR, DONE}
+enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
 class HomeScreenViewModel : ViewModel() {
 
@@ -24,9 +20,6 @@ class HomeScreenViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
-    // The external immutable LiveData for the response String
-    val status: LiveData<IngredientSearchApiStatus>
-        get() = _status
 
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>>
@@ -47,11 +40,21 @@ class HomeScreenViewModel : ViewModel() {
             Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm}")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
-                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm, 1)
+                val searchResponse =
+                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
+                        "",
+                        _searchTerm,
+                        1
+                    )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
-                _recipes.value = searchResponse.recipes.map {
-                        recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl)
+                Log.d("recipe", searchResponse.toString())
+                _recipes.value = searchResponse.recipes.map { recipe ->
+                    Recipe(
+                        rId = recipe.id,
+                        title = recipe.title,
+                        imgSrcUrl = recipe.imageUrl,
+                        sourceUrl = recipe.sourceUrl
+                    )
                 }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
@@ -66,11 +69,21 @@ class HomeScreenViewModel : ViewModel() {
             Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm2}")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
-                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm2, 1)
+                val searchResponse =
+                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
+                        "",
+                        _searchTerm2,
+                        1
+                    )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
-                _recipes.value = searchResponse.recipes.map {
-                        recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl)
+                Log.d("recipe", searchResponse.toString())
+                _recipes.value = searchResponse.recipes.map { recipe ->
+                    Recipe(
+                        rId = recipe.id,
+                        title = recipe.title,
+                        imgSrcUrl = recipe.imageUrl,
+                        sourceUrl = recipe.sourceUrl
+                    )
                 }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
@@ -85,11 +98,21 @@ class HomeScreenViewModel : ViewModel() {
             Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm3}")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
-                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm3, 1)
+                val searchResponse =
+                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
+                        "",
+                        _searchTerm3,
+                        1
+                    )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
-                _recipes.value = searchResponse.recipes.map {
-                        recipe ->
-                    Recipe(rId=recipe.id, title = recipe.title,imgSrcUrl = recipe.imageUrl, sourceUrl = recipe.sourceUrl)
+                Log.d("recipe", searchResponse.toString())
+                _recipes.value = searchResponse.recipes.map { recipe ->
+                    Recipe(
+                        rId = recipe.id,
+                        title = recipe.title,
+                        imgSrcUrl = recipe.imageUrl,
+                        sourceUrl = recipe.sourceUrl
+                    )
                 }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {

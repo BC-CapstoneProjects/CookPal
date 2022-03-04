@@ -1,7 +1,6 @@
 package bellevuecollege.edu.cookpal.profile
 
-import com.example.testrecipeapi.Recipe
-import java.lang.Exception
+import bellevuecollege.edu.cookpal.recipes.Recipe
 
 class UserProfile {
 
@@ -23,28 +22,28 @@ class UserProfile {
         }
 
         try {
-            val favoriterecipes = mp.get("favoriterecipes") as ArrayList<Recipe>
+            val favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
 
-            for (value in favoriterecipes) {
-                favoriteRecipes.add(value)
+            for (value in favoriteRecipes) {
+                this.favoriteRecipes.add(value)
             }
         } catch (e: Exception) {
 
         }
 
         try {
-            emailAddress = mp.get("emailAddress") as String
+            emailAddress = mp["emailAddress"] as String
         } catch (e: Exception) {
 
         }
 
         try {
-            name = mp.get("name") as String
+            name = mp["name"] as String
         } catch (e: Exception) {
 
         }
     }
     var name : String = ""
     var emailAddress : String = ""
-    val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
+    private val favoriteRecipes : ArrayList<Recipe> = ArrayList()
 }

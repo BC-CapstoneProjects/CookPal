@@ -1,0 +1,4 @@
+package apilib
+
+class RecipeFirebase {
+}

@@ -7,11 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.network.IngredientSearchApi
 import bellevuecollege.edu.cookpal.network.Recipe
-import bellevuecollege.edu.cookpal.recipe_parser.extractAllRecipesInformation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 enum class IngredientSearchApiStatus { LOADING, ERROR, DONE}
 
@@ -29,8 +25,8 @@ class RecipeResultsViewModel : ViewModel() {
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
 
-    private val _navigateToSelectedRecipe = MutableLiveData<Recipe>()
-    val navigateToSelectedRecipe: LiveData<Recipe>
+    private val _navigateToSelectedRecipe = MutableLiveData<Recipe?>()
+    val navigateToSelectedRecipe: MutableLiveData<Recipe?>
         get() = _navigateToSelectedRecipe
 
     private val _searchButtonVisible = MutableLiveData<Boolean?>()

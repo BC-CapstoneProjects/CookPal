@@ -5,7 +5,6 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import java.lang.Exception
 
 class UserProfileHelper {
     companion object {
@@ -16,14 +15,10 @@ class UserProfileHelper {
             // Reference for Firebase.
             var databaseReference: DatabaseReference? = null
 
-            var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+            var fbu : FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                ?: throw Exception("Unable to get user profile, user is not logged in")
 
-            if (fbu == null)
-            {
-                throw Exception("Unable to get user profile, user is not logged in");
-            }
-
-            var uid : String = fbu.uid
+            var uid : String = fbu!!.uid
 
             firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -33,27 +28,25 @@ class UserProfileHelper {
 
         private fun createDefaultProfile()
         {
-            var firebaseDatabase: FirebaseDatabase? = null
-            var databaseReference: DatabaseReference? = null
+            var firebaseDatabase: FirebaseDatabase?
+            var databaseReference: DatabaseReference?
             firebaseDatabase = FirebaseDatabase.getInstance();
-            var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+            var fbu : FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
-            databaseReference = firebaseDatabase!!.getReference("/users/" + fbu?.uid)
+            databaseReference = firebaseDatabase.getReference("/users/" + fbu?.uid)
             databaseReference.setValue(fbu?.email?.let { UserProfile(it) })
         }
 
         fun loadProfile(myCallback: (result: Map<String, String>?) -> Unit){
 
-            var databaseReference: DatabaseReference? = null
-
-            databaseReference = getDb()
+            var databaseReference: DatabaseReference? = getDb()
 
             databaseReference!!.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot){
 
                     try
                     {
-                        val value = dataSnapshot.getValue()
+                        val value = dataSnapshot.value
 
                         if (value == null)
                         {
@@ -81,14 +74,13 @@ class UserProfileHelper {
         }
 
         fun saveProfile(data:UserProfile) {
-            var databaseReference: DatabaseReference? = null
 
-            databaseReference = getDb()
+            var databaseReference: DatabaseReference? = getDb()
 
             databaseReference!!.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot){
 
-                    databaseReference!!.setValue(data)
+                    databaseReference.setValue(data)
                 }
                 override fun onCancelled(error: DatabaseError) {
                     // Failed to read value

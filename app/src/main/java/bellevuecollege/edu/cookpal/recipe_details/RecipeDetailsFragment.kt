@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
 import java.io.File
-import java.lang.Exception
 import java.util.*
 
 class RecipeDetailsFragment : Fragment() {
@@ -27,13 +25,13 @@ class RecipeDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Setup Text To Speech engine
-        mTTS = TextToSpeech(activity?.applicationContext,
-            TextToSpeech.OnInitListener { status ->
-                if (status != TextToSpeech.ERROR){
-                    //if there is no error then set language
-                    mTTS.language = Locale.US
-                }
-            })
+        mTTS = TextToSpeech(activity?.applicationContext
+        ) { status ->
+            if (status != TextToSpeech.ERROR) {
+                //if there is no error then set language
+                mTTS.language = Locale.US
+            }
+        }
     }
 
     override fun onCreateView(
@@ -47,17 +45,18 @@ class RecipeDetailsFragment : Fragment() {
         val recipeDetails = RecipeDetailsFragmentArgs.fromBundle(requireArguments()).selectedRecipe
         val viewModelFactory = RecipeDetailsViewModelProvider(recipeDetails, application)
         binding.viewModel = ViewModelProvider(
-            this, viewModelFactory).get(RecipeDetailsViewModel::class.java)
+            this, viewModelFactory
+        ).get(RecipeDetailsViewModel::class.java)
         mediaPlayer = MediaPlayer()
 
         val tempView = binding.viewModel
         if (tempView != null) {
 
-            tempView.selectedRecipe.observe(viewLifecycleOwner, Observer { parsedRecipe ->
+            tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
                 binding.recipeSummary.text = parsedRecipe.summary
                 binding.recipeIngredients.text = parsedRecipe.ingredients
                 binding.recipeInstructions.text = parsedRecipe.cookingInstructions
-            })
+            }
 
             // Setup Record button handler
             binding.recordRecipeInstructionsButton.setOnClickListener {
@@ -71,35 +70,38 @@ class RecipeDetailsFragment : Fragment() {
                 }
                 val b = Bundle()
                 val instructions = tempView.selectedRecipe.value?.cookingInstructions
-                if (instructions != null) {
-                    if (instructions.isNotEmpty()) {
-                        // Save cooking instructions as a sound file, this may take time
-                        mTTS.synthesizeToFile(instructions, b, recipeVoiceFile, UTTERANCE_ID)
-                        mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                            override fun onStart(utteranceId: String?) {
-                                Log.d("Recipe Details Fragment", "Started synthesize To File")
-                            }
+                if (instructions != null && instructions.isNotEmpty()) {
 
-                            override fun onDone(utteranceId: String?) {
-                                if(utteranceId == UTTERANCE_ID) {
-                                    Log.d("Recipe Details Fragment", "word is read, resuming with the next word")
-                                    if (recipeVoiceFile.exists()) {
-                                        mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
-                                        mediaPlayer.prepare()
-                                    }
+                    // Save cooking instructions as a sound file, this may take time
+                    mTTS.synthesizeToFile(instructions, b, recipeVoiceFile, UTTERANCE_ID)
+                    mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                        override fun onStart(utteranceId: String?) {
+                            Log.d("Recipe Details Fragment", "Started synthesize To File")
+                        }
+
+                        override fun onDone(utteranceId: String?) {
+                            if (utteranceId == UTTERANCE_ID) {
+                                Log.d(
+                                    "Recipe Details Fragment",
+                                    "word is read, resuming with the next word"
+                                )
+                                if (recipeVoiceFile.exists()) {
+                                    mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
+                                    mediaPlayer.prepare()
                                 }
                             }
+                        }
 
-                            override fun onError(utteranceId: String?) {
-                                Log.e("Recipe Details Fragment", "Error synthesize to File")
-                            }
-                        })
+                        override fun onError(utteranceId: String?) {
+                            Log.e("Recipe Details Fragment", "Error synthesize to File")
+                        }
+                    })
 
-                        // Enable related buttons
-                        binding.deleteRecipeInstructionsButton.isEnabled = true
-                        binding.playRecipeInstructionsButton.isEnabled = true
+                    // Enable related buttons
+                    binding.deleteRecipeInstructionsButton.isEnabled = true
+                    binding.playRecipeInstructionsButton.isEnabled = true
 
-                    }
+
                 }
             }
             // Setup Play button handler
@@ -109,8 +111,7 @@ class RecipeDetailsFragment : Fragment() {
                         mediaPlayer.start()
                         binding.pauseRecipeInstructionsButton.isEnabled = true
                     }
-                }
-                catch (e: Exception) {
+                } catch (e: Exception) {
                     Log.d("Recipe Details Fragment", "Error when playing audio")
                 }
             }
@@ -131,16 +132,18 @@ class RecipeDetailsFragment : Fragment() {
 
             // Setup Pause button handler
             binding.pauseRecipeInstructionsButton.setOnClickListener {
-                if (mTTS.isSpeaking){
+                if (mTTS.isSpeaking) {
                     //if speaking then Pause
                     mTTS.stop()
-                }
-                else if (mediaPlayer.isPlaying) {
+                } else if (mediaPlayer.isPlaying) {
                     mediaPlayer.pause()
-                }
-                else{
+                } else {
                     //if not speaking
-                    Toast.makeText(activity, "Not speaking or playing recipe instructions", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        "Not speaking or playing recipe instructions",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -159,11 +162,10 @@ class RecipeDetailsFragment : Fragment() {
 
     override fun onPause() {
         mTTS.stop()
-        if (mTTS.isSpeaking){
+        if (mTTS.isSpeaking) {
             //if speaking then Pause
             mTTS.stop()
-        }
-        else if (mediaPlayer.isPlaying) {
+        } else if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
         }
         super.onPause()
@@ -173,7 +175,7 @@ class RecipeDetailsFragment : Fragment() {
         mTTS.shutdown()
         mediaPlayer.stop()
         if (this::recipeVoiceFile.isInitialized) {
-                recipeVoiceFile.delete()
+            recipeVoiceFile.delete()
         }
         super.onDestroy()
     }

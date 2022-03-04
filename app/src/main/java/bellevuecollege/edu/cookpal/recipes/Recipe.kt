@@ -1,4 +1,4 @@
-package com.example.testrecipeapi
+package bellevuecollege.edu.cookpal.recipes
 
 class Recipe {
 

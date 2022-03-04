@@ -21,8 +21,10 @@ class RecipeJSON {
             recipeJson.put("Steps", recipe.steps)
             recipeJson.put("ImageURL", recipe.imgUrl)
             recipeJson.put("Rating", recipe.rating)
-            recipeJson.put("Review Number", recipe.reviewNumber)
+            recipeJson.put("ReviewNumber", recipe.reviewNumber)
             recipeJson.put("Ingredients",recipe.ingredients)
+            recipeJson.put("TotalTime", recipe.totalTime)
+            recipeJson.put("SourceUrl", recipe.sourceUrl)
             fullJSON.put(recipeJson)
         }
 

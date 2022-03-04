@@ -23,9 +23,11 @@ fun bindRecipeImage(imgView: ImageView, recipe: Recipe?) {
         val imgUri = recipe.imgSrcUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
             .load(imgUri)
-            .apply(RequestOptions()
-                .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken_image))
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+            )
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -53,15 +55,19 @@ fun bindRecipeImage(imgView: ImageView, recipe: Recipe?) {
 }
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView,
-                     data: List<Recipe>?) {
+fun bindRecyclerView(
+    recyclerView: RecyclerView,
+    data: List<Recipe>?
+) {
     val adapter = recyclerView.adapter as RecipeGridAdapter
     adapter.submitList(data)
 }
 
 @BindingAdapter("ingredientSearchApiStatus")
-fun bindStatus(statusImageView: ImageView,
-status: IngredientSearchApiStatus) {
+fun bindStatus(
+    statusImageView: ImageView,
+    status: IngredientSearchApiStatus
+) {
     when (status) {
         IngredientSearchApiStatus.LOADING -> {
             statusImageView.visibility = View.VISIBLE
@@ -78,9 +84,9 @@ status: IngredientSearchApiStatus) {
 }
 
 @BindingAdapter("viewRecipeInstructions")
-fun bindRecipeInstructions(webview: WebView, recipe: Recipe?) {
+fun bindRecipeInstructions(webView: WebView, recipe: Recipe?) {
     recipe?.let {
-        webview.loadUrl(recipe.sourceUrl)
+        webView.loadUrl(recipe.sourceUrl)
     }
 }
 
