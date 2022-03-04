@@ -97,6 +97,9 @@
         <action
             android:id="@+id/action_profileFragment_to_selectVoiceFragment"
             app:destination="@id/selectVoiceFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
