@@ -1,9 +1,7 @@
 package bellevuecollege.edu.cookpal.home_screen
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +28,7 @@ class HomeScreenFragment : Fragment() {
         ViewModelProvider(this).get(HomeScreenViewModel::class.java)
     }
 
-    private val up:UserProfile = UserProfile()
+    private val up: UserProfile = UserProfile()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +40,6 @@ class HomeScreenFragment : Fragment() {
         binding.viewModel = viewModel
 
 
-
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recipesGrid.layoutManager = layoutManager
@@ -50,7 +47,11 @@ class HomeScreenFragment : Fragment() {
         //@TODO may need to add another adapter(?)
         binding.recipesGrid.adapter = RecipeGridAdapter(RecipeGridAdapter.OnClickListener {
             if (it.isLoadedSuccessful) {
-                Toast.makeText(activity, "Loading recipe details. To be implemented.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Loading recipe details. To be implemented.",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 Toast.makeText(activity, "Failed to load", Toast.LENGTH_SHORT).show()
             }
@@ -58,7 +59,8 @@ class HomeScreenFragment : Fragment() {
 
         //button listener for home screen to recipe search
         binding.searchButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)
+            view.findNavController()
+                .navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)
         }
         //button listener for home screen to login screen
         binding.profile.setOnClickListener { view: View ->
@@ -66,25 +68,26 @@ class HomeScreenFragment : Fragment() {
         }
         //button listener for home screen to favorite recipes
         binding.favoriteRecipeButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_favoriteRecipesFragment)
+            view.findNavController()
+                .navigate(R.id.action_homeScreenFragment_to_favoriteRecipesFragment)
         }
         //button listener for home screen to upload recipe
         binding.uploadRecipe.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
+            view.findNavController()
+                .navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
         }
 
 
-        var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+        var fbu: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
-        if (fbu == null)
-        {
+        if (fbu == null) {
             Handler().postDelayed({
-                getView()?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
+                getView()?.findNavController()
+                    ?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
 
             }, 50)
 
-         }
-        else{
+        } else {
             UserProfileHelper.loadProfile() { data ->
 
                 up.setProfile(data)
@@ -93,7 +96,8 @@ class HomeScreenFragment : Fragment() {
 
         //button listener for popular button to recipe details
         binding.popularButton.setOnClickListener { view: View ->
-            view.findNavController().navigate((R.id.action_homeScreenFragment_to_recipeDetailsFragment))
+            view.findNavController()
+                .navigate((R.id.action_homeScreenFragment_to_recipeDetailsFragment))
         }
 
         return binding.root

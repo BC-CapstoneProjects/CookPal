@@ -4,14 +4,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
 class RecipeAPI {
     companion object {
         @RequiresApi(Build.VERSION_CODES.N)
-        fun search(searchval : String): ArrayList<Recipe> {
+        fun search(searchval: String): ArrayList<Recipe> {
 
             var flist = ArrayList<Recipe>()
 
@@ -21,7 +20,8 @@ class RecipeAPI {
 
                 parmSearch.replace(" ", "%20")
 
-                var urlm = "https://api.edamam.com/api/recipes/v2?type=public&q=" + parmSearch + "&app_id=9e739484&app_key=e3b4d6f7a98479690a4e75d907cd721c%09"
+                var urlm =
+                    "https://api.edamam.com/api/recipes/v2?type=public&q=" + parmSearch + "&app_id=9e739484&app_key=e3b4d6f7a98479690a4e75d907cd721c%09"
                 val url = URL(urlm)
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "GET"
@@ -41,7 +41,7 @@ class RecipeAPI {
                             for (i in 0 until ary.length()) {
                                 val item = ary.getJSONObject(i)
 
-                                var fitem :Recipe = Recipe()
+                                var fitem: Recipe = Recipe()
                                 val rec = item["recipe"]
 
                                 val name = (rec as JSONObject).get("label")
@@ -78,7 +78,7 @@ class RecipeAPI {
 
                                 for (i in 0 until jsAry.length()) {
                                     val ingredient = jsAry.getJSONObject(i)
-                                    val ing : Ingredient = Ingredient()
+                                    val ing: Ingredient = Ingredient()
 
                                     ing.text = ingredient.getString("text")
                                     ing.food = ingredient.getString("food")
@@ -95,9 +95,7 @@ class RecipeAPI {
                         }
                     }
                 }
-            }
-            catch (e : Exception)
-            {
+            } catch (e: Exception) {
                 println(e.message)
             }
 

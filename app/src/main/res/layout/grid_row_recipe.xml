@@ -46,12 +46,12 @@
                 android:text="@{recipe.title}"
                 tools:text="Recipe title/description" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/favButton"-->
-<!--                android:layout_width="24dp"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:contentDescription="@string/add_remove_favorite"-->
-<!--                tools:srcCompat="@drawable/ic_favorite_24dp" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/favButton"-->
+            <!--                android:layout_width="24dp"-->
+            <!--                android:layout_height="24dp"-->
+            <!--                android:contentDescription="@string/add_remove_favorite"-->
+            <!--                tools:srcCompat="@drawable/ic_favorite_24dp" />-->
         </LinearLayout>
     </LinearLayout>
 </layout>

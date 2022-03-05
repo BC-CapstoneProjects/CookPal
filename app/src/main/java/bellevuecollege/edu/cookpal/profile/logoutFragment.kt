@@ -1,18 +1,11 @@
 package bellevuecollege.edu.cookpal.profile
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import bellevuecollege.edu.cookpal.R
+import androidx.fragment.app.Fragment
 import bellevuecollege.edu.cookpal.databinding.FragmentLoginBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,7 +38,7 @@ class logoutFragment : Fragment() {
         val binding = FragmentLoginBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
-       // auth = Firebase.auth
+        // auth = Firebase.auth
 
 
         // Inflate the layout for this fragment

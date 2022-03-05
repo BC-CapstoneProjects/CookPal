@@ -19,8 +19,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="30dp"
-            android:hint="name"
-             />
+            android:hint="name" />
 
         <Button
             android:id="@+id/uploadRecipeImageButton"
@@ -41,8 +40,8 @@
             android:autofillHints="steps"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:hint="steps" />
+            android:hint="steps"
+            android:inputType="textMultiLine" />
 
 
         <EditText
@@ -55,8 +54,8 @@
             android:autofillHints="steps"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:hint="ingredients" />
+            android:hint="ingredients"
+            android:inputType="textMultiLine" />
 
         <ImageButton
             android:id="@+id/confirm_upload_recipe"

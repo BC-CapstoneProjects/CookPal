@@ -1,23 +1,22 @@
 package bellevuecollege.edu.cookpal.profile
 
 import com.example.testrecipeapi.Recipe
-import java.lang.Exception
 
 class UserProfile {
 
-    constructor(){
+    constructor() {
 
     }
 
-    constructor(email:String){
+    constructor(email: String) {
         emailAddress = email
     }
 
-    constructor(mp :Map<String, String>?) {
+    constructor(mp: Map<String, String>?) {
         setProfile(mp)
     }
 
-    fun setProfile(mp :Map<String, String>?) {
+    fun setProfile(mp: Map<String, String>?) {
         if (mp == null) {
             return;
         }
@@ -50,8 +49,9 @@ class UserProfile {
 
         }
     }
-    var name : String = ""
-    var emailAddress : String = ""
-    var profilePhotoPath : String = ""
-    val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
+
+    var name: String = ""
+    var emailAddress: String = ""
+    var profilePhotoPath: String = ""
+    val favoriteRecipes: ArrayList<Recipe> = ArrayList<Recipe>()
 }

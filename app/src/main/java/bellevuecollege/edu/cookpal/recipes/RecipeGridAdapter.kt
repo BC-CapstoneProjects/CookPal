@@ -1,21 +1,18 @@
 package bellevuecollege.edu.cookpal.recipes
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.GridRowRecipeBinding
 import bellevuecollege.edu.cookpal.network.Recipe
 
 class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdapter<Recipe,
-        RecipeGridAdapter.IngredientSearchRecipeViewHolder>(DiffCallback){
+        RecipeGridAdapter.IngredientSearchRecipeViewHolder>(DiffCallback) {
 
-    class IngredientSearchRecipeViewHolder(private var binding: GridRowRecipeBinding):
-        RecyclerView.ViewHolder(binding.root){
+    class IngredientSearchRecipeViewHolder(private var binding: GridRowRecipeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(ingredientRecipe: Recipe) {
             // Recipe image
             binding.recipe = ingredientRecipe
@@ -42,9 +39,17 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): IngredientSearchRecipeViewHolder {
-        return IngredientSearchRecipeViewHolder(GridRowRecipeBinding.inflate(LayoutInflater.from(parent.context)))
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): IngredientSearchRecipeViewHolder {
+        return IngredientSearchRecipeViewHolder(
+            GridRowRecipeBinding.inflate(
+                LayoutInflater.from(
+                    parent.context
+                )
+            )
+        )
     }
 
     /* Knows what position in recipe grid user clicked on */
@@ -57,7 +62,7 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         holder.bind(recipe)
     }
 
-    class OnClickListener(val clickListener: (recipe:Recipe) -> Unit) {
+    class OnClickListener(val clickListener: (recipe: Recipe) -> Unit) {
         fun onClick(recipe: Recipe) = clickListener(recipe)
     }
 }
