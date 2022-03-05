@@ -1,10 +1,10 @@
 package bellevuecollege.edu.cookpal.favorites
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.FragmentUploadRecipeBinding
@@ -34,8 +34,9 @@ class UploadRecipeFragment : Fragment() {
         binding.lifecycleOwner = this
 
         //button listener for upload recipe button to upload photo
-        binding.uploadRecipeImageButton.setOnClickListener{ view: View ->
-            view.findNavController().navigate(R.id.action_uploadRecipeFragment_to_uploadPhotoFragment)
+        binding.uploadRecipeImageButton.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(R.id.action_uploadRecipeFragment_to_uploadPhotoFragment)
         }
 
         // Inflate the layout for this fragment

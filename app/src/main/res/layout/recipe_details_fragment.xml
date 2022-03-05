@@ -4,11 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<data>
-    <variable
-        name="viewModel"
-        type="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsViewModel" />
-</data>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -48,8 +50,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="Summary"
-                android:textStyle="bold"
                 android:textColor="@color/purple_500"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_image"></TextView>
@@ -70,8 +72,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="Ingredients"
-                android:textStyle="bold"
                 android:textColor="@color/purple_500"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_summary"></TextView>
@@ -163,6 +165,6 @@
                 app:layout_constraintStart_toEndOf="@+id/delete_recipe_instructions_button"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

@@ -8,6 +8,6 @@ class Recipe {
     var ingredients: ArrayList<Ingredient> = arrayListOf<Ingredient>();
     var totalTime: Double = 0.0;
     var cuisineType: ArrayList<String> = arrayListOf<String>();
-    var mealType: ArrayList<String>  = arrayListOf<String>();
-    var dishType: ArrayList<String>  = arrayListOf<String>();
+    var mealType: ArrayList<String> = arrayListOf<String>();
+    var dishType: ArrayList<String> = arrayListOf<String>();
 }
