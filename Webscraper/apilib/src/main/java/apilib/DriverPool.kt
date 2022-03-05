@@ -79,7 +79,7 @@ class DriverPool {
         override fun run() {
             while (!urlQueue.isEmpty()) {
                 val url = urlQueue.poll()
-                if (url!==null){
+                if (url !== null) {
                     driver.get(url)
                     outputQueue.add((driver.pageSource))
                 }

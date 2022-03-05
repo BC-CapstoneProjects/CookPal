@@ -15,7 +15,7 @@ class RecipeJSON {
 
     fun addRecipes(recipes: List<Recipe>) {
         val fullJSON = JSONArray()
-        for (recipe in recipes){
+        for (recipe in recipes) {
             val recipeJson = JSONObject()
             recipeJson.put("Title", recipe.title)
             recipeJson.put("Steps", recipe.steps)

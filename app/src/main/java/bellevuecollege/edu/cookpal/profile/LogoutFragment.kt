@@ -38,7 +38,7 @@ class LogoutFragment : Fragment() {
         val binding = FragmentLoginBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
-       // auth = Firebase.auth
+        // auth = Firebase.auth
 
 
         // Inflate the layout for this fragment

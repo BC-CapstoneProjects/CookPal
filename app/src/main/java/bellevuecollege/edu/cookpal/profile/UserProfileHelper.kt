@@ -37,35 +37,31 @@ class UserProfileHelper {
             databaseReference.setValue(fbu?.email?.let { UserProfile(it) })
         }
 
-        fun loadProfile(myCallback: (result: Map<String, String>?) -> Unit){
+        fun loadProfile(myCallback: (result: Map<String, String>?) -> Unit) {
 
             var databaseReference: DatabaseReference? = getDb()
 
             databaseReference!!.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot){
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                     try
                     {
                         val value = dataSnapshot.value
 
-                        if (value == null)
-                        {
+                        if (value == null) {
                             createDefaultProfile()
                             myCallback(null)
-                        }
-                        else
-                        {
+                        } else {
                             val data = value as Map<String, String>
 
                             myCallback.invoke(data)
                         }
-                    }
-                    catch (ee:Exception)
-                    {
-                        Log.d("","mes");
+                    } catch (ee: Exception) {
+                        Log.d("", "mes");
                     }
 
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     // Failed to read value
                     Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
@@ -78,10 +74,11 @@ class UserProfileHelper {
             var databaseReference: DatabaseReference? = getDb()
 
             databaseReference!!.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot){
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                     databaseReference.setValue(data)
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     // Failed to read value
                     Log.w(ContentValues.TAG, "Failed to read value.", error.toException())

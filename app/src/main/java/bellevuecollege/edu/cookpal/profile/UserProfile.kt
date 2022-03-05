@@ -4,19 +4,19 @@ import bellevuecollege.edu.cookpal.recipes.Recipe
 
 class UserProfile {
 
-    constructor(){
+    constructor() {
 
     }
 
-    constructor(email:String){
+    constructor(email: String) {
         emailAddress = email
     }
 
-    constructor(mp :Map<String, String>?) {
+    constructor(mp: Map<String, String>?) {
         setProfile(mp)
     }
 
-    fun setProfile(mp :Map<String, String>?) {
+    fun setProfile(mp: Map<String, String>?) {
         if (mp == null) {
             return;
         }

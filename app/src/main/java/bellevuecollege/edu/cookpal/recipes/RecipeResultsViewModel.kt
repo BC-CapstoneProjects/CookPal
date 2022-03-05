@@ -9,7 +9,7 @@ import bellevuecollege.edu.cookpal.network.IngredientSearchApi
 import bellevuecollege.edu.cookpal.network.Recipe
 import kotlinx.coroutines.launch
 
-enum class IngredientSearchApiStatus { LOADING, ERROR, DONE}
+enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
 class RecipeResultsViewModel : ViewModel() {
     private var ALL_RECIPES_NAME: String = "allrecipes"
@@ -17,6 +17,7 @@ class RecipeResultsViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
+
     // The external immutable LiveData for the response String
     val status: LiveData<IngredientSearchApiStatus>
         get() = _status
@@ -37,6 +38,7 @@ class RecipeResultsViewModel : ViewModel() {
         _searchTerm = searchKeyWord
         _searchButtonVisible.value = searchKeyWord?.isNotEmpty()
     }
+
     /**
      * Call getIngredientSearchRecipes() on init so we can display status immediately.
      */
@@ -52,12 +54,18 @@ class RecipeResultsViewModel : ViewModel() {
             Log.d("RecipeResultsViewModel", "Retrieving recipes for ${_searchTerm}")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
-                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm, 1)
+                val searchResponse =
+                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
+                        "",
+                        _searchTerm,
+                        1
+                    )
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")
 
                 _recipes.value = searchResponse.recipes
                     .filter {
-                        it.sourceUrl.contains(ALL_RECIPES_NAME)}
+                        it.sourceUrl.contains(ALL_RECIPES_NAME)
+                    }
                     .map { recipe ->
                         Recipe(
                             rId = recipe.id,
