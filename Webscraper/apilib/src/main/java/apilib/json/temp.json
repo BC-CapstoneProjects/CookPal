@@ -1,9 +1,0 @@
-{
-  "https://recipeurl.com": {
-    "title": "Cake",
-    "AllTheOtherStuff": "Other"
-  },
-  "https://otherRecipeUrl.com": {
-    "otherStuff": ""
-  }
-}
