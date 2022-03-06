@@ -44,14 +44,14 @@ class LoginFragment : Fragment() {
         auth = Firebase.auth
 
         //button listener for loginFragment to signUpFragment
-        binding.signUpButton.setOnClickListener { view: View ->
+        binding.signUpButton.setOnClickListener {
 
             var emailAdd: String = binding.emailAddress.text.toString()
             var pwd: String = binding.password.text.toString()
             createAccount(emailAdd, pwd)
 
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
             binding.emailAddress.setText("")
             binding.password.setText("")
@@ -59,13 +59,13 @@ class LoginFragment : Fragment() {
         }
 
         //button listener for loginFragment to profileFragment
-        binding.loginButton.setOnClickListener { view: View ->
+        binding.loginButton.setOnClickListener {
 
             var emailAdd: String = binding.emailAddress.text.toString()
             var pwd: String = binding.password.text.toString()
 
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
             binding.emailAddress.setText("")
             binding.password.setText("")
@@ -89,10 +89,10 @@ class LoginFragment : Fragment() {
     private fun signIn(email: String, password: String) {
         // [START sign_in_with_email]
 
-        var at: Activity = getContext() as Activity;
+        var at: Activity = context as Activity;
 
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(at, { task ->
+            .addOnCompleteListener(at) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
@@ -104,18 +104,18 @@ class LoginFragment : Fragment() {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(
-                        getActivity(), "email or password is incorrect",
+                        activity, "email or password is incorrect",
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(null)
                 }
-            })
+            }
         // [END sign_in_with_email]
     }
 
     private fun createAccount(email: String, password: String) {
 
-        var at: Activity = getContext() as Activity;
+        var at: Activity = context as Activity;
 
         // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(email, password)
@@ -125,7 +125,7 @@ class LoginFragment : Fragment() {
                     Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
                     Toast.makeText(
-                        getActivity(), "createAccount Authentication success.",
+                        activity, "createAccount Authentication success.",
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(user)
@@ -133,7 +133,7 @@ class LoginFragment : Fragment() {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
-                        getActivity(), "createAccount Authentication failed.",
+                        activity, "createAccount Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(null)

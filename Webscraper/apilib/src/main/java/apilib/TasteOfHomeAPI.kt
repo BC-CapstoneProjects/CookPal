@@ -1,6 +1,5 @@
 package apilib
 
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class TasteOfHomeAPI : GeneralAPI() {
@@ -35,12 +34,12 @@ class TasteOfHomeAPI : GeneralAPI() {
     /**
      * Given the html source code, return a recipe object
      */
-    override fun parseRecipeHtml(html: Document): Recipe {
+    override fun parseRecipeHtml(html: Document, url: String): Recipe {
         val recipe = Recipe()
         // Sometimes videos are used instead of images
-        val url = html.select("div .featured-container img").map { col -> col.attr("src") }
-        if (url.isNotEmpty()) {
-            recipe.imgUrl = url[0].toString()
+        val imageUrl = html.select("div .featured-container img").map { col -> col.attr("src") }
+        if (imageUrl.isNotEmpty()) {
+            recipe.imgUrl = imageUrl[0].toString()
         }
         recipe.title = html.select("h1").map { col -> col.ownText() }[0].toString()
 
@@ -49,7 +48,9 @@ class TasteOfHomeAPI : GeneralAPI() {
 
 
         recipe.ingredients = html.select(".recipe-ingredients li")
-            .map { col -> col.ownText() }.toTypedArray()
+            .map { ingredient -> ingredient.ownText() }.toTypedArray()
+        recipe.totalTime = html.select(".total-time p")[0].ownText()
+        recipe.sourceUrl = url
         var rating = 0.0
         val recipeNumberInput = html.select(".rating a")
         var recipeNumberString = ""

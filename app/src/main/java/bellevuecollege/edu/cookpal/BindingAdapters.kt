@@ -84,9 +84,9 @@ fun bindStatus(
 }
 
 @BindingAdapter("viewRecipeInstructions")
-fun bindRecipeInstructions(webview: WebView, recipe: Recipe?) {
+fun bindRecipeInstructions(webView: WebView, recipe: Recipe?) {
     recipe?.let {
-        webview.loadUrl(recipe.sourceUrl)
+        webView.loadUrl(recipe.sourceUrl)
     }
 }
 

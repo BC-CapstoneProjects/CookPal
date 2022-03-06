@@ -78,12 +78,11 @@ class HomeScreenFragment : Fragment() {
         }
 
 
-        var fbu: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+        var fbu: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
         if (fbu == null) {
             Handler().postDelayed({
-                getView()?.findNavController()
-                    ?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
+                view?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
 
             }, 50)
 

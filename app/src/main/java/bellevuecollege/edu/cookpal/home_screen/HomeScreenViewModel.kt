@@ -21,10 +21,6 @@ class HomeScreenViewModel : ViewModel() {
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
 
-    // The external immutable LiveData for the response String
-    val status: LiveData<IngredientSearchApiStatus>
-        get() = _status
-
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
@@ -51,6 +47,7 @@ class HomeScreenViewModel : ViewModel() {
                         1
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
+                Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.recipes.map { recipe ->
                     Recipe(
                         rId = recipe.id,
@@ -79,6 +76,7 @@ class HomeScreenViewModel : ViewModel() {
                         1
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
+                Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.recipes.map { recipe ->
                     Recipe(
                         rId = recipe.id,
@@ -107,6 +105,7 @@ class HomeScreenViewModel : ViewModel() {
                         1
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
+                Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.recipes.map { recipe ->
                     Recipe(
                         rId = recipe.id,
