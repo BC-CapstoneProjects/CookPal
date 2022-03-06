@@ -1,10 +1,13 @@
 package apilib
 
+import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.nio.charset.Charset
+
+private val logger = KotlinLogging.logger {}
 
 class RecipeJSON {
     private val path: String
@@ -32,7 +35,7 @@ class RecipeJSON {
             PrintWriter(FileWriter(path, Charset.defaultCharset()))
                 .use { it.write(fullJSON.toString()) }
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.error { e }
         }
     }
 }
