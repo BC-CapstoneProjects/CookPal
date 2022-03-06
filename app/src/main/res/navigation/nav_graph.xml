@@ -11,22 +11,22 @@
         android:label="home_screen_fragment"
         tools:layout="@layout/home_screen_fragment">
         <action
-            android:id="@+id/action_homeScreenFragment_to_recipeResultsFragment"
+            android:id="@+id/action_homeScreen_to_recipeResults"
             app:destination="@id/recipeResultsFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_loginFragment"
+            android:id="@+id/action_homeScreen_to_login"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_favoriteRecipesFragment"
+            android:id="@+id/action_homeScreen_to_favoriteRecipes"
             app:destination="@id/favoriteRecipesFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_uploadRecipeFragment"
+            android:id="@+id/action_homeScreen_to_uploadRecipe"
             app:destination="@id/uploadRecipeFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_profileFragment"
+            android:id="@+id/action_homeScreen_to_profile"
             app:destination="@id/profileFragment" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_recipeDetailsFragment"
+            android:id="@+id/action_homeScreen_to_recipeDetails"
             app:destination="@id/recipeDetailsFragment" />
     </fragment>
     <fragment

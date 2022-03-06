@@ -1,6 +1,5 @@
 package apilib
 
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class TasteOfHomeAPI : GeneralAPI() {

@@ -28,7 +28,6 @@ import bellevuecollege.edu.cookpal.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 /**
  * A simple [Fragment] subclass.
@@ -134,7 +133,7 @@ class ProfileFragment : Fragment() {
 
 
                 try {
-                    filePath?.let {
+                    filePath.let {
                         if (Build.VERSION.SDK_INT < 28) {
                             val bitmap = MediaStore.Images.Media.getBitmap(
                                 this.activity?.contentResolver,
@@ -162,14 +161,13 @@ class ProfileFragment : Fragment() {
         }
 
     private fun uploadFileToFirebaseStorage() {
-        if (filePath == null) return
 
         var fbu: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
         val filename = fbu?.uid
         val ref = FirebaseStorage.getInstance().getReference("/profile_photo/$filename")
 
-        ref.putFile(filePath!!)
+        ref.putFile(filePath)
             .addOnSuccessListener {
                 Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 

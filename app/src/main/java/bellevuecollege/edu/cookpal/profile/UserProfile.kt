@@ -4,9 +4,7 @@ import com.example.testrecipeapi.Recipe
 
 class UserProfile {
 
-    constructor() {
-
-    }
+    constructor()
 
     constructor(email: String) {
         emailAddress = email
@@ -22,7 +20,7 @@ class UserProfile {
         }
 
         try {
-            val favoriterecipes = mp.get("favoriterecipes") as ArrayList<Recipe>
+            val favoriterecipes = mp["favoriterecipes"] as ArrayList<Recipe>
 
             for (value in favoriterecipes) {
                 favoriteRecipes.add(value)
@@ -32,19 +30,19 @@ class UserProfile {
         }
 
         try {
-            emailAddress = mp.get("emailAddress") as String
+            emailAddress = mp["emailAddress"] as String
         } catch (e: Exception) {
 
         }
 
         try {
-            name = mp.get("name") as String
+            name = mp["name"] as String
         } catch (e: Exception) {
 
         }
 
         try {
-            profilePhotoPath = mp.get("profilePhotoPath") as String
+            profilePhotoPath = mp["profilePhotoPath"] as String
         } catch (e: Exception) {
 
         }

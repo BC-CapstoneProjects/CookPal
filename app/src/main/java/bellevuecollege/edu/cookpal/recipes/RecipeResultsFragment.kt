@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import bellevuecollege.edu.cookpal.databinding.RecipeResultsFragmentBinding
@@ -40,7 +39,7 @@ class RecipeResultsFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
             if (null != it) {
                 this.findNavController().navigate(
                     RecipeResultsFragmentDirections.actionRecipeResultsFragmentToRecipeDetailsFragment(
@@ -49,7 +48,7 @@ class RecipeResultsFragment : Fragment() {
                 )
                 viewModel.displayRecipeDetailsComplete()
             }
-        })
+        }
 
         // EditText handler
         binding.searchBox.addTextChangedListener(object : TextWatcher {
