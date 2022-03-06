@@ -42,7 +42,7 @@ class RecipeResultsFragment : Fragment() {
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
             if (null != it) {
                 this.findNavController().navigate(
-                    RecipeResultsFragmentDirections.actionRecipeResultsFragmentToRecipeDetailsFragment(
+                    RecipeResultsFragmentDirections.actionRecipeResultsToRecipeDetails(
                         it
                     )
                 )
