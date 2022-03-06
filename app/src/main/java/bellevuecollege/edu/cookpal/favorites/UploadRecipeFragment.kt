@@ -36,7 +36,7 @@ class UploadRecipeFragment : Fragment() {
         //button listener for upload recipe button to upload photo
         binding.uploadRecipeImageButton.setOnClickListener { view: View ->
             view.findNavController()
-                .navigate(R.id.action_uploadRecipeFragment_to_uploadPhotoFragment)
+                .navigate(R.id.action_uploadRecipe_to_uploadPhoto)
         }
 
         // Inflate the layout for this fragment

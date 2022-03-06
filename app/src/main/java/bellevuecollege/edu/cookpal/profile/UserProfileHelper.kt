@@ -9,11 +9,11 @@ import com.google.firebase.database.*
 class UserProfileHelper {
     companion object {
 
-        private fun getDb(): DatabaseReference? {
-            var firebaseDatabase: FirebaseDatabase? = null
+        private fun getDb(): DatabaseReference {
+            var firebaseDatabase: FirebaseDatabase?
 
             // Reference for Firebase.
-            var databaseReference: DatabaseReference? = null
+            var databaseReference: DatabaseReference?
 
             var fbu : FirebaseUser? = FirebaseAuth.getInstance().currentUser
                 ?: throw Exception("Unable to get user profile, user is not logged in")
@@ -22,7 +22,7 @@ class UserProfileHelper {
 
             firebaseDatabase = FirebaseDatabase.getInstance();
 
-            databaseReference = firebaseDatabase!!.getReference("users").child(uid);
+            databaseReference = firebaseDatabase.getReference("users").child(uid);
             return databaseReference
         }
 

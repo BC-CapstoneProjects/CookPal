@@ -36,7 +36,7 @@ class RecipeResultsViewModel : ViewModel() {
 
     fun setSearchTerm(searchKeyWord: String) {
         _searchTerm = searchKeyWord
-        _searchButtonVisible.value = searchKeyWord?.isNotEmpty()
+        _searchButtonVisible.value = searchKeyWord.isNotEmpty()
     }
 
     /**
