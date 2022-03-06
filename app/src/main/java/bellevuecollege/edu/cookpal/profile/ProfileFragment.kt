@@ -55,7 +55,7 @@ class ProfileFragment : Fragment() {
 
         //button listener for profile to change password
         binding.changePassButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
+            view.findNavController().navigate(R.id.action_profile_to_changePassword)
         }
 
 
@@ -63,7 +63,7 @@ class ProfileFragment : Fragment() {
             //   view.findNavController().navigate(R.id.act)
 
             FirebaseAuth.getInstance().signOut()
-            view.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            view.findNavController().navigate(R.id.action_profile_to_login)
 
         }
 
@@ -102,20 +102,20 @@ class ProfileFragment : Fragment() {
             UserProfileHelper.saveProfile(up)
 
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
 
             Toast.makeText(
-                getActivity(), "updated profile",
+                activity, "updated profile",
                 Toast.LENGTH_SHORT
             ).show()
 
-            view.findNavController().navigate(R.id.action_profileFragment_to_homeScreenFragment)
+            view.findNavController().navigate(R.id.action_profile_to_homeScreen)
 
         }
 
         binding.micButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_selectVoiceFragment)
+            view.findNavController().navigate(R.id.action_profile_to_selectVoice)
         }
 
         // Inflate the layout for this fragment

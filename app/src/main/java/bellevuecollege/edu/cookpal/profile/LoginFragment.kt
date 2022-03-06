@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.forgotPassButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+            view.findNavController().navigate(R.id.action_login_to_forgotPassword)
         }
 
         // Inflate the layout for this fragment
@@ -99,7 +99,7 @@ class LoginFragment : Fragment() {
                     val user = auth.currentUser
 
                     view?.findNavController()
-                        ?.navigate(R.id.action_loginFragment_to_homeScreenFragment)
+                        ?.navigate(R.id.action_login_to_homeScreen)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
