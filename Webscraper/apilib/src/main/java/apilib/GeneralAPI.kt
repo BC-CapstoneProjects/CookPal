@@ -1,7 +1,10 @@
 package apilib
 
+import mu.KotlinLogging
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+
+private val logger = KotlinLogging.logger {}
 
 abstract class GeneralAPI {
     fun retrieveRecipes(
@@ -10,10 +13,13 @@ abstract class GeneralAPI {
         numDrivers: Int,
         writeLocation: String
     ) {
+        logger.info { "Retrieving recipes for keyword $keyword with $numPages page(s) and $numDrivers driver(s)" }
         val driverPool = DriverPool(numDrivers)
         val allRecipes = returnRecipesFromKeyword(keyword, driverPool, numPages)
+        logger.info { "Found ${allRecipes.size} recipes" }
         val jsonWriter = RecipeJSON(writeLocation)
         jsonWriter.addRecipes(allRecipes)
+        logger.info { "Wrote all recipes to JSON" }
         driverPool.closeDrivers()
     }
 
