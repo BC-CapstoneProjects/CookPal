@@ -27,6 +27,22 @@ abstract class GeneralAPI {
     protected abstract fun parseRecipeHtml(html: Document, url: String): Recipe
     protected abstract fun getUrlForPage(page: Number, keyWord: String): String
     protected abstract fun getRecipeUrlsFromPage(html: Document): List<String>
+    protected fun getFirstOrEmptyText(html: Document, cssQuery: String): String {
+        val result = html.select(cssQuery)
+        if (result.isEmpty()) {
+            return ""
+        }
+        return result[0].ownText()
+    }
+
+    protected fun getFirstOrEmptyAttr(html: Document, cssQuery: String, attr: String): String {
+        val result = html.select(cssQuery)
+        if (result.isEmpty()) {
+            return ""
+        }
+        return result[0].attr(attr)
+    }
+
     private fun returnRecipesFromKeyword(
         keyWord: String,
         driverPool: DriverPool,
