@@ -1,13 +1,16 @@
 package apilib
 
+import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
+private val logger = KotlinLogging.logger {}
+
 class EdamamAPI {
     companion object {
-        @RequiresApi(Build.VERSION_CODES.N)
+//        @RequiresApi(Build.VERSION_CODES.N)
         fun search(searchval : String): ArrayList<Recipe> {
 
             var flist = ArrayList<Recipe>()
@@ -23,11 +26,11 @@ class EdamamAPI {
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "GET"
 
-                    println("\nSent 'GET' request to URL : $url; Response Code : $responseCode")
+                    logger.info { "GET request to URL : $url; Response Code : $responseCode" }
 
                     inputStream.bufferedReader().use {
                         it.lines().forEach { line ->
-                            println(line)
+                            logger.debug { line }
 
                             val data = JSONObject(line)
 
@@ -95,7 +98,7 @@ class EdamamAPI {
             }
             catch (e : Exception)
             {
-                println(e.message)
+                logger.error { e }
             }
 
             return flist;
