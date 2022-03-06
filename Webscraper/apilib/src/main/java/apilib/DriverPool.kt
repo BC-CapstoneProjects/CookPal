@@ -6,8 +6,8 @@ import org.openqa.selenium.chrome.ChromeOptions
 import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
- * This class handles creating multiple chrome browers and processing a list of urls
- * Each chrome driver gets its own thread during url processing
+ * This class handles creating multiple chrome browsers and processing a list of urls.
+ * Each chrome driver gets its own thread during url processing.
  * This class assumes that there are no currently running chrome browsers.
  */
 class DriverPool {
@@ -39,11 +39,14 @@ class DriverPool {
     }
 
     /**
-     * Close the chrome browsers
+     * Close the chrome browsers and the chrome drivers
      */
     fun closeDrivers() {
         for (driver in driverPool) {
+            // this closes the chrome window
             driver.close()
+            // this terminates the chromedriver executable
+            driver.quit()
         }
     }
 

@@ -42,41 +42,40 @@ class FoodNetworkAPI : GeneralAPI() {
      */
     override fun parseRecipeHtml(html: Document, url: String): Recipe {
         val recipe = Recipe()
-        val titleArr =
-            html.select(".m-RecipeSummary .assetTitle .o-AssetTitle__a-HeadlineText:first-of-type")
-                .map { col -> col.ownText() }
-        if (titleArr.isEmpty())
+        recipe.title = getFirstOrEmptyText(
+            html,
+            ".m-RecipeSummary .assetTitle .o-AssetTitle__a-HeadlineText:first-of-type"
+        )
+        if (recipe.title == "")
             return recipe
-        recipe.title = titleArr[0].toString()
 
         recipe.steps = html.select(".o-Method__m-Body li")
             .map { col -> col.ownText() }.toTypedArray()
 
-        recipe.imgUrl = "https:"+html.select(".recipe-lead .m-MediaBlock__m-MediaWrap img")
-            .map { col -> col.attr("src") }[0].toString()
+        recipe.imgUrl = getFirstOrEmptyAttr(
+            html,
+            ".recipe-lead .m-MediaBlock__m-MediaWrap img",
+            "src"
+        )
+        if (recipe.imgUrl != "") {
+            recipe.imgUrl = "https:" + recipe.imgUrl
+        }
 
         recipe.ingredients = html.select(".o-Ingredients__a-Ingredient--CheckboxLabel")
             .map { col -> col.ownText() }
             .filter { !it.equals("Deselect All") }
             .toTypedArray()
-        val totalTime = html.select(".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description")
-        if (totalTime.isNotEmpty())
-            recipe.totalTime =
-                html.select(".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description")[0].ownText()
-
-        val reviewSummary = html.select(".review .review-summary")
+        recipe.totalTime =
+            getFirstOrEmptyText(html, ".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description")
         recipe.sourceUrl = url
-        val recipeNumberString = reviewSummary.select("span")
-            .map { col -> col.ownText() }[0]
-
+        val recipeNumberString = getFirstOrEmptyText(html, ".review .review-summary span")
 
         val numLength = recipeNumberString.indexOf(" ")
         if (numLength in 1..6) {
             recipe.reviewNumber =
                 recipeNumberString.substring(0, numLength).toInt()
         }
-        recipe.rating = reviewSummary.select(".rating-stars")
-            .map { col -> col.attr("title") }[0].toString()
+        recipe.rating = getFirstOrEmptyAttr(html, ".review .review-summary .rating-stars", "title")
 
         return recipe
     }
