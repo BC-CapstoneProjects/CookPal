@@ -28,17 +28,17 @@ fun extractAllRecipesInformation(recipe: Recipe) {
     // Summary
     doc?.select(ALL_RECIPES_SUMMARY_CSS_QUERY)
         ?.map { it -> recipe.summary += it.text() + "\n" }
-    Log.d("Parse recipe", "${recipe.summary}")
+    Log.d("Parse recipe", recipe.summary)
 
     // Ingredients
     doc?.select(ALL_RECIPES_INGREDIENTS_CSS_QUERY)
         ?.map { it -> recipe.ingredients += it.text() + "\n" }
-    Log.d("Parse recipe", "${recipe.ingredients}")
+    Log.d("Parse recipe", recipe.ingredients)
 
     // Cooking Instructions
     doc?.select(ALL_RECIPES_INSTRUCTIONS_CSS_QUERY)
         ?.map { it -> recipe.cookingInstructions += it.text() + "\n" }
-    Log.d("Parse recipe", "${recipe.cookingInstructions}")
+    Log.d("Parse recipe", recipe.cookingInstructions)
 
 }
 

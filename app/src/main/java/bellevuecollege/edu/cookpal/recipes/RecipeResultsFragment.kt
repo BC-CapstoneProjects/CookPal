@@ -40,7 +40,7 @@ class RecipeResultsFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
             if (null != it) {
                 this.findNavController().navigate(
                     RecipeResultsFragmentDirections.actionRecipeResultsFragmentToRecipeDetailsFragment(
@@ -49,7 +49,7 @@ class RecipeResultsFragment : Fragment() {
                 )
                 viewModel.displayRecipeDetailsComplete()
             }
-        })
+        }
 
         // EditText handler
         binding.searchBox.addTextChangedListener(object : TextWatcher {

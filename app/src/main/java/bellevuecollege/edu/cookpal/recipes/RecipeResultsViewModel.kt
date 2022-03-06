@@ -26,8 +26,8 @@ class RecipeResultsViewModel : ViewModel() {
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
 
-    private val _navigateToSelectedRecipe = MutableLiveData<Recipe>()
-    val navigateToSelectedRecipe: LiveData<Recipe>
+    private val _navigateToSelectedRecipe = MutableLiveData<Recipe?>()
+    val navigateToSelectedRecipe: MutableLiveData<Recipe?>
         get() = _navigateToSelectedRecipe
 
     private val _searchButtonVisible = MutableLiveData<Boolean?>()

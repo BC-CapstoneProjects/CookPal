@@ -1,6 +1,5 @@
 package apilib
 
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class FoodNetworkAPI : GeneralAPI() {
@@ -41,7 +40,7 @@ class FoodNetworkAPI : GeneralAPI() {
     /**
      * Given the html source code, return a recipe object
      */
-    override fun parseRecipeHtml(html: Document): Recipe {
+    override fun parseRecipeHtml(html: Document, url: String): Recipe {
         val recipe = Recipe()
         val titleArr =
             html.select(".m-RecipeSummary .assetTitle .o-AssetTitle__a-HeadlineText:first-of-type")
@@ -53,15 +52,20 @@ class FoodNetworkAPI : GeneralAPI() {
         recipe.steps = html.select(".o-Method__m-Body li")
             .map { col -> col.ownText() }.toTypedArray()
 
-        recipe.imgUrl = html.select(".recipe-lead .m-MediaBlock__m-MediaWrap img")
+        recipe.imgUrl = "https:"+html.select(".recipe-lead .m-MediaBlock__m-MediaWrap img")
             .map { col -> col.attr("src") }[0].toString()
 
         recipe.ingredients = html.select(".o-Ingredients__a-Ingredient--CheckboxLabel")
             .map { col -> col.ownText() }
-            .filter { !it.equals("Deselect All") }.toTypedArray()
+            .filter { !it.equals("Deselect All") }
+            .toTypedArray()
+        val totalTime = html.select(".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description")
+        if (totalTime.isNotEmpty())
+            recipe.totalTime =
+                html.select(".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description")[0].ownText()
 
         val reviewSummary = html.select(".review .review-summary")
-
+        recipe.sourceUrl = url
         val recipeNumberString = reviewSummary.select("span")
             .map { col -> col.ownText() }[0]
 
