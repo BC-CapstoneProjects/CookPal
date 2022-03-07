@@ -1,7 +1,10 @@
 package bellevuecollege.edu.cookpal.recipe_details
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipe_parser.extractAllRecipesInformation
 import kotlinx.coroutines.Dispatchers

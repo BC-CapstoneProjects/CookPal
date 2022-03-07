@@ -1,6 +1,5 @@
 package apilib
 
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class TasteOfHomeAPI : GeneralAPI() {
@@ -28,36 +27,43 @@ class TasteOfHomeAPI : GeneralAPI() {
      */
     override fun getRecipeUrlsFromPage(html: Document): List<String> {
         return html.select(".recipe .entry-title a")
-            .map { col -> col.attr("href") }
+            .map { col -> col.attr("href") }.filter { url -> url.contains("recipes") }
 
     }
 
     /**
      * Given the html source code, return a recipe object
      */
-    override fun parseRecipeHtml(html: Document): Recipe {
+    override fun parseRecipeHtml(html: Document, url: String): Recipe {
         val recipe = Recipe()
-        // Sometimes videos are used instead of images
-        val url = html.select("div .featured-container img").map { col -> col.attr("src") }
-        if (url.isNotEmpty()) {
-            recipe.imgUrl = url[0].toString()
+
+        recipe.title = getFirstOrEmptyText(html, "h1")
+        if (recipe.title == "") {
+            println(recipe.title)
+            return recipe
         }
-        recipe.title = html.select("h1").map { col -> col.ownText() }[0].toString()
+
+        recipe.sourceUrl = url
+
+        // Sometimes videos are used instead of images. In that case no image is returned
+        recipe.imgUrl = getFirstOrEmptyAttr(html, "div .featured-container img", "src")
 
         recipe.steps = html.select(".recipe-directions__item span")
             .map { col -> col.ownText() }.toTypedArray()
 
-
         recipe.ingredients = html.select(".recipe-ingredients li")
-            .map { col -> col.ownText() }.toTypedArray()
+            .map { ingredient -> ingredient.ownText() }.toTypedArray()
+
+        recipe.totalTime = getFirstOrEmptyText(html, ".total-time p")
+
         var rating = 0.0
         val recipeNumberInput = html.select(".rating a")
         var recipeNumberString = ""
-        if (!recipeNumberInput.isEmpty()) {
+        if (recipeNumberInput.isNotEmpty()) {
             recipeNumberString = recipeNumberInput[recipeNumberInput.size - 1].ownText()
         }
 
-        if (recipeNumberString.equals("Add a Review") || recipeNumberInput.isEmpty()) {
+        if (recipeNumberString == "Add a Review" || recipeNumberInput.isEmpty()) {
             recipe.rating = "Not reviewed"
             recipe.reviewNumber = 0
         } else {
@@ -76,7 +82,6 @@ class TasteOfHomeAPI : GeneralAPI() {
                     recipeNumberString.substring(0, numLength).toInt()
             }
         }
-
 
         return recipe
     }

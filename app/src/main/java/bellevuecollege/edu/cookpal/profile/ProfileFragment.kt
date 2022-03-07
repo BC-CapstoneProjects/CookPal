@@ -2,8 +2,6 @@ package bellevuecollege.edu.cookpal.profile
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Activity.RESULT_OK
-import android.content.ActivityNotFoundException
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -16,7 +14,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,12 +21,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import bellevuecollege.edu.cookpal.databinding.FragmentProfileBinding
 import bellevuecollege.edu.cookpal.R
+import bellevuecollege.edu.cookpal.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.fragment_profile.*
 import com.google.firebase.storage.FirebaseStorage
 
 /**
@@ -44,7 +41,7 @@ class ProfileFragment : Fragment() {
     }
 
     private lateinit var viewModel: ProfileFragmentViewModel
-    private val up:UserProfile = UserProfile()
+    private val up: UserProfile = UserProfile()
     private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
@@ -52,21 +49,21 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-          binding = FragmentProfileBinding.inflate(inflater)
+        binding = FragmentProfileBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
 
         //button listener for profile to change password
         binding.changePassButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
+            view.findNavController().navigate(R.id.action_profile_to_changePassword)
         }
 
 
         binding.profilePicture.setOnClickListener { view: View ->
-         //   view.findNavController().navigate(R.id.act)
+            //   view.findNavController().navigate(R.id.act)
 
             FirebaseAuth.getInstance().signOut()
-            view.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            view.findNavController().navigate(R.id.action_profile_to_login)
 
         }
 
@@ -79,10 +76,10 @@ class ProfileFragment : Fragment() {
 
         }
 
-        var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+        var fbu: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
-        var username : String? = fbu?.email
-       // binding.userNametext.text = username
+        var username: String? = fbu?.email
+        // binding.userNametext.text = username
 
         UserProfileHelper.loadProfile() { data ->
 
@@ -91,12 +88,12 @@ class ProfileFragment : Fragment() {
             binding.name.setText(up.name)
             binding.emailAddress.setText(up.emailAddress)
 
-            if (up.profilePhotoPath != ""){
-               DownloadImageFromInternet(binding.imageView3).execute( up.profilePhotoPath)
+            if (up.profilePhotoPath != "") {
+                DownloadImageFromInternet(binding.imageView3).execute(up.profilePhotoPath)
             }
         }
 
-        binding.updateProfile.setOnClickListener{ view : View ->
+        binding.updateProfile.setOnClickListener { view: View ->
             up.name = binding.name.text.toString()
             up.emailAddress = binding.emailAddress.text.toString()
 
@@ -105,21 +102,23 @@ class ProfileFragment : Fragment() {
             UserProfileHelper.saveProfile(up)
 
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
 
-            Toast.makeText(getActivity(), "updated profile",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                activity, "updated profile",
+                Toast.LENGTH_SHORT
+            ).show()
 
-            view.findNavController().navigate(R.id.action_profileFragment_to_homeScreenFragment)
+            view.findNavController().navigate(R.id.action_profile_to_homeScreen)
 
         }
 
-        binding.micButton.setOnClickListener{ view : View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_selectVoiceFragment)
+        binding.micButton.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_profile_to_selectVoice)
         }
 
-         // Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -134,15 +133,20 @@ class ProfileFragment : Fragment() {
 
 
                 try {
-                    filePath?.let {
-                        if(Build.VERSION.SDK_INT < 28) {
+                    filePath.let {
+                        if (Build.VERSION.SDK_INT < 28) {
                             val bitmap = MediaStore.Images.Media.getBitmap(
                                 this.activity?.contentResolver,
                                 filePath
                             )
                             binding.imageView3.setImageBitmap(bitmap)
                         } else {
-                            val source = this.activity?.let { it1 -> ImageDecoder.createSource(it1.contentResolver, filePath) }
+                            val source = this.activity?.let { it1 ->
+                                ImageDecoder.createSource(
+                                    it1.contentResolver,
+                                    filePath
+                                )
+                            }
                             val bitmap = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }
                             binding.imageView3.setImageBitmap(bitmap)
                         }
@@ -157,14 +161,13 @@ class ProfileFragment : Fragment() {
         }
 
     private fun uploadFileToFirebaseStorage() {
-        if (filePath == null) return
 
-        var fbu : FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
+        var fbu: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
         val filename = fbu?.uid
         val ref = FirebaseStorage.getInstance().getReference("/profile_photo/$filename")
 
-        ref.putFile(filePath!!)
+        ref.putFile(filePath)
             .addOnSuccessListener {
                 Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
@@ -179,23 +182,29 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("StaticFieldLeak")
     @Suppress("DEPRECATION")
-    private inner class DownloadImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {
+    private inner class DownloadImageFromInternet(var imageView: ImageView) :
+        AsyncTask<String, Void, Bitmap?>() {
         init {
-            Toast.makeText(getActivity(), "Please wait, it may take a few minute...",     Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                getActivity(),
+                "Please wait, it may take a few minute...",
+                Toast.LENGTH_SHORT
+            ).show()
         }
+
         override fun doInBackground(vararg urls: String): Bitmap? {
             val imageURL = urls[0]
             var image: Bitmap? = null
             try {
                 val `in` = java.net.URL(imageURL).openStream()
                 image = BitmapFactory.decodeStream(`in`)
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.e("Error Message", e.message.toString())
                 e.printStackTrace()
             }
             return image
         }
+
         override fun onPostExecute(result: Bitmap?) {
             imageView.setImageBitmap(result)
         }

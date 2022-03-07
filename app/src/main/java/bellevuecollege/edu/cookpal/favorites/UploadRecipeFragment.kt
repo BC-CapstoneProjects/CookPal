@@ -1,7 +1,6 @@
 package bellevuecollege.edu.cookpal.favorites
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -13,18 +12,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.findNavController
-import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.FragmentUploadRecipeBinding
 import bellevuecollege.edu.cookpal.profile.LoginFragment
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
-
 
 /**
  * A simple [Fragment] subclass.
@@ -53,7 +47,6 @@ class UploadRecipeFragment : Fragment() {
 
         // Select recipe button listener to select Gallery image
         binding.selectRecipeImage.setOnClickListener { view: View ->
-//            view.findNavController().navigate(R.id.action_uploadRecipeFragment_to_uploadPhotoFragment)
             Log.d(TAG, "Try to select a recipe photo from Gallery")
             val intent = Intent().apply {
                 type = "image/*"
@@ -63,11 +56,10 @@ class UploadRecipeFragment : Fragment() {
         }
 
         // Confirm upload recipe button listener
-        binding.confirmUploadRecipe.setOnClickListener {view: View ->
+        binding.confirmUploadRecipe.setOnClickListener { view: View ->
             Log.d(TAG, "Try to upload a photo recipe to Firebase Storage")
             uploadFileToFirebaseStorage()
         }
-
         // Inflate the layout for this fragment
         return binding.root
     }

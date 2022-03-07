@@ -47,7 +47,5 @@ fun extractAllRecipesInformation(recipe: Recipe) {
 //    doc?.select(ALL_RECIPES_DISH_IMAGE_CSS_QUERY)
 //        ?.map { it -> recipe.imgSrcUrl += it.text() + "\n"}
 //    Log.d(TAG, "Image source url: ${recipe.imgSrcUrl}")
-
 }
-
 
