@@ -15,7 +15,7 @@ class RecipeDetailsViewModel(
     ingredientSearchRecipe: Recipe,
     app: Application
 ) : AndroidViewModel(app) {
-
+    val FIREBASE_DATA_TAG = "FIREBASE_DATA"
     private val _selectedRecipe = MutableLiveData<Recipe>()
     val selectedRecipe: LiveData<Recipe>
         get() = _selectedRecipe
@@ -26,7 +26,9 @@ class RecipeDetailsViewModel(
             // ingredients and cooking instructions
             // Get Recipe details. We need to wrap jsoup call in a coroutine as Jsoup get() takes time
             withContext(Dispatchers.IO) {
-                extractAllRecipesInformation(ingredientSearchRecipe)
+                if (ingredientSearchRecipe.rId != FIREBASE_DATA_TAG) {
+                    extractAllRecipesInformation(ingredientSearchRecipe)
+                }
             }
             _selectedRecipe.value = ingredientSearchRecipe
         }

@@ -108,5 +108,7 @@ dependencies {
 
     //Gson
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.3'
 
 }

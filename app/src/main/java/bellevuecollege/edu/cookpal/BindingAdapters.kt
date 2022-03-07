@@ -1,6 +1,7 @@
 package bellevuecollege.edu.cookpal
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.Target
 fun bindRecipeImage(imgView: ImageView, recipe: Recipe?) {
     recipe?.let {
         val imgUri = recipe.imgSrcUrl.toUri().buildUpon().scheme("https").build()
+        Log.d("recipeImage", imgUri.toString())
         Glide.with(imgView.context)
             .load(imgUri)
             .apply(

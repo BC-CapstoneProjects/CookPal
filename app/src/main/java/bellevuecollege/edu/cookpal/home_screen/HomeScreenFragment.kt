@@ -64,6 +64,11 @@ class HomeScreenFragment : Fragment() {
         //button listener for home screen to login screen
         addButtonListener(binding.profile, R.id.action_homeScreen_to_profile)
 
+        // button listener for home screen to list photo recipes from Firebase storage
+        binding.listPhotoRecipes.setOnClickListener {view: View ->
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
+        }
+
         //button listener for home screen to favorite recipes
         addButtonListener(binding.favoriteRecipeButton, R.id.action_homeScreen_to_favoriteRecipes)
 

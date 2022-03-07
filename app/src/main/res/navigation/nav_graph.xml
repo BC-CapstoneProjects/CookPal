@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeScreen_to_recipeDetails"
             app:destination="@id/recipeDetailsFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_photoRecipeListFragment"
+            app:destination="@id/photoRecipeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeResultsFragment"
@@ -127,4 +130,12 @@
         android:name="bellevuecollege.edu.cookpal.favorites.UploadPhotoFragment"
         android:label="fragment_upload_photo"
         tools:layout="@layout/fragment_upload_photo" />
+    <fragment
+        android:id="@+id/photoRecipeListFragment"
+        android:name="bellevuecollege.edu.cookpal.recipes.PhotoRecipeListFragment"
+        android:label="PhotoRecipeListFragment" >
+        <action
+            android:id="@+id/action_photoRecipeListFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
 </navigation>
