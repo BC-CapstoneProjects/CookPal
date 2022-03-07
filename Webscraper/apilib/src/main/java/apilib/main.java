@@ -12,7 +12,6 @@ public class main {
       System.out.println("usage: keyword numPages numDrivers FoodNetwork|TasteOfHome path_to_json_dir");
       System.exit(1);
     }
-    TasteOfHome api = new TasteOfHome();
     var keyword = args[0];
     var numPages = Integer.parseInt(args[1]);
     var numDrivers = Integer.parseInt(args[2]);
@@ -31,6 +30,6 @@ public class main {
         System.exit(2);
     }
     var fullPath = new File(path, keyword+"-"+scraperType+".json").getPath();
-    api.retrieveRecipes(keyword,numPages,numDrivers, fullPath);
+    scraper.retrieveRecipes(keyword,numPages,numDrivers, fullPath);
   }
 }
