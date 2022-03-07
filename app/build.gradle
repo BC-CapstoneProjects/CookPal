@@ -109,4 +109,6 @@ dependencies {
     //Gson
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
+    // Jackson
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
 }

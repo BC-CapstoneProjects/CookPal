@@ -20,14 +20,14 @@ class RecipeJSON {
         val fullJSON = JSONArray()
         for (recipe in recipes) {
             val recipeJson = JSONObject()
-            recipeJson.put("Title", recipe.title)
-            recipeJson.put("Steps", recipe.steps)
-            recipeJson.put("ImageURL", recipe.imgUrl)
-            recipeJson.put("Rating", recipe.rating)
-            recipeJson.put("ReviewNumber", recipe.reviewNumber)
-            recipeJson.put("Ingredients",recipe.ingredients)
-            recipeJson.put("TotalTime", recipe.totalTime)
-            recipeJson.put("SourceUrl", recipe.sourceUrl)
+            recipeJson.put("title", recipe.title)
+            recipeJson.put("steps", recipe.steps)
+            recipeJson.put("imgUrl", recipe.imgUrl)
+            recipeJson.put("rating", recipe.rating)
+            recipeJson.put("reviewNumber", recipe.reviewNumber)
+            recipeJson.put("ingredients",recipe.ingredients)
+            recipeJson.put("totalTime", recipe.totalTime)
+            recipeJson.put("sourceUrl", recipe.sourceUrl)
             fullJSON.put(recipeJson)
         }
 
