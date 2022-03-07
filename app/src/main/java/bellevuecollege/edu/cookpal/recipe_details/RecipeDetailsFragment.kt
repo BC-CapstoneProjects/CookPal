@@ -173,15 +173,18 @@ class RecipeDetailsFragment : Fragment() {
                         /**
                          * convertTextToSpeech function with instructions parameter
                          * under Speak button listener!!!
+                         *
+                         * To test polly uncomment this line of code and comment
+                         * Trang's code down below
                          */
-                        convertTextToSpeech(instructions)
+                        //convertTextToSpeech(instructions)
 
                         /**
                          * These two lines below is Trang's code
                          * They are Android's TTS
                          */
-//                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
-//                        binding.pauseRecipeInstructionsButton.isEnabled = true
+                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                        binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
                     } else {
                         Log.e("Recipe Details Fragment", "No recipe instructions supplied for TTS")
