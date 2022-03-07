@@ -46,6 +46,10 @@ class RecipeDetailsFragment : Fragment() {
             })
     }
 
+    /**
+     * POLLY START
+     */
+
     //Text to speech
     private fun convertTextToSpeech(data: String) {
         Amplify.Predictions.convertTextToSpeech(data,
@@ -69,12 +73,15 @@ class RecipeDetailsFragment : Fragment() {
                 mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
                 mp.setDataSource(FileInputStream(mp3File).fd)
                 mp.prepareAsync()
-
             }
         } catch (error: IOException) {
             Log.e("MyAmplifyApp", "Error writing audio file.")
         }
     }
+
+    /**
+     * POLLY END
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +104,8 @@ class RecipeDetailsFragment : Fragment() {
                 binding.recipeSummary.text = parsedRecipe.summary
                 binding.recipeIngredients.text = parsedRecipe.ingredients
                 binding.recipeInstructions.text = parsedRecipe.cookingInstructions
+                //Recipe summary in the log for reference
+                //Log.d("Recipe summary", parsedRecipe.summary)
             })
 
             // Setup Record button handler
@@ -160,7 +169,17 @@ class RecipeDetailsFragment : Fragment() {
                 val instructions = tempView.selectedRecipe.value?.cookingInstructions
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
+
+                        /**
+                         * convertTextToSpeech function with instructions parameter
+                         * under Speak button listener!!!
+                         */
                         convertTextToSpeech(instructions)
+
+                        /**
+                         * These two lines below is Trang's code
+                         * They are Android's TTS
+                         */
 //                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
 //                        binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")

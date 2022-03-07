@@ -56,7 +56,7 @@
                 "defaultRegion": "us-west-2",
                 "convert": {
                     "speechGenerator": {
-                        "voice": "Joanna",
+                        "voice": "Matthew",
                         "language": "en-US",
                         "region": "us-west-2",
                         "defaultNetworkPolicy": "auto"
