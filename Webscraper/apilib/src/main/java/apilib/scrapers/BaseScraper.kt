@@ -1,18 +1,20 @@
-package apilib
+package apilib.scrapers
 
+import apilib.DriverPool
+import apilib.Recipe
+import apilib.RecipeJSON
 import mu.KotlinLogging
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-private val logger = KotlinLogging.logger {}
-
-abstract class GeneralAPI {
+abstract class BaseScraper {
     fun retrieveRecipes(
         keyword: String,
         numPages: Int,
         numDrivers: Int,
         writeLocation: String
     ) {
+        val logger = KotlinLogging.logger {}
         logger.info { "Retrieving recipes for keyword $keyword with $numPages page(s) and $numDrivers driver(s)" }
         val driverPool = DriverPool(numDrivers)
         val allRecipes = returnRecipesFromKeyword(keyword, driverPool, numPages)
@@ -23,7 +25,6 @@ abstract class GeneralAPI {
         driverPool.closeDrivers()
     }
 
-    protected abstract fun retrieveRecipes(keyword: String, numPages: Int, numDrivers: Int)
     protected abstract fun parseRecipeHtml(html: Document, url: String): Recipe
     protected abstract fun getUrlForPage(page: Number, keyWord: String): String
     protected abstract fun getRecipeUrlsFromPage(html: Document): List<String>

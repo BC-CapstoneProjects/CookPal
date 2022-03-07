@@ -1,26 +1,9 @@
-package apilib
+package apilib.scrapers
 
+import apilib.Recipe
 import org.jsoup.nodes.Document
 
-class FoodNetworkAPI : GeneralAPI() {
-
-    override fun retrieveRecipes(
-        keyword: String,
-        numPages: Int,
-        numDrivers: Int
-    ) {
-        retrieveRecipes(
-            keyword,
-            numPages,
-            numDrivers,
-            "./apilib/src/main/java/apilib/json/$keyword-FoodNetwork.json"
-        )
-    }
-
-    fun main() {
-        retrieveRecipes("bacon", 3, 3)
-    }
-
+class FoodNetwork : BaseScraper() {
     /**
      * Return the url given a keyword and page number
      */
