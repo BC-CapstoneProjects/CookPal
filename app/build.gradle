@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -54,24 +54,27 @@ android {
 
 dependencies {
 
- // Import the Firebase BoM
+    // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
 
+// Declare the dependency for the Cloud Storage library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-storage-ktx'
 
-  // Add the dependency for the Firebase SDK for Google Analytics
-  // When using the BoM, don't specify versions in Firebase dependencies
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
-  // Declare the dependencies for any other desired Firebase products
-  // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
-  implementation 'com.google.firebase:firebase-auth-ktx'
-  implementation 'com.google.firebase:firebase-firestore-ktx'
-  
-  implementation 'com.google.firebase:firebase-database:19.6.0'
+    // Declare the dependencies for any other desired Firebase products
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
-  // Add the dependencies for any other desired Firebase products
-  // https://firebase.google.com/docs/android/setup#available-libraries
-  
+    implementation 'com.google.firebase:firebase-database:19.6.0'
+
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Kotlin
@@ -111,9 +114,13 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     // Jsoup
-    implementation "org.jsoup:jsoup:$version_jsoup"
+    implementation "org.jsoup:jsoup:1.11.3"
 
     //Gson
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.3'
 
+    // Jackson
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
 }

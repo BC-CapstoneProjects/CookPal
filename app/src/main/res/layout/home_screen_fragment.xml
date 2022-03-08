@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="bellevuecollege.edu.cookpal.home_screen.HomeScreenViewModel" />
@@ -60,8 +61,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/rice_button_state"
-                android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes()}" />
 
             <Space
                 android:layout_width="25dp"
@@ -73,8 +74,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/burger_button_state"
-                android:onClick="@{() -> viewModel.getIngredientSearchRecipes2()}"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes2()}" />
 
             <Space
                 android:layout_width="25dp"
@@ -86,8 +87,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/drinks_button_state"
-                android:onClick="@{() -> viewModel.getIngredientSearchRecipes3()}"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes3()}" />
         </RadioGroup>
 
         <!--Upload Recipe button settings-->
@@ -102,6 +103,18 @@
             android:background="#00000000"
             android:contentDescription="@+string/Upload arrow"
             app:srcCompat="@drawable/ic_upload_arrow" />
+
+        <ImageButton
+            android:id="@+id/listPhotoRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="17dp"
+            android:layout_toEndOf="@+id/uploadRecipe"
+            android:background="#00000000"
+            android:contentDescription="@+string/Upload arrow"
+            app:srcCompat="@drawable/ic_download_arrow" />
 
         <!--Slogan settings-->
         <TextView
@@ -243,8 +256,8 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="15dp"
             android:background="#0000"
-            app:srcCompat="@drawable/ic_popular_button"
             android:contentDescription="Popular now button"
+            app:srcCompat="@drawable/ic_popular_button"
             tools:ignore="HardcodedText" />
 
         <!--Popular image settings-->

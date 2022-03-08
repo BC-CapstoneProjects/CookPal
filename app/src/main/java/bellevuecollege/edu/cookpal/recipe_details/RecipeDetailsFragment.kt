@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
 import com.amplifyframework.AmplifyException
@@ -18,6 +17,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.predictions.aws.AWSPredictionsPlugin
 import java.io.*
+import java.io.File
 import java.util.*
 
 class RecipeDetailsFragment : Fragment() {
@@ -37,13 +37,13 @@ class RecipeDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Setup Text To Speech engine
-        mTTS = TextToSpeech(activity?.applicationContext,
-            TextToSpeech.OnInitListener { status ->
-                if (status != TextToSpeech.ERROR){
-                    //if there is no error then set language
-                    mTTS.language = Locale.US
-                }
-            })
+        mTTS = TextToSpeech(activity?.applicationContext
+        ) { status ->
+            if (status != TextToSpeech.ERROR) {
+                //if there is no error then set language
+                mTTS.language = Locale.US
+            }
+        }
     }
 
     /**
@@ -94,13 +94,14 @@ class RecipeDetailsFragment : Fragment() {
         val recipeDetails = RecipeDetailsFragmentArgs.fromBundle(requireArguments()).selectedRecipe
         val viewModelFactory = RecipeDetailsViewModelProvider(recipeDetails, application)
         binding.viewModel = ViewModelProvider(
-            this, viewModelFactory).get(RecipeDetailsViewModel::class.java)
+            this, viewModelFactory
+        ).get(RecipeDetailsViewModel::class.java)
         mediaPlayer = MediaPlayer()
 
         val tempView = binding.viewModel
         if (tempView != null) {
 
-            tempView.selectedRecipe.observe(viewLifecycleOwner, Observer { parsedRecipe ->
+            tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
                 binding.recipeSummary.text = parsedRecipe.summary
                 binding.recipeIngredients.text = parsedRecipe.ingredients
                 binding.recipeInstructions.text = parsedRecipe.cookingInstructions
@@ -194,16 +195,18 @@ class RecipeDetailsFragment : Fragment() {
 
             // Setup Pause button handler
             binding.pauseRecipeInstructionsButton.setOnClickListener {
-                if (mTTS.isSpeaking){
+                if (mTTS.isSpeaking) {
                     //if speaking then Pause
                     mTTS.stop()
-                }
-                else if (mediaPlayer.isPlaying) {
+                } else if (mediaPlayer.isPlaying) {
                     mediaPlayer.pause()
-                }
-                else{
+                } else {
                     //if not speaking
-                    Toast.makeText(activity, "Not speaking or playing recipe instructions", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        "Not speaking or playing recipe instructions",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -222,11 +225,10 @@ class RecipeDetailsFragment : Fragment() {
 
     override fun onPause() {
         mTTS.stop()
-        if (mTTS.isSpeaking){
+        if (mTTS.isSpeaking) {
             //if speaking then Pause
             mTTS.stop()
-        }
-        else if (mediaPlayer.isPlaying) {
+        } else if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
         }
         super.onPause()
@@ -236,7 +238,7 @@ class RecipeDetailsFragment : Fragment() {
         mTTS.shutdown()
         mediaPlayer.stop()
         if (this::recipeVoiceFile.isInitialized) {
-                recipeVoiceFile.delete()
+            recipeVoiceFile.delete()
         }
         super.onDestroy()
     }

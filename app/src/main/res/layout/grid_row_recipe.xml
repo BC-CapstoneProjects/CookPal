@@ -46,6 +46,5 @@
 <!--                android:layout_height="24dp"-->
 <!--                android:contentDescription="@string/add_remove_favorite"-->
 <!--                tools:srcCompat="@drawable/ic_favorite_24dp" />-->
-
     </LinearLayout>
 </layout>

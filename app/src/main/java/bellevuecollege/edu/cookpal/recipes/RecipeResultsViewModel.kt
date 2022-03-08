@@ -7,13 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.network.IngredientSearchApi
 import bellevuecollege.edu.cookpal.network.Recipe
-import bellevuecollege.edu.cookpal.recipe_parser.extractAllRecipesInformation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 
-enum class IngredientSearchApiStatus { LOADING, ERROR, DONE}
+enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
 class RecipeResultsViewModel : ViewModel() {
     private var ALL_RECIPES_NAME: String = "allrecipes"
@@ -21,6 +17,7 @@ class RecipeResultsViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
+
     // The external immutable LiveData for the response String
     val status: LiveData<IngredientSearchApiStatus>
         get() = _status
@@ -29,8 +26,8 @@ class RecipeResultsViewModel : ViewModel() {
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
 
-    private val _navigateToSelectedRecipe = MutableLiveData<Recipe>()
-    val navigateToSelectedRecipe: LiveData<Recipe>
+    private val _navigateToSelectedRecipe = MutableLiveData<Recipe?>()
+    val navigateToSelectedRecipe: MutableLiveData<Recipe?>
         get() = _navigateToSelectedRecipe
 
     private val _searchButtonVisible = MutableLiveData<Boolean?>()
@@ -39,8 +36,9 @@ class RecipeResultsViewModel : ViewModel() {
 
     fun setSearchTerm(searchKeyWord: String) {
         _searchTerm = searchKeyWord
-        _searchButtonVisible.value = searchKeyWord?.isNotEmpty()
+        _searchButtonVisible.value = searchKeyWord.isNotEmpty()
     }
+
     /**
      * Call getIngredientSearchRecipes() on init so we can display status immediately.
      */
@@ -56,12 +54,18 @@ class RecipeResultsViewModel : ViewModel() {
             Log.d("RecipeResultsViewModel", "Retrieving recipes for ${_searchTerm}")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
-                val searchResponse = IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes("", _searchTerm, 1)
+                val searchResponse =
+                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
+                        "",
+                        _searchTerm,
+                        1
+                    )
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")
 
                 _recipes.value = searchResponse.recipes
                     .filter {
-                        it.sourceUrl.contains(ALL_RECIPES_NAME)}
+                        it.sourceUrl.contains(ALL_RECIPES_NAME)
+                    }
                     .map { recipe ->
                         Recipe(
                             rId = recipe.id,

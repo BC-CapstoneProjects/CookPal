@@ -1,10 +1,11 @@
 package bellevuecollege.edu.cookpal.network
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import kotlinx.android.parcel.Parcelize
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
+
 // data class to hold recipes info responded from website
 data class IngredientSearchRecipesResponse(
     @SerializedName("count")
@@ -16,7 +17,7 @@ data class IngredientSearchRecipesResponse(
     val recipes: List<RecipeResponse>
 )
 
-data class RecipeResponse (
+data class RecipeResponse(
     val imageUrl: String,
     val socialUrl: String,
     val publisher: String,
@@ -25,6 +26,7 @@ data class RecipeResponse (
     val publisherId: String,
     val title: String
 )
+
 // An example of recipe details gotten from RecipeAPI
 // {"recipe":{
 // "ingredients":["6 cups of milk","1/2 cup (1 stick) butter","1/2 cup yellow cornmeal","1/4 cup flour","1 teaspoon salt","1/2 cup molasses","3 eggs, beaten","1/3 cup of granulated sugar","1 teaspoon of cinnamon","1 teaspoon of nutmeg","1 cup golden raisins (optional)","Whipped cream or vanilla ice cream\n"],
@@ -36,7 +38,7 @@ data class RecipeResponse (
 // "recipe_id":"36498",
 // "publisher_url":"http://simplyrecipes.com",
 // "title":"Indian Pudding"}}
-data class RecipeDetailsResponse (
+data class RecipeDetailsResponse(
     var ingredients: MutableList<String> = mutableListOf<String>(),
     val image_url: String,
     val social_rank: String,
@@ -49,17 +51,17 @@ data class RecipeDetailsResponse (
 )
 
 @Parcelize
-data class Recipe (
+data class Recipe(
     var isLoadedSuccessful: Boolean = false,
     var rId: String = "",
     var title: String = "",
     @Json(name = "imageUrl") var imgSrcUrl: String = "",
-    var sourceUrl: String  = "",
+    var sourceUrl: String = "",
     var isFavorite: Boolean = false,
     var summary: String = "",
     var ingredients: String = "",
     var cookingInstructions: String = ""
-): Parcelable
+) : Parcelable
 
 data class RecipeDetailsResponseMetadata(
     @SerializedName("recipe")

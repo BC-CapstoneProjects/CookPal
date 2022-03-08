@@ -104,3 +104,10 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+Webscraper/.idea/gradle.xml
+.idea/misc.xml
+
+# Webscraper generated json files go there
+app/src/main/assets/recipes
+

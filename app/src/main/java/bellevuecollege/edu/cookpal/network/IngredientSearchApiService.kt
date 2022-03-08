@@ -1,12 +1,13 @@
 package bellevuecollege.edu.cookpal.network
 
 import retrofit2.Retrofit
-import retrofit2.http.GET
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 import retrofit2.http.Query
 
 //recipeAPI
 private const val BASE_URL = "https://recipesapi.herokuapp.com"
+
 //use Retrofit to comply with json returned from RecipeAPI
 private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
@@ -31,10 +32,11 @@ interface RecipeDetailsApiService {
 }
 
 object IngredientSearchApi {
-    val retrofitIngredientSearchGetRecipes : IngredientSearchApiService by lazy {
-        retrofit.create(IngredientSearchApiService::class.java) }
+    val retrofitIngredientSearchGetRecipes: IngredientSearchApiService by lazy {
+        retrofit.create(IngredientSearchApiService::class.java)
+    }
 
-    val retrofitGetRecipeDetails : RecipeDetailsApiService by lazy {
+    val retrofitGetRecipeDetails: RecipeDetailsApiService by lazy {
         retrofit.create(RecipeDetailsApiService::class.java)
     }
 }

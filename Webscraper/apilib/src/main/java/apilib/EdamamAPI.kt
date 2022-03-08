@@ -1,16 +1,16 @@
-package com.example.testrecipeapi
+package apilib
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
-class RecipeAPI {
+private val logger = KotlinLogging.logger {}
+
+class EdamamAPI {
     companion object {
-        @RequiresApi(Build.VERSION_CODES.N)
+//        @RequiresApi(Build.VERSION_CODES.N)
         fun search(searchval : String): ArrayList<Recipe> {
 
             var flist = ArrayList<Recipe>()
@@ -26,11 +26,11 @@ class RecipeAPI {
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "GET"
 
-                    println("\nSent 'GET' request to URL : $url; Response Code : $responseCode")
+                    logger.info { "GET request to URL : $url; Response Code : $responseCode" }
 
                     inputStream.bufferedReader().use {
                         it.lines().forEach { line ->
-                            println(line)
+                            logger.debug { line }
 
                             val data = JSONObject(line)
 
@@ -41,16 +41,16 @@ class RecipeAPI {
                             for (i in 0 until ary.length()) {
                                 val item = ary.getJSONObject(i)
 
-                                var fitem :Recipe = Recipe()
+                                var fitem = Recipe()
                                 val rec = item["recipe"]
 
-                                val name = (rec as JSONObject).get("label")
-                                fitem.image = (rec as JSONObject).get("image") as String
-                                fitem.label = (rec as JSONObject).get("label") as String
-                                fitem.url = (rec as JSONObject).get("url") as String
-                                fitem.totalTime = (rec as JSONObject).get("totalTime") as Double
+                                (rec as JSONObject).get("label")
+                                fitem.imgUrl = rec.get("image") as String
+                                fitem.label = rec.get("label") as String
+                                fitem.sourceUrl = rec.get("url") as String
+                                fitem.totalTime = rec.get("totalTime") as String
 
-                                var jsAry = (rec as JSONObject).get("cuisineType") as JSONArray
+                                var jsAry = rec.get("cuisineType") as JSONArray
 
                                 for (i in 0 until jsAry.length()) {
                                     val str = jsAry.getString(i)
@@ -58,7 +58,7 @@ class RecipeAPI {
                                     fitem.cuisineType.add(str)
                                 }
 
-                                jsAry = (rec as JSONObject).get("mealType") as JSONArray
+                                jsAry = rec.get("mealType") as JSONArray
 
                                 for (i in 0 until jsAry.length()) {
                                     val str = jsAry.getString(i)
@@ -66,7 +66,7 @@ class RecipeAPI {
                                     fitem.mealType.add(str)
                                 }
 
-                                jsAry = (rec as JSONObject).get("dishType") as JSONArray
+                                jsAry = rec.get("dishType") as JSONArray
 
                                 for (i in 0 until jsAry.length()) {
                                     val str = jsAry.getString(i)
@@ -74,20 +74,20 @@ class RecipeAPI {
                                     fitem.dishType.add(str)
                                 }
 
-                                jsAry = (rec as JSONObject).get("ingredients") as JSONArray
+                                jsAry = rec.get("ingredients") as JSONArray
 
                                 for (i in 0 until jsAry.length()) {
                                     val ingredient = jsAry.getJSONObject(i)
-                                    val ing : Ingredient = Ingredient()
+//                                    val ing = Ingredient()
 
-                                    ing.text = ingredient.getString("text")
-                                    ing.food = ingredient.getString("food")
-                                    ing.foodCategory = ingredient.getString("foodCategory")
-                                    ing.measure = ingredient.getString("measure")
-                                    ing.quantity = ingredient.getDouble("quantity")
-                                    ing.weight = ingredient.getDouble("weight")
+//                                    ing.text = ingredient.getString("text")
+//                                    ing.food = ingredient.getString("food")
+//                                    ing.foodCategory = ingredient.getString("foodCategory")
+//                                    ing.measure = ingredient.getString("measure")
+//                                    ing.quantity = ingredient.getDouble("quantity")
+//                                    ing.weight = ingredient.getDouble("weight")
 
-                                    fitem.ingredients.add(ing)
+//                                    fitem.ingredients.add(ing)
                                 }
 
                                 flist.add(fitem)
@@ -98,14 +98,10 @@ class RecipeAPI {
             }
             catch (e : Exception)
             {
-                println(e.message)
+                logger.error { e }
             }
 
             return flist;
         }
     }
-}
-
-private fun <E> MutableList<E>.add(element: Recipe) {
-
 }
