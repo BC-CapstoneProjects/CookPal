@@ -146,23 +146,23 @@ class RecipeDetailsFragment : Fragment() {
 
                         // Enable related buttons
                         binding.deleteRecipeInstructionsButton.isEnabled = true
-                        binding.playRecipeInstructionsButton.isEnabled = true
+//                        binding.playRecipeInstructionsButton.isEnabled = true
 
                     }
                 }
             }
             // Setup Play button handler
-            binding.playRecipeInstructionsButton.setOnClickListener {
-                try {
-                    if (recipeVoiceFile.exists()) {
-                        mediaPlayer.start()
-                        binding.pauseRecipeInstructionsButton.isEnabled = true
-                    }
-                }
-                catch (e: Exception) {
-                    Log.d("Recipe Details Fragment", "Error when playing audio")
-                }
-            }
+//            binding.playRecipeInstructionsButton.setOnClickListener {
+//                try {
+//                    if (recipeVoiceFile.exists()) {
+//                        mediaPlayer.start()
+//                        binding.pauseRecipeInstructionsButton.isEnabled = true
+//                    }
+//                }
+//                catch (e: Exception) {
+//                    Log.d("Recipe Details Fragment", "Error when playing audio")
+//                }
+//            }
 
             // Setup Speak button handler
             binding.speakRecipeInstructionsButton.setOnClickListener {
@@ -212,7 +212,7 @@ class RecipeDetailsFragment : Fragment() {
                 if (recipeVoiceFile.exists()) {
                     recipeVoiceFile.delete()
                     binding.deleteRecipeInstructionsButton.isEnabled = false
-                    binding.playRecipeInstructionsButton.isEnabled = false
+//                    binding.playRecipeInstructionsButton.isEnabled = false
                 }
             }
         }
