@@ -1,8 +1,10 @@
 package bellevuecollege.edu.cookpal.home_screen
 
+import android.content.ContentValues
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.HomeScreenFragmentBinding
-import bellevuecollege.edu.cookpal.network.UploadRecipesJSON
+import bellevuecollege.edu.cookpal.network.DownloadRecipesFirebase
 import bellevuecollege.edu.cookpal.profile.UserProfile
 import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
@@ -37,10 +39,17 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        UploadRecipesJSON().uploadRecipes(
-            "temp.json",
-            context
-        )
+//        UploadRecipesJSON().uploadRecipes(
+//            "temp.json",
+//            context
+//        )
+        DownloadRecipesFirebase().getRecipes{ data ->
+
+            for (recipe in data){
+                Log.d(ContentValues.TAG, recipe.title)
+            }
+
+        }
 
         val binding = HomeScreenFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
