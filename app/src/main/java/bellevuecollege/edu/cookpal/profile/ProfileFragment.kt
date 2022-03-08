@@ -28,7 +28,6 @@ import bellevuecollege.edu.cookpal.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 /**
  * A simple [Fragment] subclass.
@@ -56,7 +55,7 @@ class ProfileFragment : Fragment() {
 
         //button listener for profile to change password
         binding.changePassButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
+            view.findNavController().navigate(R.id.action_profile_to_changePassword)
         }
 
 
@@ -64,7 +63,7 @@ class ProfileFragment : Fragment() {
             //   view.findNavController().navigate(R.id.act)
 
             FirebaseAuth.getInstance().signOut()
-            view.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            view.findNavController().navigate(R.id.action_profile_to_login)
 
         }
 
@@ -103,20 +102,20 @@ class ProfileFragment : Fragment() {
             UserProfileHelper.saveProfile(up)
 
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
 
             Toast.makeText(
-                getActivity(), "updated profile",
+                activity, "updated profile",
                 Toast.LENGTH_SHORT
             ).show()
 
-            view.findNavController().navigate(R.id.action_profileFragment_to_homeScreenFragment)
+            view.findNavController().navigate(R.id.action_profile_to_homeScreen)
 
         }
 
         binding.micButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_selectVoiceFragment)
+            view.findNavController().navigate(R.id.action_profile_to_selectVoice)
         }
 
         // Inflate the layout for this fragment
@@ -134,7 +133,7 @@ class ProfileFragment : Fragment() {
 
 
                 try {
-                    filePath?.let {
+                    filePath.let {
                         if (Build.VERSION.SDK_INT < 28) {
                             val bitmap = MediaStore.Images.Media.getBitmap(
                                 this.activity?.contentResolver,
@@ -162,14 +161,13 @@ class ProfileFragment : Fragment() {
         }
 
     private fun uploadFileToFirebaseStorage() {
-        if (filePath == null) return
 
         var fbu: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
 
         val filename = fbu?.uid
         val ref = FirebaseStorage.getInstance().getReference("/profile_photo/$filename")
 
-        ref.putFile(filePath!!)
+        ref.putFile(filePath)
             .addOnSuccessListener {
                 Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 

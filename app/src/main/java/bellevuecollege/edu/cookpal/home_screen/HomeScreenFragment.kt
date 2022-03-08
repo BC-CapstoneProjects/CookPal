@@ -2,9 +2,11 @@ package bellevuecollege.edu.cookpal.home_screen
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +19,6 @@ import bellevuecollege.edu.cookpal.profile.UserProfile
 import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class HomeScreenFragment : Fragment() {
 
@@ -65,47 +66,39 @@ class HomeScreenFragment : Fragment() {
         })
 
         //button listener for home screen to recipe search
-        binding.searchButton.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(R.id.action_homeScreenFragment_to_recipeResultsFragment)
-        }
+        addButtonListener(binding.searchButton, R.id.action_homeScreen_to_recipeResults)
+
         //button listener for home screen to login screen
-        binding.profile.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_profileFragment)
+        addButtonListener(binding.profile, R.id.action_homeScreen_to_profile)
+
+        // button listener for home screen to list photo recipes from Firebase storage
+        binding.listPhotoRecipes.setOnClickListener {view: View ->
+            view.findNavController().navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
         }
+
         //button listener for home screen to favorite recipes
-        binding.favoriteRecipeButton.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(R.id.action_homeScreenFragment_to_favoriteRecipesFragment)
-        }
+        addButtonListener(binding.favoriteRecipeButton, R.id.action_homeScreen_to_favoriteRecipes)
+
         //button listener for home screen to upload recipe
-        binding.uploadRecipe.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(R.id.action_homeScreenFragment_to_uploadRecipeFragment)
-        }
+        addButtonListener(binding.uploadRecipe, R.id.action_homeScreen_to_uploadRecipe)
 
+        //button listener for popular button to recipe details
+        addButtonListener(binding.popularButton, R.id.action_homeScreen_to_recipeDetails)
 
-        var fbu: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
-        if (fbu == null) {
-            Handler().postDelayed({
-                view?.findNavController()?.navigate(R.id.action_homeScreenFragment_to_loginFragment)
-
+        when (FirebaseAuth.getInstance().currentUser) {
+            null -> Handler(Looper.getMainLooper()).postDelayed({
+                view?.findNavController()
+                    ?.navigate(R.id.action_homeScreen_to_login)
             }, 50)
-
-        } else {
-            UserProfileHelper.loadProfile() { data ->
-
+            else -> UserProfileHelper.loadProfile { data ->
                 up.setProfile(data)
             }
         }
 
-        //button listener for popular button to recipe details
-        binding.popularButton.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate((R.id.action_homeScreenFragment_to_recipeDetailsFragment))
-        }
-
         return binding.root
+    }
+
+    private fun addButtonListener(button: ImageButton, navigationId: Int) {
+        button.setOnClickListener { it.findNavController().navigate(navigationId) }
     }
 }

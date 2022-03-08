@@ -85,5 +85,7 @@ lint/tmp/
 # lint/reports/
 Webscraper/.idea/gradle.xml
 .idea/misc.xml
-Webscraper/apilib/src/main/java/apilib/json/bacon-TasteOfHomeAPI.json
-Webscraper/apilib/src/main/java/apilib/json/lemon-TasteOfHomeAPI.json
+
+# Webscraper generated json files go there
+app/src/main/assets/recipes
+

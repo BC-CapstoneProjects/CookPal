@@ -1,20 +1,9 @@
-package apilib
+package apilib.scrapers
 
+import apilib.Recipe
 import org.jsoup.nodes.Document
 
-class TasteOfHomeAPI : GeneralAPI() {
-
-
-    override fun retrieveRecipes(keyword: String, numPages: Int, numDrivers: Int) {
-        retrieveRecipes(
-            keyword,
-            numPages,
-            numDrivers,
-            "./apilib/src/main/java/apilib/json/$keyword-TasteOfHomeAPI.json"
-        )
-    }
-
-
+class TasteOfHome : BaseScraper() {
     /**
      * Return the url given a keyword and page number
      */

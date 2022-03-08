@@ -4,9 +4,7 @@ import bellevuecollege.edu.cookpal.recipes.Recipe
 
 class UserProfile {
 
-    constructor() {
-
-    }
+    constructor()
 
     constructor(email: String) {
         emailAddress = email
@@ -44,7 +42,7 @@ class UserProfile {
         }
 
         try {
-            profilePhotoPath = mp.get("profilePhotoPath") as String
+            profilePhotoPath = mp["profilePhotoPath"] as String
         } catch (e: Exception) {
 
         }

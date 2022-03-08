@@ -37,7 +37,7 @@ class HomeScreenViewModel : ViewModel() {
      */
     fun getIngredientSearchRecipes() {
         viewModelScope.launch {
-            Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm}")
+            Log.d("HomeScreenViewModel", "Retrieving recipes for $_searchTerm")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
@@ -66,7 +66,7 @@ class HomeScreenViewModel : ViewModel() {
 
     fun getIngredientSearchRecipes2() {
         viewModelScope.launch {
-            Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm2}")
+            Log.d("HomeScreenViewModel", "Retrieving recipes for $_searchTerm2")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
