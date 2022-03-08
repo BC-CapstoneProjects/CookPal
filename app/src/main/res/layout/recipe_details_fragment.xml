@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="true"
                     android:text="Speak"
-                    app:layout_constraintEnd_toStartOf="@+id/play_recipe_instructions_button"
+                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
@@ -157,16 +157,16 @@
 <!--                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"-->
 <!--                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>-->
 
-                <Button
-                    android:id="@+id/delete_recipe_instructions_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Delete"
-                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+<!--                <Button-->
+<!--                    android:id="@+id/delete_recipe_instructions_button"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:enabled="false"-->
+<!--                    android:text="Delete"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"-->
+<!--                    app:layout_constraintHorizontal_bias="0.5"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>-->
 
                 <Button
                     android:id="@+id/pause_recipe_instructions_button"
@@ -176,7 +176,7 @@
                     android:text="Pause"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/delete_recipe_instructions_button"
+                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

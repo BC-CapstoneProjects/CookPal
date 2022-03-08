@@ -208,13 +208,13 @@ class RecipeDetailsFragment : Fragment() {
             }
 
             // Setup Delete button handler
-            binding.deleteRecipeInstructionsButton.setOnClickListener {
-                if (recipeVoiceFile.exists()) {
-                    recipeVoiceFile.delete()
-                    binding.deleteRecipeInstructionsButton.isEnabled = false
+//            binding.deleteRecipeInstructionsButton.setOnClickListener {
+//                if (recipeVoiceFile.exists()) {
+//                    recipeVoiceFile.delete()
+//                    binding.deleteRecipeInstructionsButton.isEnabled = false
 //                    binding.playRecipeInstructionsButton.isEnabled = false
-                }
-            }
+//                }
+//            }
         }
 
         return binding.root
