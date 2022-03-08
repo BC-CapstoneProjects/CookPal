@@ -14,20 +14,10 @@ class DownloadRecipesFirebase {
 
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (child in dataSnapshot.children) {
-                    val childData = child.value as Map<*, *>
-                    val recipe = RecipeData()
-                    recipe.imgUrl = childData["imgUrl"] as String
-                    recipe.ingredients = childData["ingredients"] as ArrayList<String>
-                    recipe.rating = childData["rating"] as String
-                    recipe.reviewNumber = childData["reviewNumber"] as Number
-                    recipe.title = childData["title"] as String
-                    recipe.sourceUrl = childData["sourceUrl"] as String
-                    recipe.totalTime = childData["totalTime"] as String
-                    downloadedRecipes.add(recipe)
-                }
+                dataSnapshot.children.map { downloadedRecipes.add(it.getValue(RecipeData().javaClass)!!) }
                 myCallback.invoke(downloadedRecipes)
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
