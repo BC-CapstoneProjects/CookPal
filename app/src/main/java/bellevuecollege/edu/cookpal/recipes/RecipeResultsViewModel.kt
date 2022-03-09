@@ -63,15 +63,6 @@ class RecipeResultsViewModel : ViewModel() {
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")
 
                 _recipes.value = searchResponse
-
-                    .map { recipe ->
-                        Recipe(
-                            //rId = recipe.id,
-                            title = recipe.title,
-                            imgUrl = recipe.imgUrl,
-                            sourceUrl = recipe.sourceUrl
-                        )
-                    }
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = IngredientSearchApiStatus.ERROR

@@ -1,6 +1,5 @@
 package bellevuecollege.edu.cookpal.recipe_details
 
-import android.content.ContentValues
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -56,11 +55,9 @@ class RecipeDetailsFragment : Fragment() {
 
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
                 binding.recipeSummary.text = parsedRecipe.summary
-                Log.d(ContentValues.TAG, "summary is")
-                Log.d(ContentValues.TAG, "we then have $parsedRecipe")
                 binding.recipeIngredients.text =
-                    parsedRecipe.ingredients.joinToString { "$it\n" }
-                binding.recipeInstructions.text = parsedRecipe.steps.toString()
+                    parsedRecipe.ingredients.joinToString("") { "- $it\n" }
+                binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
             }
 
             // Setup Record button handler

@@ -19,7 +19,7 @@ class DownloadRecipesFirebase {
                 dataSnapshot.children.forEach {
                     downloadedRecipes.add(it.getValue(Recipe().javaClass)!!)
                     Log.d(ContentValues.TAG, downloadedRecipes[downloadedRecipes.size-1].title)
-                    Log.d(ContentValues.TAG, downloadedRecipes[downloadedRecipes.size-1].title)
+                    Log.d(ContentValues.TAG, downloadedRecipes[downloadedRecipes.size-1].steps.toString())
                 }
                 myCallback.invoke(downloadedRecipes.filter{it.title.contains(keyWord, true)})
             }

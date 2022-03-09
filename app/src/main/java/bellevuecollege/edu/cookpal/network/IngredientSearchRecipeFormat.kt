@@ -40,7 +40,6 @@ data class Recipe(
     var summary: String = "",
     var ingredients: ArrayList<String> = arrayListOf(),
     var steps: ArrayList<String> = arrayListOf(),
-
     var reviewNumber: Int = 0,
     var rating: String = "",
     var totalTime: String = ""

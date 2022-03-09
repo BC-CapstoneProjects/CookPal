@@ -14,7 +14,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.HomeScreenFragmentBinding
-import bellevuecollege.edu.cookpal.network.UploadRecipesJSON
 import bellevuecollege.edu.cookpal.profile.UserProfile
 import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
@@ -37,9 +36,9 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        UploadRecipesJSON().uploadRecipes(
-            context
-        )
+//        UploadRecipesJSON().uploadRecipes(
+//            context
+//        )
 //        DownloadRecipesFirebase().getRecipes(""){ data ->
 //
 //            for (recipe in data){
