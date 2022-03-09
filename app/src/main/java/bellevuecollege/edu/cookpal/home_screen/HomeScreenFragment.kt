@@ -1,8 +1,10 @@
 package bellevuecollege.edu.cookpal.home_screen
 
+import android.content.ContentValues
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.HomeScreenFragmentBinding
+import bellevuecollege.edu.cookpal.network.DownloadRecipesFirebase
 import bellevuecollege.edu.cookpal.profile.UserProfile
 import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
@@ -39,13 +42,11 @@ class HomeScreenFragment : Fragment() {
 //        UploadRecipesJSON().uploadRecipes(
 //            context
 //        )
-//        DownloadRecipesFirebase().getRecipes(""){ data ->
-//
-//            for (recipe in data){
-//                Log.d(ContentValues.TAG, recipe.title)
-//            }
-//
-//        }
+        DownloadRecipesFirebase().getRecipes(""){ data ->
+            for (recipe in data){
+                Log.d(ContentValues.TAG, recipe.title)
+            }
+        }
 
         val binding = HomeScreenFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
@@ -77,8 +78,9 @@ class HomeScreenFragment : Fragment() {
         addButtonListener(binding.profile, R.id.action_homeScreen_to_profile)
 
         // button listener for home screen to list photo recipes from Firebase storage
-        binding.listPhotoRecipes.setOnClickListener {view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
+        binding.listPhotoRecipes.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
         }
 
         //button listener for home screen to favorite recipes

@@ -48,7 +48,6 @@ class HomeScreenViewModel : ViewModel() {
                 Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
-                        //rId = recipe.id,
                         title = recipe.title,
                         imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl
@@ -76,7 +75,7 @@ class HomeScreenViewModel : ViewModel() {
                 Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
-                        //rId = recipe.id,
+
                         title = recipe.title,
                         imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl
@@ -105,7 +104,7 @@ class HomeScreenViewModel : ViewModel() {
                 Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
-                        //rId = recipe.id,
+
                         title = recipe.title,
                         imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl

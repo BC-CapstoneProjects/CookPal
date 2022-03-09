@@ -1,6 +1,6 @@
 package bellevuecollege.edu.cookpal.network
 
-data class RecipeData (
+data class RecipeData(
     var title: String = "",
     var steps: ArrayList<String> = arrayListOf(),
     var imgUrl: String = "",

@@ -15,13 +15,9 @@ class DownloadRecipesFirebase {
 
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val downloadedRecipes: ArrayList<Recipe> = arrayListOf()
-                dataSnapshot.children.forEach {
-                    downloadedRecipes.add(it.getValue(Recipe().javaClass)!!)
-                    Log.d(ContentValues.TAG, downloadedRecipes[downloadedRecipes.size-1].title)
-                    Log.d(ContentValues.TAG, downloadedRecipes[downloadedRecipes.size-1].steps.toString())
-                }
-                myCallback.invoke(downloadedRecipes.filter{it.title.contains(keyWord, true)})
+                val downloadedRecipes =
+                    dataSnapshot.children.map { it.getValue(Recipe().javaClass)!! }
+                myCallback.invoke(downloadedRecipes.filter { it.title.contains(keyWord, true) })
             }
 
             override fun onCancelled(error: DatabaseError) {

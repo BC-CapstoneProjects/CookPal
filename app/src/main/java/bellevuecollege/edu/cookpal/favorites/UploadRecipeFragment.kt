@@ -8,11 +8,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import bellevuecollege.edu.cookpal.databinding.FragmentUploadRecipeBinding
 import bellevuecollege.edu.cookpal.profile.LoginFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -72,14 +72,19 @@ class UploadRecipeFragment : Fragment() {
 
                 try {
                     filePath?.let {
-                        if(Build.VERSION.SDK_INT < 28) {
+                        if (Build.VERSION.SDK_INT < 28) {
                             val bitmap = MediaStore.Images.Media.getBitmap(
                                 this.activity?.contentResolver,
                                 filePath
                             )
                             binding.selectRecipeImage.setImageBitmap(bitmap)
                         } else {
-                            val source = this.activity?.let { it1 -> ImageDecoder.createSource(it1.contentResolver, filePath) }
+                            val source = this.activity?.let { it1 ->
+                                ImageDecoder.createSource(
+                                    it1.contentResolver,
+                                    filePath
+                                )
+                            }
                             val bitmap = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }
                             binding.selectRecipeImage.setImageBitmap(bitmap)
                         }
@@ -122,7 +127,7 @@ class UploadRecipeFragment : Fragment() {
                 binding.uploadProgressBar.visibility = View.VISIBLE
                 binding.uploadProgressText.visibility = View.VISIBLE
 
-                var progress: Double = (100.0 * it.bytesTransferred)/ it.totalByteCount
+                var progress: Double = (100.0 * it.bytesTransferred) / it.totalByteCount
                 binding.uploadProgressBar.progress = progress.toInt()
 
                 var progressString: String = progress.toInt().toString() + " %"
