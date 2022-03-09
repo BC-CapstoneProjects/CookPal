@@ -8,7 +8,7 @@ class FoodNetwork : BaseScraper() {
      * Return the url given a keyword and page number
      */
     override fun getUrlForPage(page: Number, keyWord: String): String {
-        return "https://www.foodnetwork.com/search/$keyWord/p/$page/CUSTOM_FACET:RECIPE_FACET"
+        return "https://www.foodnetwork.com/search/$keyWord-/p/$page/CUSTOM_FACET:RECIPE_FACET"
     }
 
     /**
