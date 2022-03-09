@@ -1,31 +1,10 @@
 package bellevuecollege.edu.cookpal.network
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
-// data class to hold recipes info responded from website
-data class IngredientSearchRecipesResponse(
-    @SerializedName("count")
-    @Expose
-    val count: Int,
-    // data info of a recipe: image, sourceURL, title...
-    @SerializedName("recipes")
-    @Expose
-    val recipes: List<RecipeResponse>
-)
 
-data class RecipeResponse(
-    val imageUrl: String,
-    val socialUrl: String,
-    val publisher: String,
-    val sourceUrl: String,
-    val id: String,
-    val publisherId: String,
-    val title: String
-)
 
 // An example of recipe details gotten from RecipeAPI
 // {"recipe":{
@@ -38,33 +17,49 @@ data class RecipeResponse(
 // "recipe_id":"36498",
 // "publisher_url":"http://simplyrecipes.com",
 // "title":"Indian Pudding"}}
-data class RecipeDetailsResponse(
-    var ingredients: MutableList<String> = mutableListOf<String>(),
-    val image_url: String,
-    val social_rank: String,
-    val _id: String,
-    val publisher: String,
-    val source_url: String,
-    val recipe_id: String,
-    val publisher_url: String,
-    val title: String
-)
+//data class RecipeDetailsResponse(
+//    var ingredients: MutableList<String> = mutableListOf<String>(),
+//    val image_url: String,
+//    val social_rank: String,
+//    val _id: String,
+//    val publisher: String,
+//    val source_url: String,
+//    val recipe_id: String,
+//    val publisher_url: String,
+//    val title: String
+//)
 
 @Parcelize
 data class Recipe(
     var isLoadedSuccessful: Boolean = false,
     var rId: String = "",
     var title: String = "",
-    @Json(name = "imageUrl") var imgSrcUrl: String = "",
+    @Json(name = "imageUrl") var imgUrl: String = "",
     var sourceUrl: String = "",
     var isFavorite: Boolean = false,
     var summary: String = "",
-    var ingredients: String = "",
-    var cookingInstructions: String = ""
+    var ingredients: ArrayList<String> = arrayListOf(),
+    var steps: ArrayList<String> = arrayListOf(),
+
+    var reviewNumber: Int = 0,
+    var rating: String = "",
+    var totalTime: String = ""
 ) : Parcelable
 
-data class RecipeDetailsResponseMetadata(
-    @SerializedName("recipe")
-    @Expose
-    val recipe: RecipeDetailsResponse
+/**
+ * data class RecipeData (
+var title: String = "",
+var steps: ArrayList<String> = arrayListOf(),
+var imgUrl: String = "",
+var sourceUrl: String = "",
+var ingredients: ArrayList<String> = arrayListOf(),
+var reviewNumber: Int = 0,
+var rating: String = "",
+var totalTime: String = ""
 )
+ */
+//data class RecipeDetailsResponseMetadata(
+//    @SerializedName("recipe")
+//    @Expose
+//    val recipe: RecipeDetailsResponse
+//)

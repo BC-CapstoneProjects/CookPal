@@ -6,11 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.favorites.PhotoRecipe
-import bellevuecollege.edu.cookpal.network.IngredientSearchApi
 import bellevuecollege.edu.cookpal.network.Recipe
-import com.google.android.gms.common.util.MapUtils
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -54,10 +51,10 @@ class PhotoRecipeViewModel : ViewModel() {
                                         Recipe(
                                             rId = "FIREBASE_DATA",
                                             title = it.name,
-                                            imgSrcUrl = it.filePath,
+                                            imgUrl = it.filePath,
                                             sourceUrl = "",
-                                            cookingInstructions = it.instructions,
-                                            ingredients = it.ingredients,
+                                            steps = arrayListOf(it.instructions),
+                                            ingredients = arrayListOf(it.ingredients),
                                             summary = it.summary
                                         )
                                     }

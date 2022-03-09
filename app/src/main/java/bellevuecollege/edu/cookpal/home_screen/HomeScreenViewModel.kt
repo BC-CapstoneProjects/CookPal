@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bellevuecollege.edu.cookpal.network.IngredientSearchApi
+import bellevuecollege.edu.cookpal.network.IngredientSearchApiService
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.IngredientSearchApiStatus
 import kotlinx.coroutines.launch
@@ -41,18 +41,16 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
-                        "",
-                        _searchTerm,
-                        1
+                    IngredientSearchApiService().getRecipes(
+                        "bacon"
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
-                _recipes.value = searchResponse.recipes.map { recipe ->
+                _recipes.value = searchResponse.map { recipe ->
                     Recipe(
-                        rId = recipe.id,
+                        //rId = recipe.id,
                         title = recipe.title,
-                        imgSrcUrl = recipe.imageUrl,
+                        imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }
@@ -70,18 +68,17 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
-                        "",
-                        _searchTerm2,
-                        1
+                    IngredientSearchApiService().getRecipes(
+                        _searchTerm2
+
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
-                _recipes.value = searchResponse.recipes.map { recipe ->
+                _recipes.value = searchResponse.map { recipe ->
                     Recipe(
-                        rId = recipe.id,
+                        //rId = recipe.id,
                         title = recipe.title,
-                        imgSrcUrl = recipe.imageUrl,
+                        imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }
@@ -99,18 +96,18 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
-                        "",
-                        _searchTerm3,
-                        1
+                    IngredientSearchApiService().getRecipes(
+
+                        _searchTerm3
+
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
-                _recipes.value = searchResponse.recipes.map { recipe ->
+                _recipes.value = searchResponse.map { recipe ->
                     Recipe(
-                        rId = recipe.id,
+                        //rId = recipe.id,
                         title = recipe.title,
-                        imgSrcUrl = recipe.imageUrl,
+                        imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }

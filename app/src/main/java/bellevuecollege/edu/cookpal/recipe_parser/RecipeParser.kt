@@ -2,7 +2,6 @@ package bellevuecollege.edu.cookpal.recipe_parser
 
 import android.util.Log
 import bellevuecollege.edu.cookpal.network.Recipe
-import java.lang.Exception
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -39,8 +38,8 @@ fun extractAllRecipesInformation(recipe: Recipe) {
 
     // Cooking Instructions
     doc?.select(ALL_RECIPES_INSTRUCTIONS_CSS_QUERY)
-        ?.map { it -> recipe.cookingInstructions += it.text() + "\n"}
-    Log.d(TAG, "${recipe.cookingInstructions}")
+        ?.map { it -> recipe.steps += it.text() + "\n"}
+    Log.d(TAG, "${recipe.steps}")
 
     // Dish image
 //    recipe.imgSrcUrl = ""
