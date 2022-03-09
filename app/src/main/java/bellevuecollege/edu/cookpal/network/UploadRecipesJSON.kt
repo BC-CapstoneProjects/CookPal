@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.firebase.database.FirebaseDatabase
 
 class UploadRecipesJSON {
-    fun uploadRecipes(context: Context?) {
+    fun uploadAllRecipeFiles(context: Context?) {
         val assetManager = context?.assets!!
         val files = assetManager.list("recipes")
         val database = FirebaseDatabase.getInstance().getReference("/recipes/")
@@ -16,12 +16,13 @@ class UploadRecipesJSON {
         Log.d(ContentValues.TAG, "We have ${files?.size}")
         files!!.forEach {
             Log.d(ContentValues.TAG, it.toString())
-            val recipes = jacksonObjectMapper().readValue(context?.assets?.open("recipes/$it"), typeRef)
+            val recipes =
+                jacksonObjectMapper().readValue(context?.assets?.open("recipes/$it"), typeRef)
             recipes.forEach { recipe -> database.push().setValue(recipe) }
         }
     }
 
-    fun uploadRecipes(fileName: String, context: Context?) {
+    fun uploadRecipeFile(fileName: String, context: Context?) {
 
         val file = context?.assets?.open("recipes/$fileName")
         val database = FirebaseDatabase.getInstance().getReference("/recipes/")

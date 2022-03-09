@@ -39,7 +39,7 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-//        UploadRecipesJSON().uploadRecipes(
+//        UploadRecipesJSON().uploadAllRecipeFiles(
 //            context
 //        )
         DownloadRecipesFirebase().getRecipes(""){ data ->

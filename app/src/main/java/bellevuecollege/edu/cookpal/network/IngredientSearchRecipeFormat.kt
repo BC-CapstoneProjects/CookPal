@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
+// TODO rename file
 @Parcelize
 data class Recipe(
     var isLoadedSuccessful: Boolean = false,
