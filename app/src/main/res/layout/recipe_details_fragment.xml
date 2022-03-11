@@ -30,7 +30,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></TextView>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/recipe_image"
@@ -54,7 +54,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_image"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
 
             <TextView
                 android:id="@+id/recipe_summary"
@@ -64,7 +64,7 @@
                 android:text="@{viewModel.selectedRecipe.summary}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header" />
 
             <TextView
                 android:id="@+id/recipe_ingredients_header"
@@ -76,17 +76,17 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_summary"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_summary" />
 
             <TextView
                 android:id="@+id/recipe_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="@{viewModel.selectedRecipe.ingredients}"
+                android:text="ingredients"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients_header"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients_header" />
 
             <TextView
                 android:id="@+id/recipe_instructions_header"
@@ -98,17 +98,17 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients" />
 
             <TextView
                 android:id="@+id/recipe_instructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="@{viewModel.selectedRecipe.cookingInstructions}"
+                android:text="Steps"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button" />
 
             <Button
                 android:id="@+id/speak_recipe_instructions_button"
@@ -119,7 +119,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/play_recipe_instructions_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
             <Button
                 android:id="@+id/play_recipe_instructions_button"
@@ -130,7 +130,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/record_recipe_instructions_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
             <Button
                 android:id="@+id/record_recipe_instructions_button"
@@ -141,7 +141,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/delete_recipe_instructions_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/play_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
             <Button
                 android:id="@+id/delete_recipe_instructions_button"
@@ -152,7 +152,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/record_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
             <Button
                 android:id="@+id/pause_recipe_instructions_button"
@@ -163,7 +163,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/delete_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
