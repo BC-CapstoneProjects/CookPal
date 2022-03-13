@@ -1,4 +1,4 @@
-data class ConfigDB(
+data class Config(
     val collection: String = "",
     val database: String = "",
     val dataSource: String = "",

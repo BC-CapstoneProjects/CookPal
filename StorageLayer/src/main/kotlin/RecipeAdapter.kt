@@ -4,18 +4,18 @@ import com.squareup.okhttp.*
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class FetchRecipes(configPath: String) {
+class RecipeAdapter(configPath: String) {
 
-    private val config: ConfigDB
+    private val config: Config
 
     init {
         val path = Paths.get(configPath)
         val mapper = ObjectMapper(YAMLFactory())
         config = Files.newBufferedReader(path).use {
-            mapper.readValue(it, ConfigDB::class.java)
+            mapper.readValue(it, Config::class.java)
         }!!
     }
-
+    //TODO: Add recipe import
     fun upload(recipes: List<Recipe>) {
         val documents = "\"documents\":[\n" + recipes.joinToString(separator = ",\n") { recipe ->
             ObjectMapper().writeValueAsString(recipe)

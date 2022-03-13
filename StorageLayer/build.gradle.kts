@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
+//TODO: investigate having same jdk for all projects
+//TODO: add logging
 plugins {
     kotlin("jvm") version "1.4.32"
 }
