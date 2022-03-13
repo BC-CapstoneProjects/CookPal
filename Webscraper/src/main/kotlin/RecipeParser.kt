@@ -1,6 +1,5 @@
-package apilib.allRecipes
+package WebScraper
 
-import apilib.Recipe
 import java.lang.Exception
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

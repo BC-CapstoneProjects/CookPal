@@ -1,8 +1,8 @@
-package apilib.scrapers
+package WebScraper.scrapers
 
-import apilib.DriverPool
-import apilib.Recipe
-import apilib.RecipeJSON
+import WebScraper.DriverPool
+import WebScraper.Recipe
+import WebScraper.RecipeJSON
 import mu.KotlinLogging
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

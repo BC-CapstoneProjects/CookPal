@@ -1,4 +1,4 @@
-package apilib
+package WebScraper
 
 class Ingredient {
     constructor(

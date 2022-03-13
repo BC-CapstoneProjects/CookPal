@@ -1,4 +1,4 @@
-package apilib
+package WebScraper
 
 import mu.KotlinLogging
 import org.json.JSONArray

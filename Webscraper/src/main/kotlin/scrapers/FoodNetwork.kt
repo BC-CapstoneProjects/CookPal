@@ -1,6 +1,6 @@
-package apilib.scrapers
+package WebScraper.scrapers
 
-import apilib.Recipe
+import WebScraper.Recipe
 import org.jsoup.nodes.Document
 
 class FoodNetwork : BaseScraper() {

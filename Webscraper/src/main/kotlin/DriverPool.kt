@@ -1,4 +1,4 @@
-package apilib
+package WebScraper
 
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.chrome.ChromeDriver
