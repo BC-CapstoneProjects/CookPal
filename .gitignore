@@ -89,3 +89,9 @@ Webscraper/.idea/gradle.xml
 # Webscraper generated json files go there
 app/src/main/assets/recipes
 
+StorageLayer/src/main/kotlin/test.json
+StorageLayer/shelf/
+StorageLayer/workspace.xml
+StorageLayer/src/main/resources/config.yaml
+.idea/deploymentTargetDropDown.xml
+.idea/misc.xml
