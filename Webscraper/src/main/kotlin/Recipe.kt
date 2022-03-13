@@ -1,5 +1,3 @@
-package WebScraper
-
 class Recipe {
     var label: String = ""
     var title: String = ""

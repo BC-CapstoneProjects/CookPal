@@ -1,5 +1,3 @@
-package WebScraper
-
 import java.lang.Exception
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

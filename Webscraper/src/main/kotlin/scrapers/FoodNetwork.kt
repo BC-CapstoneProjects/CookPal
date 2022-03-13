@@ -1,6 +1,6 @@
-package WebScraper.scrapers
+package scrapers
 
-import WebScraper.Recipe
+import Recipe
 import org.jsoup.nodes.Document
 
 class FoodNetwork : BaseScraper() {

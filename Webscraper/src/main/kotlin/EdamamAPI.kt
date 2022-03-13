@@ -1,5 +1,3 @@
-package WebScraper
-
 import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject

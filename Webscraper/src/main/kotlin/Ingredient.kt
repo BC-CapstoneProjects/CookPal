@@ -1,5 +1,3 @@
-package WebScraper
-
 class Ingredient {
     constructor(
         text: String,

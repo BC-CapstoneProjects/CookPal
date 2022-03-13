@@ -1,8 +1,8 @@
-package WebScraper.scrapers
+package scrapers
 
-import WebScraper.DriverPool
-import WebScraper.Recipe
-import WebScraper.RecipeJSON
+import DriverPool
+import Recipe
+import RecipeJSON
 import mu.KotlinLogging
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
