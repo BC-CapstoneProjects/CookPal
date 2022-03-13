@@ -15,7 +15,13 @@ class RecipeAdapter(configPath: String) {
             mapper.readValue(it, Config::class.java)
         }!!
     }
-    //TODO: Add recipe import
+    
+    fun download(keyword: String) {
+        val query = "\"filter\": {\n\"title\": {\"\$regex\": \"$keyword\", \"\$options\": \"i\"}\n}\n"
+        println(completeQuery(query))
+        queryDB(completeQuery(query), "find")
+    }
+
     fun upload(recipes: List<Recipe>) {
         val documents = "\"documents\":[\n" + recipes.joinToString(separator = ",\n") { recipe ->
             ObjectMapper().writeValueAsString(recipe)
