@@ -1,4 +1,5 @@
 
+//TODO: add command line support
 fun main() {
     val path = System.getProperty("user.dir")
 

@@ -8,7 +8,6 @@ class RecipeAdapter(configPath: String) {
 
     private val config: Config
 
-
     init {
         val path = Paths.get(configPath)
         val mapper = ObjectMapper(YAMLFactory())
@@ -16,7 +15,7 @@ class RecipeAdapter(configPath: String) {
             mapper.readValue(it, Config::class.java)
         }!!
     }
-
+    //TODO: Sanitize user input
     fun getRecipesFromQuery(param: List<SearchParam>) {
         val queryFilter = "\"filter\":{\n" + param.joinToString(",\n") { getQueryFromEnum(it) } + "\n}\n"
         println(completeQuery(queryFilter))
