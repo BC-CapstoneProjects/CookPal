@@ -1,11 +1,19 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>StorageLayer.log</file>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} MDC=%X{user} - %msg%n</pattern>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="info"> <!-- e.g, info, debug -->
-        <appender-ref ref="STDOUT"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug"> <!-- e.g, info, debug -->
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>
