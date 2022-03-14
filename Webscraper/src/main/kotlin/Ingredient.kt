@@ -1,5 +1,3 @@
-package apilib
-
 class Ingredient {
     constructor(
         text: String,

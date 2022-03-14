@@ -1,5 +1,3 @@
-package apilib
-
 import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject

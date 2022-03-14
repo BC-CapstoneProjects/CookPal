@@ -1,6 +1,6 @@
-package apilib.scrapers
+package scrapers
 
-import apilib.Recipe
+import Recipe
 import org.jsoup.nodes.Document
 
 class TasteOfHome : BaseScraper() {

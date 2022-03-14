@@ -1,5 +1,3 @@
-package apilib
-
 class Recipe {
     var label: String = ""
     var title: String = ""

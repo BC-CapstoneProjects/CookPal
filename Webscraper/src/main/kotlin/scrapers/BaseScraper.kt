@@ -1,8 +1,8 @@
-package apilib.scrapers
+package scrapers
 
-import apilib.DriverPool
-import apilib.Recipe
-import apilib.RecipeJSON
+import DriverPool
+import Recipe
+import RecipeJSON
 import mu.KotlinLogging
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

@@ -1,8 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="main" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="apilib.main" />
-    <module name="Scrapper.apilib" />
+  <configuration default="false" name="MainKt" type="JetRunConfigurationType" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <module name="WebScraper.main" />
     <option name="PROGRAM_PARAMETERS" value="bacon 1 3 foodnetwork ../app/src/main/assets/recipes" />
+    <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
