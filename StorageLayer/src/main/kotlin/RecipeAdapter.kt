@@ -1,12 +1,14 @@
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.squareup.okhttp.*
+import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Paths
 
 class RecipeAdapter(configPath: String) {
 
     private val config: Config
+    private val logger = KotlinLogging.logger {}
 
     init {
         val path = Paths.get(configPath)
@@ -64,8 +66,10 @@ class RecipeAdapter(configPath: String) {
             ObjectMapper().writeValueAsString(recipe)
         } + "\n]\n"
 
-        println(completeQuery(documents))
-        queryDB(completeQuery(documents), "insertMany")
+        val query = completeQuery(documents)
+        logger.debug { "Upload query: $query"}
+
+        queryDB(query, "insertMany")
     }
 
     private fun completeQuery(subQuery: String): String {
@@ -84,7 +88,9 @@ class RecipeAdapter(configPath: String) {
             .addHeader("api-key", config.apiKey)
             .build()
         val response = client.newCall(request).execute()
-        println(response.body().string())
-        return response.body()
+        logger.info { "Response code: ${response.code()}" }
+        var responseBody = response.body()
+        logger.debug { "Response body: ${responseBody.string()}" }
+        return responseBody
     }
 }

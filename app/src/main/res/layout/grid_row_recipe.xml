@@ -23,35 +23,28 @@
         <ImageView
             android:id="@+id/recipeImage"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="220dp"
             android:contentDescription="@string/recipe_image"
-            android:scaleType="fitCenter"
+            android:scaleType="center"
             app:recipeImage="@{recipe}"
             tools:background="#f00" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/recipeName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_title_box"
+            android:fontFamily="@font/sofia_pro_regular"
+            android:padding="6dp"
+            android:text="@{recipe.title}"
+            tools:text="Recipe title/description" />
 
-            <TextView
-                android:id="@+id/recipeName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:text="@{recipe.title}"
-                tools:text="Recipe title/description" />
-
-            <!--            <ImageView-->
-            <!--                android:id="@+id/favButton"-->
-            <!--                android:layout_width="24dp"-->
-            <!--                android:layout_height="24dp"-->
-            <!--                android:contentDescription="@string/add_remove_favorite"-->
-            <!--                tools:srcCompat="@drawable/ic_favorite_24dp" />-->
-        </LinearLayout>
+        <!--            <ImageView-->
+<!--                android:id="@+id/favButton"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:contentDescription="@string/add_remove_favorite"-->
+<!--                tools:srcCompat="@drawable/ic_favorite_24dp" />-->
     </LinearLayout>
 </layout>
