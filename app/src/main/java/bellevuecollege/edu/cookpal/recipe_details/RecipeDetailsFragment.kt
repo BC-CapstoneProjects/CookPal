@@ -50,7 +50,9 @@ class RecipeDetailsFragment : Fragment() {
         ).get(RecipeDetailsViewModel::class.java)
         mediaPlayer = MediaPlayer()
 
+        //View model
         val tempView = binding.viewModel
+        //Get selected recipe information and place into xml
         if (tempView != null) {
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
                 binding.recipeSummary.text = parsedRecipe.summary
@@ -62,10 +64,11 @@ class RecipeDetailsFragment : Fragment() {
         // Setup Speak button handler
         binding.speakRecipeInstructionsButton.setOnClickListener {
             if (tempView != null) {
-                val instructions = tempView.selectedRecipe.value?.steps
+                val instructions = tempView.selectedRecipe.value?.steps.toString().replace("[","").replace("]","")
+                Log.d("-----instructions-----", instructions.toString())
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
-                        mTTS.speak(instructions[0], TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
                         binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
                     } else {
