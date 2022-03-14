@@ -61,15 +61,15 @@ class RecipeDetailsFragment : Fragment() {
             }
 
             // Setup Record button handler
-            binding.recordRecipeInstructionsButton.setOnClickListener {
-                // Construct sound file
-                recipeVoiceFile = File(
-                    context?.cacheDir?.absolutePath,
-                    tempView.selectedRecipe.value?.rId + ".wav"
-                )
-                if (recipeVoiceFile.exists()) {
-                    recipeVoiceFile.delete()
-                }
+//            binding.recordRecipeInstructionsButton.setOnClickListener {
+//                // Construct sound file
+//                recipeVoiceFile = File(
+//                    context?.cacheDir?.absolutePath,
+//                    tempView.selectedRecipe.value?.rId + ".wav"
+//                )
+//                if (recipeVoiceFile.exists()) {
+//                    recipeVoiceFile.delete()
+//                }
                 val b = Bundle()
                 val instructions = tempView.selectedRecipe.value?.steps
                 if (instructions != null && instructions.isNotEmpty()) {
@@ -100,34 +100,39 @@ class RecipeDetailsFragment : Fragment() {
                     })
 
                     // Enable related buttons
-                    binding.deleteRecipeInstructionsButton.isEnabled = true
-                    binding.playRecipeInstructionsButton.isEnabled = true
+//                    binding.deleteRecipeInstructionsButton.isEnabled = true
+//                    binding.playRecipeInstructionsButton.isEnabled = true
 
 
                 }
             }
             // Setup Play button handler
-            binding.playRecipeInstructionsButton.setOnClickListener {
-                try {
-                    if (recipeVoiceFile.exists()) {
-                        mediaPlayer.start()
-                        binding.pauseRecipeInstructionsButton.isEnabled = true
-                    }
-                } catch (e: Exception) {
-                    Log.d("Recipe Details Fragment", "Error when playing audio")
-                }
-            }
+//            binding.playRecipeInstructionsButton.setOnClickListener {
+//                try {
+//                    if (recipeVoiceFile.exists()) {
+//                        mediaPlayer.start()
+//                        binding.pauseRecipeInstructionsButton.isEnabled = true
+//                    }
+//                } catch (e: Exception) {
+//                    Log.d("Recipe Details Fragment", "Error when playing audio")
+//                }
+//            }
 
             // Setup Speak button handler
             binding.speakRecipeInstructionsButton.setOnClickListener {
-                val instructions = tempView.selectedRecipe.value?.steps
-                if (instructions != null) {
-                    if (instructions.isNotEmpty()) {
-                        mTTS.speak(instructions[0], TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
-                        binding.pauseRecipeInstructionsButton.isEnabled = true
-                        Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
-                    } else {
-                        Log.e("Recipe Details Fragment", "No recipe instructions supplied for TTS")
+                if (tempView != null) {
+                    val instructions = tempView.selectedRecipe.value?.steps
+                    if (instructions != null) {
+                        if (instructions.isNotEmpty()) {
+                            mTTS.speak(instructions[0], TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                            binding.pauseRecipeInstructionsButton.isEnabled = true
+                            Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
+                        } else {
+                            Log.e(
+                                "Recipe Details Fragment",
+                                "No recipe instructions supplied for TTS"
+                            )
+                        }
                     }
                 }
             }
@@ -150,14 +155,14 @@ class RecipeDetailsFragment : Fragment() {
             }
 
             // Setup Delete button handler
-            binding.deleteRecipeInstructionsButton.setOnClickListener {
-                if (recipeVoiceFile.exists()) {
-                    recipeVoiceFile.delete()
-                    binding.deleteRecipeInstructionsButton.isEnabled = false
-                    binding.playRecipeInstructionsButton.isEnabled = false
-                }
-            }
-        }
+//            binding.deleteRecipeInstructionsButton.setOnClickListener {
+//                if (recipeVoiceFile.exists()) {
+//                    recipeVoiceFile.delete()
+//                    binding.deleteRecipeInstructionsButton.isEnabled = false
+//                    binding.playRecipeInstructionsButton.isEnabled = false
+//                }
+//            }
+//        }
 
         return binding.root
     }
