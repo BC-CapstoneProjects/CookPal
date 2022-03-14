@@ -60,64 +60,6 @@ class RecipeDetailsFragment : Fragment() {
                 binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
             }
 
-            // Setup Record button handler
-//            binding.recordRecipeInstructionsButton.setOnClickListener {
-//                // Construct sound file
-//                recipeVoiceFile = File(
-//                    context?.cacheDir?.absolutePath,
-//                    tempView.selectedRecipe.value?.rId + ".wav"
-//                )
-//                if (recipeVoiceFile.exists()) {
-//                    recipeVoiceFile.delete()
-//                }
-                val b = Bundle()
-                val instructions = tempView.selectedRecipe.value?.steps
-                if (instructions != null && instructions.isNotEmpty()) {
-
-                    // Save cooking instructions as a sound file, this may take time
-                    mTTS.synthesizeToFile(instructions.toString(), b, recipeVoiceFile, UTTERANCE_ID)
-                    mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                        override fun onStart(utteranceId: String?) {
-                            Log.d("Recipe Details Fragment", "Started synthesize To File")
-                        }
-
-                        override fun onDone(utteranceId: String?) {
-                            if (utteranceId == UTTERANCE_ID) {
-                                Log.d(
-                                    "Recipe Details Fragment",
-                                    "word is read, resuming with the next word"
-                                )
-                                if (recipeVoiceFile.exists()) {
-                                    mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
-                                    mediaPlayer.prepare()
-                                }
-                            }
-                        }
-
-                        override fun onError(utteranceId: String?) {
-                            Log.e("Recipe Details Fragment", "Error synthesize to File")
-                        }
-                    })
-
-                    // Enable related buttons
-//                    binding.deleteRecipeInstructionsButton.isEnabled = true
-//                    binding.playRecipeInstructionsButton.isEnabled = true
-
-
-                }
-            }
-            // Setup Play button handler
-//            binding.playRecipeInstructionsButton.setOnClickListener {
-//                try {
-//                    if (recipeVoiceFile.exists()) {
-//                        mediaPlayer.start()
-//                        binding.pauseRecipeInstructionsButton.isEnabled = true
-//                    }
-//                } catch (e: Exception) {
-//                    Log.d("Recipe Details Fragment", "Error when playing audio")
-//                }
-//            }
-
             // Setup Speak button handler
             binding.speakRecipeInstructionsButton.setOnClickListener {
                 if (tempView != null) {
@@ -153,17 +95,6 @@ class RecipeDetailsFragment : Fragment() {
                     ).show()
                 }
             }
-
-            // Setup Delete button handler
-//            binding.deleteRecipeInstructionsButton.setOnClickListener {
-//                if (recipeVoiceFile.exists()) {
-//                    recipeVoiceFile.delete()
-//                    binding.deleteRecipeInstructionsButton.isEnabled = false
-//                    binding.playRecipeInstructionsButton.isEnabled = false
-//                }
-//            }
-//        }
-
         return binding.root
     }
 
