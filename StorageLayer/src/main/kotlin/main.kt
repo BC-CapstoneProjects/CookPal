@@ -1,5 +1,6 @@
 import mu.KotlinLogging
 
+//TODO: add command line support
 fun main() {
     val path = System.getProperty("user.dir")
 
@@ -12,5 +13,6 @@ fun main() {
     val x = Recipe()
     x.title = "test"
     x.ingredients = arrayOf("food", "morefood", "evenmorefood")
-    fetcher.upload(listOf(x))
+    //fetcher.upload(listOf(x))
+    println(fetcher.getRecipesFromQuery(listOf(SearchParam(SearchType.KEYWORD, listOf("microwave")),SearchParam(SearchType.INGREDIENT, listOf("rice", "water")))))
 }
