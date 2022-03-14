@@ -3,13 +3,14 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import mu.KLogger
 import mu.KotlinLogging
 import java.io.File
+import java.util.*
 import kotlin.system.exitProcess
 
 fun search(fetcher: RecipeAdapter, args: Array<String>) {
     if (args.size < 3) {
         throw Exception("Missing cmd line args.")
     }
-    val searchType = SearchType.valueOf(args[1].toUpperCase())
+    val searchType = SearchType.valueOf(args[1].uppercase(Locale.getDefault()))
     val searchValues= mutableListOf<String>()
     for ( i in 2 until args.size)
     {
@@ -25,9 +26,9 @@ fun upload(logger: KLogger, fetcher: RecipeAdapter, args: Array<String>) {
         throw Exception("Too many cmd line args.")
     }
     val typeRef = object : TypeReference<List<Recipe>>() {}
-    var fileName = args[1]
+    val fileName = args[1]
     logger.info { "Loading $fileName"}
-    var file = File(fileName).readText(Charsets.UTF_8)
+    val file = File(fileName).readText(Charsets.UTF_8)
     val recipes = jacksonObjectMapper().readValue(file, typeRef)
     logger.debug { "Uploading $recipes"}
     fetcher.upload(recipes)
@@ -50,7 +51,7 @@ fun main(args: Array<String>) {
         if (args.size < 2) {
             throw Exception("Missing cmd line args.")
         }
-        when (args[0].toLowerCase())
+        when (args[0].lowercase(Locale.getDefault()))
         {
             "search"-> search(fetcher, args)
             "upload" -> upload(logger, fetcher, args)
