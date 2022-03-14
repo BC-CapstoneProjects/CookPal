@@ -1,5 +1,5 @@
 enum class SearchType {
-    KEYWORD, INGREDIENT, EVERYWHERE
+    TITLE, INGREDIENT, ALL
 }
 
-data class SearchParam(var searchType: SearchType = SearchType.EVERYWHERE, var searchValues: List<String> = listOf())
+data class SearchParam(var searchType: SearchType = SearchType.ALL, var searchValues: List<String> = listOf())
