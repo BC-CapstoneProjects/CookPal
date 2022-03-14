@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bellevuecollege.edu.cookpal.network.IngredientSearchApi
+import bellevuecollege.edu.cookpal.network.IngredientSearchApiService
 import bellevuecollege.edu.cookpal.network.Recipe
 import kotlinx.coroutines.launch
 
@@ -51,29 +51,18 @@ class RecipeResultsViewModel : ViewModel() {
      */
     fun getIngredientSearchRecipes() {
         viewModelScope.launch {
-            Log.d("RecipeResultsViewModel", "Retrieving recipes for ${_searchTerm}")
+            Log.d("RecipeResultsViewModel", "Retrieving recipes for $_searchTerm")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApi.retrofitIngredientSearchGetRecipes.getRecipes(
-                        "",
-                        _searchTerm,
-                        1
+                    IngredientSearchApiService().getRecipes(
+
+                        _searchTerm
+
                     )
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")
 
-                _recipes.value = searchResponse.recipes
-                    .filter {
-                        it.sourceUrl.contains(ALL_RECIPES_NAME)
-                    }
-                    .map { recipe ->
-                        Recipe(
-                            rId = recipe.id,
-                            title = recipe.title,
-                            imgSrcUrl = recipe.imageUrl,
-                            sourceUrl = recipe.sourceUrl
-                        )
-                    }
+                _recipes.value = searchResponse
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = IngredientSearchApiStatus.ERROR

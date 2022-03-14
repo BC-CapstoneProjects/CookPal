@@ -39,16 +39,13 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-//        UploadRecipesJSON().uploadRecipes(
-//            "temp.json",
+//        UploadRecipesJSON().uploadAllRecipeFiles(
 //            context
 //        )
-        DownloadRecipesFirebase().getRecipes{ data ->
-
+        DownloadRecipesFirebase().getRecipes(""){ data ->
             for (recipe in data){
                 Log.d(ContentValues.TAG, recipe.title)
             }
-
         }
 
         val binding = HomeScreenFragmentBinding.inflate(inflater)
@@ -81,8 +78,9 @@ class HomeScreenFragment : Fragment() {
         addButtonListener(binding.profile, R.id.action_homeScreen_to_profile)
 
         // button listener for home screen to list photo recipes from Firebase storage
-        binding.listPhotoRecipes.setOnClickListener {view: View ->
-            view.findNavController().navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
+        binding.listPhotoRecipes.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(R.id.action_homeScreenFragment_to_photoRecipeListFragment)
         }
 
         //button listener for home screen to favorite recipes

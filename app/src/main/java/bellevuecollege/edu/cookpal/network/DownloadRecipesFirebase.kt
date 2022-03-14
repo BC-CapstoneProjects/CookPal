@@ -8,20 +8,22 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class DownloadRecipesFirebase {
-    val downloadedRecipes: ArrayList<RecipeData> = arrayListOf()
-    fun getRecipes(myCallback: (result: ArrayList<RecipeData>) -> Unit) {
-        val database = FirebaseDatabase.getInstance().getReference("/recipes/")
+
+    fun getRecipes(keyWord: String, myCallback: (result: List<Recipe>) -> Unit) {
+        val database = FirebaseDatabase.getInstance().getReference("/recipes/").orderByValue()
+
 
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.map { downloadedRecipes.add(it.getValue(RecipeData().javaClass)!!) }
-                myCallback.invoke(downloadedRecipes)
+                val downloadedRecipes =
+                    dataSnapshot.children.map { it.getValue(Recipe().javaClass)!! }
+                myCallback.invoke(downloadedRecipes.filter { it.title.contains(keyWord, true) })
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
-
     }
+
 }

@@ -1,0 +1,7 @@
+# Adding api info like the apiKey to git is not safe, as the repo is public.
+# Hence, these values are intentionally left blank for manual entry.
+collection:
+database:
+dataSource:
+apiKey:
+apiAppID:

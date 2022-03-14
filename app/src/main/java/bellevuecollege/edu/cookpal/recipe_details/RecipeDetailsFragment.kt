@@ -37,7 +37,8 @@ class RecipeDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Setup Text To Speech engine
-        mTTS = TextToSpeech(activity?.applicationContext
+        mTTS = TextToSpeech(
+            activity?.applicationContext
         ) { status ->
             if (status != TextToSpeech.ERROR) {
                 //if there is no error then set language
@@ -103,8 +104,9 @@ class RecipeDetailsFragment : Fragment() {
 
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
                 binding.recipeSummary.text = parsedRecipe.summary
-                binding.recipeIngredients.text = parsedRecipe.ingredients
-                binding.recipeInstructions.text = parsedRecipe.cookingInstructions
+
+                //binding.recipeIngredients.text = parsedRecipe.ingredients
+                //binding.recipeInstructions.text = parsedRecipe.cookingInstructions
                 //Recipe summary in the log for reference
                 //Log.d("Recipe summary", parsedRecipe.summary)
             })
@@ -152,6 +154,59 @@ class RecipeDetailsFragment : Fragment() {
 //                    }
 //                }
 //            }
+
+                binding.recipeIngredients.text =
+                    parsedRecipe.ingredients.joinToString("") { "- $it\n" }
+                binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
+            }
+
+            // Setup Record button handler
+            binding.recordRecipeInstructionsButton.setOnClickListener {
+                // Construct sound file
+                recipeVoiceFile = File(
+                    context?.cacheDir?.absolutePath,
+                    tempView.selectedRecipe.value?.rId + ".wav"
+                )
+                if (recipeVoiceFile.exists()) {
+                    recipeVoiceFile.delete()
+                }
+                val b = Bundle()
+                val instructions = tempView.selectedRecipe.value?.steps
+                if (instructions != null && instructions.isNotEmpty()) {
+
+                    // Save cooking instructions as a sound file, this may take time
+                    mTTS.synthesizeToFile(instructions.toString(), b, recipeVoiceFile, UTTERANCE_ID)
+                    mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                        override fun onStart(utteranceId: String?) {
+                            Log.d("Recipe Details Fragment", "Started synthesize To File")
+                        }
+
+                        override fun onDone(utteranceId: String?) {
+                            if (utteranceId == UTTERANCE_ID) {
+                                Log.d(
+                                    "Recipe Details Fragment",
+                                    "word is read, resuming with the next word"
+                                )
+                                if (recipeVoiceFile.exists()) {
+                                    mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
+                                    mediaPlayer.prepare()
+                                }
+                            }
+                        }
+
+                        override fun onError(utteranceId: String?) {
+                            Log.e("Recipe Details Fragment", "Error synthesize to File")
+                        }
+                    })
+
+                    // Enable related buttons
+                    binding.deleteRecipeInstructionsButton.isEnabled = true
+                    binding.playRecipeInstructionsButton.isEnabled = true
+
+
+                }
+            }
+
             // Setup Play button handler
 //            binding.playRecipeInstructionsButton.setOnClickListener {
 //                try {
@@ -167,7 +222,7 @@ class RecipeDetailsFragment : Fragment() {
 
             // Setup Speak button handler
             binding.speakRecipeInstructionsButton.setOnClickListener {
-                val instructions = tempView.selectedRecipe.value?.cookingInstructions
+                val instructions = tempView.selectedRecipe.value?.steps
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
 
@@ -184,7 +239,10 @@ class RecipeDetailsFragment : Fragment() {
                          * These two lines below is Trang's code
                          * They are Android's TTS
                          */
-                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                        
+
+                        mTTS.speak(instructions[0], TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+
                         binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
                     } else {
