@@ -52,49 +52,48 @@ class RecipeDetailsFragment : Fragment() {
 
         val tempView = binding.viewModel
         if (tempView != null) {
-
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
                 binding.recipeSummary.text = parsedRecipe.summary
                 binding.recipeIngredients.text =
                     parsedRecipe.ingredients.joinToString("") { "- $it\n" }
                 binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
             }
-
-            // Setup Speak button handler
-            binding.speakRecipeInstructionsButton.setOnClickListener {
-                if (tempView != null) {
-                    val instructions = tempView.selectedRecipe.value?.steps
-                    if (instructions != null) {
-                        if (instructions.isNotEmpty()) {
-                            mTTS.speak(instructions[0], TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
-                            binding.pauseRecipeInstructionsButton.isEnabled = true
-                            Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
-                        } else {
-                            Log.e(
-                                "Recipe Details Fragment",
-                                "No recipe instructions supplied for TTS"
-                            )
-                        }
+        }
+        // Setup Speak button handler
+        binding.speakRecipeInstructionsButton.setOnClickListener {
+            if (tempView != null) {
+                val instructions = tempView.selectedRecipe.value?.steps
+                if (instructions != null) {
+                    if (instructions.isNotEmpty()) {
+                        mTTS.speak(instructions[0], TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                        binding.pauseRecipeInstructionsButton.isEnabled = true
+                        Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
+                    } else {
+                        Log.e(
+                            "Recipe Details Fragment",
+                            "No recipe instructions supplied for TTS"
+                        )
                     }
                 }
             }
+        }
 
-            // Setup Pause button handler
-            binding.pauseRecipeInstructionsButton.setOnClickListener {
-                if (mTTS.isSpeaking) {
-                    //if speaking then Pause
-                    mTTS.stop()
-                } else if (mediaPlayer.isPlaying) {
+        // Setup Pause button handler
+        binding.pauseRecipeInstructionsButton.setOnClickListener {
+            if (mTTS.isSpeaking) {
+                //if speaking then Pause
+                mTTS.stop()
+            } else if (mediaPlayer.isPlaying) {
                     mediaPlayer.pause()
-                } else {
+            } else {
                     //if not speaking
                     Toast.makeText(
                         activity,
                         "Not speaking or playing recipe instructions",
                         Toast.LENGTH_SHORT
                     ).show()
-                }
             }
+        }
         return binding.root
     }
 
