@@ -18,15 +18,14 @@ class RecipeAdapter(configPath: String) {
         }!!
     }
     //TODO: Sanitize user input
-    fun getRecipesFromQuery(param: List<SearchParam>) {
+    fun getRecipesFromQuery(param: List<SearchParam>): ResponseBody {
         val queryFilter = "\"filter\":{\n" + param.joinToString(",\n") { getQueryFromEnum(it) } + "\n}\n"
-        println(completeQuery(queryFilter))
-        queryDB(completeQuery(queryFilter), "find")
+        return queryDB(completeQuery(queryFilter), "find")
     }
 
     private fun getQueryFromEnum(param: SearchParam): String {
         when (param.searchType) {
-            SearchType.KEYWORD -> return getFieldQuery("title", param.searchValues)
+            SearchType.TITLE -> return getFieldQuery("title", param.searchValues)
             SearchType.INGREDIENT -> return getFieldArrayQuery("ingredients", param.searchValues)
 
         }
@@ -45,14 +44,13 @@ class RecipeAdapter(configPath: String) {
         return values.joinToString(separator = ",\n") { getRegexQuery(field, it, "i") }
     }
 
-    fun getRecipesByKeyword(keyword: String) {
+    fun getRecipesByKeyword(keyword: String): ResponseBody {
         val query = "\"filter\": {\n\"title\": {\"\$regex\": \"$keyword\", \"\$options\": \"i\"}\n}\n"
-        println(completeQuery(query))
-        queryDB(completeQuery(query), "find")
+        return queryDB(completeQuery(query), "find")
     }
 
 
-    fun getRegexQuery(field: String, regex: String, options: String): String {
+    private fun getRegexQuery(field: String, regex: String, options: String): String {
         return "\"$field\": {\"\$regex\": \"$regex\", \"\$options\": \"$options\"}"
     }
 
@@ -61,22 +59,21 @@ class RecipeAdapter(configPath: String) {
     }
 
 
-    fun upload(recipes: List<Recipe>) {
+    fun upload(recipes: List<Recipe>): ResponseBody {
         val documents = "\"documents\":[\n" + recipes.joinToString(separator = ",\n") { recipe ->
             ObjectMapper().writeValueAsString(recipe)
         } + "\n]\n"
 
-        val query = completeQuery(documents)
-        logger.debug { "Upload query: $query"}
-
-        queryDB(query, "insertMany")
+        return queryDB(completeQuery(documents), "insertMany")
     }
 
     private fun completeQuery(subQuery: String): String {
         return "{\n\"collection\":\"${config.collection}\",\n\"database\":\"${config.database}\",\n\"dataSource\":\"${config.dataSource}\",\n$subQuery}"
     }
 
-    fun queryDB(query: String, action: String): ResponseBody? {
+    private fun queryDB(query: String, action: String): ResponseBody {
+        logger.debug { "Query: $query"}
+
         val client = OkHttpClient()
         val mediaType = MediaType.parse("application/json")
         val body = RequestBody.create(mediaType, query)
@@ -89,7 +86,7 @@ class RecipeAdapter(configPath: String) {
             .build()
         val response = client.newCall(request).execute()
         logger.info { "Response code: ${response.code()}" }
-        var responseBody = response.body()
+        val responseBody = response.body()
         logger.debug { "Response body: ${responseBody.string()}" }
         return responseBody
     }
