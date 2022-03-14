@@ -4,167 +4,188 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
 
-        <variable
-            name="viewModel"
-            type="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsViewModel" />
-    </data>
+<data>
+    <variable
+        name="viewModel"
+        type="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsViewModel" />
+</data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/grayBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"=
+            android:contentDescription="@+string/Gray banner"
+            app:srcCompat="@drawable/ic_rectangle_1" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/recipe_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@{viewModel.selectedRecipe.title}"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent"
+                android:padding="16dp">
 
-            <ImageView
-                android:id="@+id/recipe_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_title"
-                app:recipeImage="@{viewModel.selectedRecipe}"
-                tools:src="@tools:sample/backgrounds/scenic" />
+                <TextView
+                    android:id="@+id/recipe_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_bold"
+                    android:gravity="center_horizontal"
+                    android:text="@{viewModel.selectedRecipe.title}"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
 
-            <TextView
-                android:id="@+id/recipe_summary_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Summary"
-                android:textColor="@color/purple_500"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
+                <ImageView
+                    android:id="@+id/recipe_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_title"
+                    app:recipeImage="@{viewModel.selectedRecipe}"
+                    tools:src="@tools:sample/backgrounds/scenic" />
 
-            <TextView
-                android:id="@+id/recipe_summary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@{viewModel.selectedRecipe.summary}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header" />
+                <TextView
+                    android:id="@+id/recipe_summary_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_bold"
+                    android:gravity="start"
+                    android:text="Summary:"
+                    android:textColor="#4E5156"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_image"></TextView>
 
-            <TextView
-                android:id="@+id/recipe_ingredients_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Ingredients"
-                android:textColor="@color/purple_500"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_summary" />
+                <TextView
+                    android:id="@+id/recipe_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_regular"
+                    android:gravity="start"
+                    android:text="@{viewModel.selectedRecipe.summary}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header"></TextView>
 
-            <TextView
-                android:id="@+id/recipe_ingredients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="ingredients"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients_header" />
+                <TextView
+                    android:id="@+id/recipe_ingredients_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_bold"
+                    android:gravity="start"
+                    android:text="Ingredients"
+                    android:textColor="#4E5156"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary"></TextView>
 
-            <TextView
-                android:id="@+id/recipe_instructions_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Instructions:"
-                android:textColor="@color/purple_500"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients" />
+                <TextView
+                    android:id="@+id/recipe_ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_regular"
+                    android:gravity="start"
+                    android:text="@{viewModel.selectedRecipe.ingredients}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients_header"></TextView>
 
-            <TextView
-                android:id="@+id/recipe_instructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Steps"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button" />
+                <TextView
+                    android:id="@+id/recipe_instructions_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_bold"
+                    android:gravity="start"
+                    android:text="Instructions:"
+                    android:textColor="#4E5156"
+                    app:layout_constraintLeft_toLeftOf="parent"
 
-            <Button
-                android:id="@+id/speak_recipe_instructions_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:text="Speak"
-                app:layout_constraintEnd_toStartOf="@+id/play_recipe_instructions_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></TextView>
 
-            <Button
-                android:id="@+id/play_recipe_instructions_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:text="Play"
-                app:layout_constraintEnd_toStartOf="@+id/record_recipe_instructions_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
+                <TextView
+                    android:id="@+id/recipe_instructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sofia_pro_regular"
+                    android:gravity="start"
+                    android:text="@{viewModel.selectedRecipe.cookingInstructions}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></TextView>
 
-            <Button
-                android:id="@+id/record_recipe_instructions_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="Record"
-                app:layout_constraintEnd_toStartOf="@+id/delete_recipe_instructions_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/play_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
+                <!--                <Button-->
+                <!--                    android:id="@+id/play_recipe_instructions_button"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:enabled="false"-->
+                <!--                    android:text="Play"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@+id/record_recipe_instructions_button"-->
+                <!--                    app:layout_constraintHorizontal_bias="0.5"-->
+                <!--                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>-->
 
-            <Button
-                android:id="@+id/delete_recipe_instructions_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="Delete"
-                app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/record_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
+                <!--                <Button-->
+                <!--                    android:id="@+id/record_recipe_instructions_button"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:enabled="true"-->
+                <!--                    android:text="Record"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@+id/delete_recipe_instructions_button"-->
+                <!--                    app:layout_constraintHorizontal_bias="0.5"-->
+                <!--                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>-->
 
-            <Button
-                android:id="@+id/pause_recipe_instructions_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="Pause"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/delete_recipe_instructions_button"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
+                <!--                <Button-->
+                <!--                    android:id="@+id/delete_recipe_instructions_button"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:enabled="false"-->
+                <!--                    android:text="Delete"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"-->
+                <!--                    app:layout_constraintHorizontal_bias="0.5"-->
+                <!--                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <Button
+                    android:id="@+id/speak_recipe_instructions_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_box"
+                    android:enabled="true"
+                    android:fontFamily="@font/sofia_pro_regular"
+                    android:text="Speak"
+                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/recipe_instructions_header"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></Button>
+
+                <Button
+                    android:id="@+id/pause_recipe_instructions_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_box"
+                    android:enabled="true"
+                    android:fontFamily="@font/sofia_pro_regular"
+                    android:text="Pause"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></Button>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
 </layout>
