@@ -55,7 +55,7 @@ class RecipeDetailsFragment : Fragment() {
         //Get selected recipe information and place into xml
         if (tempView != null) {
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
-                binding.recipeSummary.text = parsedRecipe.summary
+                //binding.recipeSummary.text = parsedRecipe.summary
                 binding.recipeIngredients.text =
                     parsedRecipe.ingredients.joinToString("") { "- $it\n" }
                 binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
