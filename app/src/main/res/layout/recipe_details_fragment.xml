@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="bellevuecollege.edu.cookpal.recipe_details.RecipeDetailsViewModel" />
@@ -100,20 +99,12 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></TextView>
 
-            <TextView
-                android:id="@+id/recipe_instructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@{viewModel.selectedRecipe.cookingInstructions}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></TextView>
-
             <Button
                 android:id="@+id/speak_recipe_instructions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:enabled="true"
                 android:text="Speak"
                 app:layout_constraintEnd_toStartOf="@+id/play_recipe_instructions_button"
@@ -125,7 +116,9 @@
                 android:id="@+id/play_recipe_instructions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="true"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:enabled="false"
                 android:text="Play"
                 app:layout_constraintEnd_toStartOf="@+id/record_recipe_instructions_button"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -136,7 +129,9 @@
                 android:id="@+id/record_recipe_instructions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:enabled="true"
                 android:text="Record"
                 app:layout_constraintEnd_toStartOf="@+id/delete_recipe_instructions_button"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -147,6 +142,8 @@
                 android:id="@+id/delete_recipe_instructions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:enabled="false"
                 android:text="Delete"
                 app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
@@ -158,12 +155,24 @@
                 android:id="@+id/pause_recipe_instructions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:enabled="false"
                 android:text="Pause"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/delete_recipe_instructions_button"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"></Button>
+
+            <TextView
+                android:id="@+id/recipe_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@{viewModel.selectedRecipe.cookingInstructions.toString()}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></TextView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
