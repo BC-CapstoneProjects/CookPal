@@ -55,6 +55,7 @@
                     app:recipeImage="@{viewModel.selectedRecipe}"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
+                <!--@TODO Do something about the summary part
                 <TextView
                     android:id="@+id/recipe_summary_header"
                     android:layout_width="match_parent"
@@ -77,7 +78,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header"></TextView>
-
+                -->
                 <TextView
                     android:id="@+id/recipe_ingredients_header"
                     android:layout_width="match_parent"
@@ -88,7 +89,7 @@
                     android:textColor="#4E5156"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_image"></TextView>
 
                 <TextView
                     android:id="@+id/recipe_ingredients"

@@ -14,10 +14,6 @@ enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
 class HomeScreenViewModel : ViewModel() {
 
-    private var _searchTerm: String = "rice"
-    private var _searchTerm2: String = "banh mi"
-    private var _searchTerm3: String = "tea"
-
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
 
@@ -29,20 +25,22 @@ class HomeScreenViewModel : ViewModel() {
      * Call getIngredientSearchRecipes() on init so we can display status immediately.
      */
     init {
-        getIngredientSearchRecipes()
+        getIngredientSearchRecipes4()
     }
 
     /**
      * Sets the value of the status LiveData to the IngredientSearch API status.
+     * Searches rice and is used in the toggle buttons on the home screen function
+     * Look into button settings, home_screen_fragment.xml for more.
      */
     fun getIngredientSearchRecipes() {
         viewModelScope.launch {
-            Log.d("HomeScreenViewModel", "Retrieving recipes for $_searchTerm")
+            Log.d("HomeScreenViewModel", "Retrieving recipes for rice")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
                     IngredientSearchApiService().getRecipes(
-                        "bacon"
+                        "rice"
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
@@ -61,15 +59,17 @@ class HomeScreenViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Searches burger for the toggle button
+     */
     fun getIngredientSearchRecipes2() {
         viewModelScope.launch {
-            Log.d("HomeScreenViewModel", "Retrieving recipes for $_searchTerm2")
+            Log.d("HomeScreenViewModel", "Retrieving recipes for burger")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
                     IngredientSearchApiService().getRecipes(
-                        _searchTerm2
-
+                        "burger"
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
@@ -89,22 +89,52 @@ class HomeScreenViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Searches drink for the toggle button
+     */
     fun getIngredientSearchRecipes3() {
         viewModelScope.launch {
-            Log.d("HomeScreenViewModel", "Retrieving recipes for ${_searchTerm3}")
+            Log.d("HomeScreenViewModel", "Retrieving recipes for drink")
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
                     IngredientSearchApiService().getRecipes(
-
-                        _searchTerm3
-
+                        "drink"
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
 
+                        title = recipe.title,
+                        imgUrl = recipe.imgUrl,
+                        sourceUrl = recipe.sourceUrl
+                    )
+                }
+                _status.value = IngredientSearchApiStatus.DONE
+            } catch (e: Exception) {
+                _status.value = IngredientSearchApiStatus.ERROR
+                _recipes.value = ArrayList()
+            }
+        }
+    }
+
+    /**
+     *  Searches rice, burger, drink for toggle button
+     */
+    fun getIngredientSearchRecipes4() {
+        viewModelScope.launch {
+            Log.d("HomeScreenViewModel", "Retrieving recipes for drink")
+            _status.value = IngredientSearchApiStatus.LOADING
+            try {
+                val searchResponse =
+                    IngredientSearchApiService().getRecipes("rice") +
+                    IngredientSearchApiService().getRecipes("bacon") +
+                    IngredientSearchApiService().getRecipes("drink")
+                Log.d("HomeScreenViewModel", "Successfully get recipes")
+                Log.d("recipe", searchResponse.toString())
+                _recipes.value = searchResponse.map { recipe ->
+                    Recipe(
                         title = recipe.title,
                         imgUrl = recipe.imgUrl,
                         sourceUrl = recipe.sourceUrl

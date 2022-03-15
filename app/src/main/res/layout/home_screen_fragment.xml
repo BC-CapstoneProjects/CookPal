@@ -39,7 +39,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="175dp"
-            android:orientation='horizontal'>
+            android:orientation='horizontal'
+            android:checkedButton="@+id/allFoodsButton">
 
             <!--All foods button settings-->
             <!--TODO Implement button functionality-->
@@ -48,7 +49,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/all_foods_button_state"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{() -> viewModel.getIngredientSearchRecipes4()}"/>
 
             <!--Empty space between buttons-->
             <Space
