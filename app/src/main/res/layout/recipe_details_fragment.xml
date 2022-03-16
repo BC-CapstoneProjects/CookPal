@@ -162,12 +162,11 @@
                     android:id="@+id/speak_recipe_instructions_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/button_box"
                     android:enabled="true"
                     android:fontFamily="@font/sofia_pro_regular"
                     android:text="Speak"
-                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/recipe_instructions_header"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></Button>
 
@@ -180,10 +179,20 @@
                     android:fontFamily="@font/sofia_pro_regular"
                     android:text="Pause"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_bias="0.288"
                     app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></Button>
 
+                <ImageButton
+                    android:id="@+id/add_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#00000000"
+                    app:layout_constraintStart_toEndOf="@+id/pause_recipe_instructions_button"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"
+                    app:srcCompat="@drawable/ic_star_shape" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
