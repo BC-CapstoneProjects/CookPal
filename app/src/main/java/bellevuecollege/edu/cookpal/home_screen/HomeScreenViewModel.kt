@@ -1,19 +1,21 @@
 package bellevuecollege.edu.cookpal.home_screen
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bellevuecollege.edu.cookpal.network.IngredientSearchApiService
+import bellevuecollege.edu.cookpal.network.DownloadRecipesMongoDB
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.IngredientSearchApiStatus
 import kotlinx.coroutines.launch
 
 enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
-class HomeScreenViewModel : ViewModel() {
+class HomeScreenViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val context = getApplication<Application>().applicationContext
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
 
@@ -28,6 +30,7 @@ class HomeScreenViewModel : ViewModel() {
         getIngredientSearchRecipes4()
     }
 
+
     /**
      * Sets the value of the status LiveData to the IngredientSearch API status.
      * Searches rice and is used in the toggle buttons on the home screen function
@@ -39,8 +42,8 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApiService().getRecipes(
-                        "rice"
+                    DownloadRecipesMongoDB().getRecipes(
+                        "rice",context
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
@@ -68,8 +71,9 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApiService().getRecipes(
-                        "burger"
+                    DownloadRecipesMongoDB().getRecipes(
+                        "burger", context
+
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
@@ -98,8 +102,10 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApiService().getRecipes(
-                        "drink"
+                    DownloadRecipesMongoDB().getRecipes(
+
+                        "drink", context
+
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
@@ -128,9 +134,9 @@ class HomeScreenViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApiService().getRecipes("rice") +
-                    IngredientSearchApiService().getRecipes("bacon") +
-                    IngredientSearchApiService().getRecipes("drink")
+                    DownloadRecipesMongoDB().getRecipes("rice", context) +
+                            DownloadRecipesMongoDB().getRecipes("bacon", context) +
+                            DownloadRecipesMongoDB().getRecipes("drink", context)
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.map { recipe ->

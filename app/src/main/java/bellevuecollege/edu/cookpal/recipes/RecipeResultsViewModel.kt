@@ -1,19 +1,21 @@
 package bellevuecollege.edu.cookpal.recipes
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bellevuecollege.edu.cookpal.network.IngredientSearchApiService
+import bellevuecollege.edu.cookpal.network.DownloadRecipesMongoDB
 import bellevuecollege.edu.cookpal.network.Recipe
 import kotlinx.coroutines.launch
 
 enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
-class RecipeResultsViewModel : ViewModel() {
+class RecipeResultsViewModel(application: Application) : AndroidViewModel(application) {
     private var ALL_RECIPES_NAME: String = "allrecipes"
     private var _searchTerm: String = "banh mi"
+    private val context = getApplication<Application>().applicationContext
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
@@ -55,9 +57,9 @@ class RecipeResultsViewModel : ViewModel() {
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    IngredientSearchApiService().getRecipes(
+                    DownloadRecipesMongoDB().getRecipes(
 
-                        _searchTerm
+                        _searchTerm,context
 
                     )
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")

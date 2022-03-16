@@ -1,7 +1,8 @@
+
+import mu.KotlinLogging
 import scrapers.BaseScraper
 import scrapers.FoodNetwork
 import scrapers.TasteOfHome
-import mu.KotlinLogging
 import java.io.File
 import kotlin.system.exitProcess
 

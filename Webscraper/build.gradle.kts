@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm")
     application
 }
 
@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":StorageLayer")))
     testImplementation(kotlin("test"))
     // logging
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
@@ -25,6 +26,7 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-chrome-driver:4.1.2")
     implementation("io.github.bonigarcia:webdrivermanager:5.1.0")
     implementation("org.json:json:20211205")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 }
 
 tasks.test {

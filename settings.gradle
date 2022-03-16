@@ -1,2 +1,5 @@
 rootProject.name = "CookPal"
 include ':app'
+
+include ':StorageLayer'
+include ':Webscraper'

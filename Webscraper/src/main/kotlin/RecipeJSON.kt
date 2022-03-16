@@ -1,18 +1,17 @@
 import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.nio.charset.Charset
+import java.nio.file.Files
+import java.nio.file.StandardOpenOption
 
 private val logger = KotlinLogging.logger {}
 
-class RecipeJSON {
-    private val path: String
-
-    constructor(writePath: String) {
-        path = writePath
-    }
+class RecipeJSON(writePath: String) {
+    private val path: String = writePath
 
     fun addRecipes(recipes: List<Recipe>) {
         val fullJSON = JSONArray()
@@ -30,6 +29,8 @@ class RecipeJSON {
         }
 
         try {
+            val a = File(path)
+            Files.write(a.toPath(),fullJSON.toString().toByteArray(), StandardOpenOption.CREATE)
             PrintWriter(FileWriter(path, Charset.defaultCharset()))
                 .use { it.write(fullJSON.toString()) }
         } catch (e: Exception) {

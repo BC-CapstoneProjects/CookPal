@@ -37,11 +37,11 @@ class TasteOfHome : BaseScraper() {
         // Sometimes videos are used instead of images. In that case no image is returned
         recipe.imgUrl = getFirstOrEmptyAttr(html, "div .featured-container img", "src")
 
-        recipe.steps = html.select(".recipe-directions__item span")
-            .map { col -> col.ownText() }.toTypedArray()
+        recipe.steps = arrayListOf(*html.select(".recipe-directions__item span")
+            .map { col -> col.ownText() }.toTypedArray())
 
-        recipe.ingredients = html.select(".recipe-ingredients li")
-            .map { ingredient -> ingredient.ownText() }.toTypedArray()
+        recipe.ingredients = arrayListOf(*html.select(".recipe-ingredients li")
+            .map { ingredient -> ingredient.ownText() }.toTypedArray())
 
         recipe.totalTime = getFirstOrEmptyText(html, ".total-time p")
 
