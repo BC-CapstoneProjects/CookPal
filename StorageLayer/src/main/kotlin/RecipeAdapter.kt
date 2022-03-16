@@ -1,11 +1,16 @@
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.squareup.okhttp.*
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.invoke
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -14,7 +19,7 @@ import java.nio.file.Paths
 class RecipeAdapter {
 
     private val config: Config
-    private val logger = KotlinLogging.logger {}
+//    private val logger = KotlinLogging.logger {}
 
     constructor(inputStream: InputStream) {
         val mapper = ObjectMapper(YAMLFactory())
@@ -106,10 +111,10 @@ class RecipeAdapter {
     }
 
     private suspend fun queryDB(query: String, action: String): List<Recipe> {
-        logger.debug { "Query: $query" }
-        logger.debug { "Query: $config" }
+        println("Query: $query")
+       println("Query: $config")
         val client = OkHttpClient()
-        val mediaType = MediaType.parse("application/json")
+        val mediaType = "application/json".toMediaTypeOrNull()
         val body = RequestBody.create(mediaType, query)
         val request = Request.Builder()
             .url("https://data.mongodb-api.com/app/${config.apiAppID}/endpoint/data/beta/action/$action")
@@ -122,11 +127,12 @@ class RecipeAdapter {
             client.newCall(request).execute()
 
         }
-        logger.info { "Response code: ${response.code()}" }
-        val responseBody = response.body()
-
-        val responseString = responseBody.string()
-        logger.debug { "Response body: $responseString" }
+        //logger.info { "Response code: ${response.code()}" }
+        val responseBody = response.body
+       println("this runs" )
+        val responseString = responseBody?.string()
+        println ( "Response body: $responseString" )
+       println ( "this also runs" )
         println("Response body: $responseString")
         if (action == "find"){
             val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}
