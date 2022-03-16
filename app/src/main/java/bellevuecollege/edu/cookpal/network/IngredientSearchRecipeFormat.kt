@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 // TODO rename file
 @Parcelize
-data class Recipe(
+data class Recipe (
     var isLoadedSuccessful: Boolean = false,
     var rId: String = "",
     var title: String = "",

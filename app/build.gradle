@@ -22,12 +22,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.gms.google-services'
 
+
 android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -113,4 +114,7 @@ dependencies {
 
     // Jackson
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
+    implementation project(path: ':StorageLayer')
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 }

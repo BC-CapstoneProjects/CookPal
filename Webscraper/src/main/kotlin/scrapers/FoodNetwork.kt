@@ -32,8 +32,8 @@ class FoodNetwork : BaseScraper() {
         if (recipe.title == "")
             return recipe
 
-        recipe.steps = html.select(".o-Method__m-Body li")
-            .map { col -> col.ownText() }.toTypedArray()
+        recipe.steps = arrayListOf(*html.select(".o-Method__m-Body li")
+            .map { col -> col.ownText() }.toTypedArray())
 
         recipe.imgUrl = getFirstOrEmptyAttr(
             html,
@@ -44,10 +44,10 @@ class FoodNetwork : BaseScraper() {
             recipe.imgUrl = "https:" + recipe.imgUrl
         }
 
-        recipe.ingredients = html.select(".o-Ingredients__a-Ingredient--CheckboxLabel")
+        recipe.ingredients = arrayListOf(*html.select(".o-Ingredients__a-Ingredient--CheckboxLabel")
             .map { col -> col.ownText() }
             .filter { !it.equals("Deselect All") }
-            .toTypedArray()
+            .toTypedArray())
         recipe.totalTime =
             getFirstOrEmptyText(html, ".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description")
         recipe.sourceUrl = url

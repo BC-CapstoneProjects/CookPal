@@ -2,23 +2,27 @@ package scrapers
 
 import DriverPool
 import Recipe
+import RecipeAdapter
 import RecipeJSON
+import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 abstract class BaseScraper {
-    fun retrieveRecipes(
+    fun retrieveRecipes (
         keyword: String,
         numPages: Int,
         numDrivers: Int,
         writeLocation: String
-    ) {
+    ) = runBlocking {
         val logger = KotlinLogging.logger {}
         logger.info { "Retrieving recipes for keyword $keyword with $numPages page(s) and $numDrivers driver(s)" }
         val driverPool = DriverPool(numDrivers)
         val allRecipes = returnRecipesFromKeyword(keyword, driverPool, numPages)
         logger.info { "Found ${allRecipes.size} recipes" }
+        val storage = RecipeAdapter("StorageLayer/src/main/resources/config.yaml")
+        storage.upload(allRecipes)
         val jsonWriter = RecipeJSON(writeLocation)
         jsonWriter.addRecipes(allRecipes)
         logger.info { "Wrote all recipes to JSON" }

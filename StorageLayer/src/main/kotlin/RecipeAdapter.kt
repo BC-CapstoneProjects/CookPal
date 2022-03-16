@@ -1,25 +1,40 @@
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.squareup.okhttp.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.withContext
 import mu.KotlinLogging
+import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class RecipeAdapter(configPath: String) {
+
+class RecipeAdapter {
 
     private val config: Config
     private val logger = KotlinLogging.logger {}
 
-    init {
+    constructor(inputStream: InputStream) {
+        val mapper = ObjectMapper(YAMLFactory())
+        config = mapper.readValue(inputStream, Config::class.java)
+    }
+
+    constructor(configPath: String = "src/main/resources/config.yaml") {
         val path = Paths.get(configPath)
         val mapper = ObjectMapper(YAMLFactory())
         config = Files.newBufferedReader(path).use {
             mapper.readValue(it, Config::class.java)
         }!!
     }
+
+    data class Response(val documents: List<Recipe>)
+
     //TODO: Sanitize user input
-    fun getRecipesFromQuery(param: List<SearchParam>): ResponseBody {
-        val queryFilter = "\"filter\":{\n" + param.joinToString(",\n") { getQueryFromEnum(it) } + "\n}\n"
+    suspend fun getRecipesFromQuery(param: List<SearchParam>): List<Recipe> {
+        val queryFilter =
+            "\"filter\":{\n" + param.joinToString(",\n") { getQueryFromEnum(it) } + "\n}\n"
         return queryDB(completeQuery(queryFilter), "find")
     }
 
@@ -33,10 +48,10 @@ class RecipeAdapter(configPath: String) {
     }
 
     private fun getFieldQuery(field: String, values: List<String>): String {
-        return getRegexQuery(field, getSingleFieldRegex(field, values), "i")
+        return getRegexQuery(field, getSingleFieldRegex(values), "i")
     }
 
-    private fun getSingleFieldRegex(field: String, values: List<String>): String {
+    private fun getSingleFieldRegex(values: List<String>): String {
         return "^" + values.joinToString(separator = "") { "(?=.*$it)" } + ".+"
     }
 
@@ -44,36 +59,55 @@ class RecipeAdapter(configPath: String) {
         return values.joinToString(separator = ",\n") { getRegexQuery(field, it, "i") }
     }
 
-    fun getRecipesByKeyword(keyword: String): ResponseBody {
-        val query = "\"filter\": {\n\"title\": {\"\$regex\": \"$keyword\", \"\$options\": \"i\"}\n}\n"
-        return queryDB(completeQuery(query), "find")
-    }
-
-
     private fun getRegexQuery(field: String, regex: String, options: String): String {
         return "\"$field\": {\"\$regex\": \"$regex\", \"\$options\": \"$options\"}"
     }
 
-    fun joinSearchQueries(queries: List<String>): String {
-        return "\"filter\":{\n" + queries.joinToString(separator = ",\n") + "\n}\n"
-    }
-
-
-    fun upload(recipes: List<Recipe>): ResponseBody {
+    suspend fun upload(recipes: List<Recipe>): List<Recipe> {
         val documents = "\"documents\":[\n" + recipes.joinToString(separator = ",\n") { recipe ->
-            ObjectMapper().writeValueAsString(recipe)
+            ObjectMapper().writeValueAsString(convertUploadRecipes(recipe))
         } + "\n]\n"
-
+        println(documents)
         return queryDB(completeQuery(documents), "insertMany")
     }
+
+    private fun convertUploadRecipes(recipe: Recipe): UploadRecipe {
+
+        return UploadRecipe(
+            title = recipe.title,
+            steps = recipe.steps,
+            imgUrl = recipe.imgUrl,
+            sourceUrl = recipe.sourceUrl,
+            ingredients = recipe.ingredients,
+            reviewNumber = recipe.reviewNumber,
+            rating = recipe.rating,
+            totalTime = recipe.totalTime
+        )
+
+    }
+
+    data class UploadRecipe(
+        var label: String = "",
+        var title: String = "",
+        var steps: ArrayList<String> = arrayListOf(),
+        var imgUrl: String = "",
+        var sourceUrl: String = "",
+        var ingredients: ArrayList<String> = arrayListOf(),
+        var reviewNumber: Number = 0,
+        var rating: String = "",
+        var totalTime: String = "",
+        var cuisineType: ArrayList<String> = arrayListOf(),
+        var mealType: ArrayList<String> = arrayListOf(),
+        var dishType: ArrayList<String> = arrayListOf(),
+    )
 
     private fun completeQuery(subQuery: String): String {
         return "{\n\"collection\":\"${config.collection}\",\n\"database\":\"${config.database}\",\n\"dataSource\":\"${config.dataSource}\",\n$subQuery}"
     }
 
-    private fun queryDB(query: String, action: String): ResponseBody {
-        logger.debug { "Query: $query"}
-
+    private suspend fun queryDB(query: String, action: String): List<Recipe> {
+        logger.debug { "Query: $query" }
+        logger.debug { "Query: $config" }
         val client = OkHttpClient()
         val mediaType = MediaType.parse("application/json")
         val body = RequestBody.create(mediaType, query)
@@ -84,10 +118,20 @@ class RecipeAdapter(configPath: String) {
             .addHeader("Access-Control-Request-Headers", "*")
             .addHeader("api-key", config.apiKey)
             .build()
-        val response = client.newCall(request).execute()
+        val response = withContext(Dispatchers.IO) {
+            client.newCall(request).execute()
+
+        }
         logger.info { "Response code: ${response.code()}" }
         val responseBody = response.body()
-        logger.debug { "Response body: ${responseBody.string()}" }
-        return responseBody
+
+        val responseString = responseBody.string()
+        logger.debug { "Response body: $responseString" }
+        println("Response body: $responseString")
+        if (action == "find"){
+            val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}
+            return jacksonObjectMapper().readValue(responseString, typeRef).documents
+        }
+        return listOf()
     }
 }

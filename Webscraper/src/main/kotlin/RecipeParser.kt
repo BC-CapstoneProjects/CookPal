@@ -1,4 +1,4 @@
-import java.lang.Exception
+
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -26,8 +26,8 @@ fun extractAllRecipesInformation() {
     //Log.d("Parse recipe", "${recipe.summary}")
 
     // Ingredients
-    recipe.ingredients = doc?.select(ALL_RECIPES_INGREDIENTS_CSS_QUERY)
-        ?.map { it -> it.text() }?.toTypedArray()!!
+    recipe.ingredients = arrayListOf(*doc?.select(ALL_RECIPES_INGREDIENTS_CSS_QUERY)
+        ?.map { it -> it.text() }?.toTypedArray()!!)
     //Log.d("Parse recipe", "${recipe.ingredients}")
 
     // Cooking Instructions

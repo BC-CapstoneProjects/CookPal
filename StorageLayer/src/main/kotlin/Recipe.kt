@@ -1,4 +1,5 @@
 data class Recipe (
+    val _id: String = "",
     var label: String = "",
     var title: String = "",
     var steps: ArrayList<String> = arrayListOf(),
