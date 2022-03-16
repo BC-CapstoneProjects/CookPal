@@ -12,6 +12,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
+import bellevuecollege.edu.cookpal.network.Recipe
+import bellevuecollege.edu.cookpal.profile.UserProfile
+import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import java.io.File
 import java.util.*
 
@@ -21,6 +24,8 @@ class RecipeDetailsFragment : Fragment() {
     private lateinit var recipeVoiceFile: File
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var binding: RecipeDetailsFragmentBinding
+    private val up: UserProfile = UserProfile()
+    private lateinit var recipe : Recipe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +55,27 @@ class RecipeDetailsFragment : Fragment() {
         ).get(RecipeDetailsViewModel::class.java)
         mediaPlayer = MediaPlayer()
 
+        UserProfileHelper.loadProfile { data ->
+            up.setProfile(data)
+        }
+
         //View model
         val tempView = binding.viewModel
         //Get selected recipe information and place into xml
         if (tempView != null) {
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
+                recipe = parsedRecipe
                 //binding.recipeSummary.text = parsedRecipe.summary
                 binding.recipeIngredients.text =
                     parsedRecipe.ingredients.joinToString("") { "- $it\n" }
                 binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
             }
+        }
+
+        binding.addFavorite.setOnClickListener {
+
+            up.favoriteRecipes.add(recipe)
+            UserProfileHelper.saveProfile(up)
         }
         // Setup Speak button handler
         binding.speakRecipeInstructionsButton.setOnClickListener {
