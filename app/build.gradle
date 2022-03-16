@@ -28,7 +28,7 @@ android {
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
