@@ -147,19 +147,21 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <!--Favorite Recipe button settings-->
+
+        <!--Search button settings-->
+
         <ImageButton
             android:id="@+id/favoriteRecipeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="-1dp"
+            android:layout_marginTop="13dp"
             android:layout_toEndOf="@+id/profile"
             android:background="#00000000"
             android:contentDescription="@+string/favorite recipe button"
-            app:srcCompat="@drawable/ic_star_shape" />
+            app:srcCompat="@drawable/ic_notes" />
 
-        <!--Search button settings-->
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
