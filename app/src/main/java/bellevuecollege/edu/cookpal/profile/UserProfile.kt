@@ -1,6 +1,6 @@
 package bellevuecollege.edu.cookpal.profile
 
-import bellevuecollege.edu.cookpal.recipes.Recipe
+import bellevuecollege.edu.cookpal.network.Recipe
 
 class UserProfile {
 
@@ -50,5 +50,5 @@ class UserProfile {
     var name : String = ""
     var emailAddress : String = ""
     var profilePhotoPath : String = ""
-    private val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
+    val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
 }
