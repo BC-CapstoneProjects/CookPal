@@ -76,6 +76,12 @@ class RecipeDetailsFragment : Fragment() {
 
             up.favoriteRecipes.add(recipe)
             UserProfileHelper.saveProfile(up)
+
+            Toast.makeText(
+                activity,
+                "Added to favorites",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         // Setup Speak button handler
         binding.speakRecipeInstructionsButton.setOnClickListener {
