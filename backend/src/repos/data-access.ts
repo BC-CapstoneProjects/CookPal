@@ -12,24 +12,24 @@ const path = require("path");
  */
 
  async function findOne(id:string): Promise<any> {
-      
-    var data = JSON.stringify({
-        "collection": "Recipes",
-        "database": "CookPal",
-        "dataSource": "CookPal",
-        "filter": { "_id": { "$oid": id } }
-        });
-  
-        console.log(data);
- 
+        
+        const data = {'filter': { "_id": { "$oid": id } } };
+   
         return await queryDB(data, 'findOne');
 }
  
- async function queryDB(query:any, action:string): Promise<any> {
+ async function queryDB(queryParm:any, action:string): Promise<any> {
       
     const fullPath = path.resolve(__dirname, "../creds.txt");
  
     const contents:String = fs.readFileSync(fullPath, {encoding:'utf8', flag:'r'});
+    const query = {...queryParm};
+
+    query.collection = 'Recipes';
+    query.database = 'CookPal';
+    query.dataSource = 'CookPal';
+
+    const queryStr = JSON.stringify(query);
 
     const parts = contents.split(',');
 
@@ -41,7 +41,7 @@ const path = require("path");
         'Access-Control-Request-Headers': '*',
         'api-key': parts[1]
         },
-        data : query
+        data : queryStr
         };
    
        var resp = await axios(config)
