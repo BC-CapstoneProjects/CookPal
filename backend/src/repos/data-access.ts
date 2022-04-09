@@ -2,7 +2,8 @@
  
 
 var axios = require('axios');
-
+const fs = require('fs');
+const path = require("path");
 
 /**
  * get one object by id.
@@ -23,20 +24,26 @@ var axios = require('axios');
  
         return await queryDB(data, 'findOne');
 }
-
+ 
  async function queryDB(query:any, action:string): Promise<any> {
       
+    const fullPath = path.resolve(__dirname, "../creds.txt");
+ 
+    const contents:String = fs.readFileSync(fullPath, {encoding:'utf8', flag:'r'});
+
+    const parts = contents.split(',');
+
         var config = {
         method: 'post',
-        url: 'https://data.mongodb-api.com/app/data-dgwfl/endpoint/data/beta/action/' + action,
+        url: 'https://data.mongodb-api.com/app/' + parts[0] + '/endpoint/data/beta/action/' + action,
         headers: {
         'Content-Type': 'application/json',
         'Access-Control-Request-Headers': '*',
-        'api-key': 'L2jOucju0Ifu2EQYOQisTKvef9UTfP4Y6b63sQFS4ImyT17cb4odHk0GP9bZWUhh'
+        'api-key': parts[1]
         },
         data : query
         };
-        
+   
        var resp = await axios(config)
         .then(function (response:any) {
 

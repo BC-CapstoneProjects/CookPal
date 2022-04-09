@@ -97,3 +97,4 @@ StorageLayer/src/main/resources/config.yaml
 .idea/misc.xml
 
 backend/node_modules
+backend/src/creds.txt
