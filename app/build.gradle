@@ -116,5 +116,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
     implementation project(path: ':StorageLayer')
 
+    //Google's MLkit
+    implementation 'com.google.mlkit:translate:17.0.0'
+
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 }
