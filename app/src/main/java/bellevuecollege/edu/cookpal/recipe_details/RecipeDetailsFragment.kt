@@ -27,6 +27,7 @@ class RecipeDetailsFragment : Fragment() {
     private val up: UserProfile = UserProfile()
     private lateinit var recipe : Recipe
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Setup Text To Speech engine
@@ -80,8 +81,9 @@ class RecipeDetailsFragment : Fragment() {
         // Setup Speak button handler
         binding.speakRecipeInstructionsButton.setOnClickListener {
             if (tempView != null) {
-                val instructions = tempView.selectedRecipe.value?.steps.toString().replace("[","").replace("]","")
-                Log.d("-----instructions-----", instructions.toString())
+                val instructions = recipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
+
+                Log.d("-----instructions-----", instructions)
                 if (instructions != null) {
                     if (instructions.isNotEmpty()) {
                         mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
