@@ -9,10 +9,6 @@ import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.network.DownloadRecipesMongoDB
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.recipes.IngredientSearchApiStatus
-import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.nl.translate.TranslateLanguage
-import com.google.mlkit.nl.translate.Translation
-import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.launch
 
 enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
@@ -31,40 +27,6 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
      * Call getIngredientSearchRecipes() on init so we can display status immediately.
      */
     init {
-
-        /**
-         * Translate Test
-         */
-        val words = "I am cool"
-        val options = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.ENGLISH)
-            .setTargetLanguage(TranslateLanguage.SPANISH)
-            .build()
-        val engJapTranslator = Translation.getClient(options)
-        var conditions = DownloadConditions.Builder()
-            .requireWifi()
-            .build()
-        //download language model
-        //Language models are around 30MB, don't have too many.
-        engJapTranslator.downloadModelIfNeeded(conditions)
-            .addOnSuccessListener {
-                // Model downloaded successfully. Okay to start translating
-                // Set a flag, unhide the translation UI, etc.
-                Log.d("Translator", "Model download successful")
-
-                //Translate text if download successful
-                engJapTranslator.translate(words)
-                    .addOnSuccessListener {
-                        Log.d("Translated text", it)
-                    }
-                    .addOnFailureListener {
-                        Log.e("Translated text", "Failed to translate")
-                    }
-            }
-            .addOnFailureListener {
-                //Model couldn't be downloaded or other internal error
-                Log.e("Translator", "Model download failed")
-            }
         getIngredientSearchRecipes4()
     }
 

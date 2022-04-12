@@ -15,6 +15,11 @@ import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.profile.UserProfile
 import bellevuecollege.edu.cookpal.profile.UserProfileHelper
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
 import java.io.File
 import java.util.*
 
@@ -26,7 +31,8 @@ class RecipeDetailsFragment : Fragment() {
     private lateinit var binding: RecipeDetailsFragmentBinding
     private val up: UserProfile = UserProfile()
     private lateinit var recipe : Recipe
-
+    private var modelDownloaded: Boolean = false //flag to check if translator model has been downloaded
+    private lateinit var engJapTranslator: Translator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +42,34 @@ class RecipeDetailsFragment : Fragment() {
         ) { status ->
             if (status != TextToSpeech.ERROR) {
                 //if there is no error then set language
-                mTTS.language = Locale.US
+                mTTS.language = Locale.JAPANESE
             }
         }
+        /**
+         * Set up translator model
+         */
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.ENGLISH)
+            .setTargetLanguage(TranslateLanguage.JAPANESE)
+            .build()
+        engJapTranslator = Translation.getClient(options)
+        var conditions = DownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        //download language model
+        //Language models are around 30MB, don't have too many.
+        engJapTranslator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                // Model downloaded successfully. Okay to start translating
+                // Set a flag, unhide the translation UI, etc.
+                Log.d("Translator", "Model download successful")
+                modelDownloaded = true
+            }
+            .addOnFailureListener {
+                //Model couldn't be downloaded or other internal error
+                Log.e("Translator", "Model download failed")
+            }
+
     }
 
     override fun onCreateView(
@@ -83,19 +114,43 @@ class RecipeDetailsFragment : Fragment() {
             if (tempView != null) {
                 val instructions = recipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
 
-                Log.d("-----instructions-----", instructions)
                 if (instructions != null) {
-                    if (instructions.isNotEmpty()) {
-                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
-                        binding.pauseRecipeInstructionsButton.isEnabled = true
-                        Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
-                    } else {
-                        Log.e(
-                            "Recipe Details Fragment",
-                            "No recipe instructions supplied for TTS"
-                        )
+                    if (modelDownloaded) {
+                        //translate english instructions to language
+                        engJapTranslator.translate(instructions)
+                            .addOnSuccessListener {
+                                Log.d("Translated text", it) //it refers to the translated string
+                                mTTS.speak(it, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                                binding.pauseRecipeInstructionsButton.isEnabled = true
+                                Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
+                            }
+                            .addOnFailureListener {
+                                Log.e("Translated text", "Failed to translate")
+                            }
                     }
+                } else {
+                    Log.e(
+                        "Recipe Details Fragment",
+                        "No recipe instructions supplied for TTS"
+                    )
                 }
+
+                /**
+                 * Old TTS code
+                 */
+//                Log.d("-----instructions-----", instructions)
+//                if (instructions != null) {
+//                    if (instructions.isNotEmpty()) {
+//                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+//                        binding.pauseRecipeInstructionsButton.isEnabled = true
+//                        Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
+//                    } else {
+//                        Log.e(
+//                            "Recipe Details Fragment",
+//                            "No recipe instructions supplied for TTS"
+//                        )
+//                    }
+//                }
             }
         }
 
