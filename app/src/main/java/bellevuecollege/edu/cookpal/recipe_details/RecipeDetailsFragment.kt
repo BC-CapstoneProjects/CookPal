@@ -1,5 +1,6 @@
 package bellevuecollege.edu.cookpal.recipe_details
 
+import android.R
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +24,7 @@ import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
 import java.io.File
 import java.util.*
+import android.widget.Spinner
 
 class RecipeDetailsFragment : Fragment() {
     private val UTTERANCE_ID: String = "tts1"
@@ -33,6 +36,8 @@ class RecipeDetailsFragment : Fragment() {
     private lateinit var recipe : Recipe
     private var modelDownloaded: Boolean = false //flag to check if translator model has been downloaded
     private lateinit var engJapTranslator: Translator
+    private val espan: Locale = Locale("es","es")
+    private val lang: Array<String> = arrayOf("English", "Spanish", "Japanese")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +47,8 @@ class RecipeDetailsFragment : Fragment() {
         ) { status ->
             if (status != TextToSpeech.ERROR) {
                 //if there is no error then set language
-                mTTS.language = Locale.JAPANESE
+                //mTTS.language = Locale.JAPANESE
+                mTTS.language = espan
             }
         }
         /**
@@ -50,7 +56,7 @@ class RecipeDetailsFragment : Fragment() {
          */
         val options = TranslatorOptions.Builder()
             .setSourceLanguage(TranslateLanguage.ENGLISH)
-            .setTargetLanguage(TranslateLanguage.JAPANESE)
+            .setTargetLanguage(TranslateLanguage.SPANISH)
             .build()
         engJapTranslator = Translation.getClient(options)
         var conditions = DownloadConditions.Builder()
@@ -103,6 +109,12 @@ class RecipeDetailsFragment : Fragment() {
                 binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
             }
         }
+
+        //Array adapter for spinner/drop down menu
+        val aa = ArrayAdapter(requireActivity().applicationContext, R.layout.simple_spinner_item, lang)
+        aa.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        val spinner = binding.langSpinner
+        spinner.adapter = aa
 
         binding.addFavorite.setOnClickListener {
 
