@@ -101,3 +101,4 @@ backend/src/creds.txt
 
 StorageLayer/src/main/resources
 app/src/main/assets/storageAccess
+app/src/main/assets/configenv.yaml
