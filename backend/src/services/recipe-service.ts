@@ -15,9 +15,22 @@ async function getOne(id:string): Promise<IRecipe | null> {
     return dt;
 }
 
+/**
+ * Get recipes by title.
+ * 
+ * @returns 
+ */
+ async function getByTitle(title:string): Promise<Array<any >> {
+    var dt = await recipeRepo.getByTitle(title);
+ 
+    return dt;
+}
+
+
  
 
 // Export default
 export default {
-    getOne 
+    getOne,
+    getByTitle
 } as const;

@@ -98,3 +98,6 @@ StorageLayer/src/main/resources/config.yaml
 
 backend/node_modules
 backend/src/creds.txt
+
+StorageLayer/src/main/resources
+app/src/main/assets/storageAccess

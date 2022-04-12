@@ -11,6 +11,7 @@ const { CREATED, OK } = StatusCodes;
 // Paths
 export const p = {
     get: '/:id', 
+    getByTitle: '/title/:title', 
 } as const;
  
 /**
@@ -25,6 +26,18 @@ router.get(p.get, async (req: Request, res: Response) => {
     return res.status(OK).json(data);
 });
 
+
+/**
+ * Get recipes by title
+ */
+ router.get(p.getByTitle, async (req: Request, res: Response) => {
+     
+    var data = await recipeService.getByTitle(req.params.title);
+
+    console.log(JSON.stringify(data));
+   
+    return res.status(OK).json(data);
+});
  
 
 // Export default

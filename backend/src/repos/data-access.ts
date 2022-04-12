@@ -13,45 +13,57 @@ const searchType:SearchType = {TITLE:'',INGREDIENT:'',ALL:''};
  * 
  * @returns 
  */
-
- async function findOne(id:string): Promise<any> {
+  
+async function findOne(id:string): Promise<any> {
         
         const data = {'filter': { "_id": { "$oid": id } } };
    
         return await queryDB(data, 'findOne');
 }
 
-function getFieldQuery(field: String, values: Array<String>): String {
+async function findByTitle(title:string): Promise<Array<any>> {
+          
+    var searchParams = [{searchValues:[title], searchType:searchType}];
+
+    return await getRecipesFromQuery(searchParams);
+}
+
+function getFieldQuery(field: string, values: Array<String>): String {
     return getRegexQuery(field, getSingleFieldRegex(values), "i");
 }
 
-function getRecipesFromQuery(param: Array<SearchParam>): Promise<any> {
-    const queryFilter = '{filter:{' +  getQueryFromEnum(param[0]) + '}}'; 
+async function getRecipesFromQuery(param: Array<SearchParam>): Promise<any> {
 
-    return queryDB(queryFilter, "find");
+    const filter = getQueryFromEnum(param[0]);
+  
+    const queryFilter = {filter:  filter }; 
+
+    return await queryDB(queryFilter, "find");
 }
 
-function getFieldArrayQuery(field: String, values: Array<String>): String {
+function getFieldArrayQuery(field: string, values: Array<String>): String {
     return getRegexQuery(field, values.join(",\n"), "i");
 }
 
-function getQueryFromEnum(param: SearchParam): String {
+function getQueryFromEnum(param: SearchParam): any {
     if (param.searchType) {
         searchType.TITLE = getFieldQuery("title", param.searchValues);
         searchType.INGREDIENT = getFieldArrayQuery("ingredients", param.searchValues);
 
     }
-    return ""
+    return searchType.TITLE;
 }
 
 function getSingleFieldRegex(values: Array<String>): String {
     return "^" + "(?=.*" + values.join("") + ")" + ".+";
 }
 
-function getRegexQuery(field: String, regex: String, options: String): any {
+function getRegexQuery(field: string, regex: String, options: String): any {
 
-    const query = {field : {'regex':regex,'options':options}};
+    var query:any = {};
 
+    query[field] = {'$regex':regex,'$options':options};
+ 
     return query;
 }
  
@@ -67,6 +79,8 @@ function getRegexQuery(field: String, regex: String, options: String): any {
     query.dataSource = 'CookPal';
 
     const queryStr = JSON.stringify(query);
+ 
+    console.log(queryStr); 
 
     const parts = contents.split(',');
 
@@ -91,7 +105,7 @@ function getRegexQuery(field: String, regex: String, options: String): any {
 
         })
         .catch(function (error:any) {
-        console.log(error);
+       // console.log(error);
         });
 
         return resp;
@@ -99,5 +113,6 @@ function getRegexQuery(field: String, regex: String, options: String): any {
  
 // Export default
 export default {
-    findOne
+    findOne,
+    findByTitle
 } as const;

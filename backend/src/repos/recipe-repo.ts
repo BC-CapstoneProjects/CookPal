@@ -6,7 +6,7 @@ import  dataAccess from './data-access'
 /**
  * Get one recipe.
  * 
- * @param email 
+ * @param id 
  * @returns 
  */
 async function getOne(id: string): Promise<IRecipe | null> {
@@ -15,10 +15,17 @@ async function getOne(id: string): Promise<IRecipe | null> {
     return data;
 }
 
+
+async function getByTitle(title: string): Promise<Array<any>> {
+    const data = await dataAccess.findByTitle(title);
+  
+    return data;
+}
  
 
 
 // Export default
 export default {
     getOne, 
+    getByTitle
 } as const;
