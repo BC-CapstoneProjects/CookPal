@@ -21,14 +21,3 @@ export class ParamMissingError extends CustomError {
         super(ParamMissingError.Msg, ParamMissingError.HttpStatus);
     }
 }
-
-
-export class UserNotFoundError extends CustomError {
-
-    public static readonly Msg = 'A user with the given id does not exists in the database.';
-    public static readonly HttpStatus = HttpStatusCodes.NOT_FOUND;
-
-    constructor() {
-        super(UserNotFoundError.Msg, UserNotFoundError.HttpStatus);
-    }
-}

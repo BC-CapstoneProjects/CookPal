@@ -1,6 +1,5 @@
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import path from 'path';
 import helmet from 'helmet';
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -51,26 +50,6 @@ app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) 
         error: err.message,
     });
 });
-
-
-/***********************************************************************************
- *                                  Front-end content
- **********************************************************************************/
-
-// Set views dir
-const viewsDir = path.join(__dirname, 'views');
-app.set('views', viewsDir);
-
-// Set static dir
-const staticDir = path.join(__dirname, 'public');
-app.use(express.static(staticDir));
-
-// Serve index.html file
-app.get('*', (_: Request, res: Response) => {
-    res.sendFile('index.html', {root: viewsDir});
-});
-
-
 
 // Export here and start in a diff file (for testing).
 export default app;

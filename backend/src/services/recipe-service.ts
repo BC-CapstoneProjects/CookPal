@@ -1,8 +1,5 @@
 import recipeRepo from '@repos/recipe-repo';
 import { IRecipe } from '@models/recipe-model';
-import { UserNotFoundError } from '@shared/errors';
-
-
 
 /**
  * Get one recipe.
@@ -10,7 +7,7 @@ import { UserNotFoundError } from '@shared/errors';
  * @returns 
  */
 async function getOne(id:string): Promise<IRecipe | null> {
-    var dt = await recipeRepo.getOne(id);
+    const dt = await recipeRepo.getOne(id);
  
     return dt;
 }
@@ -21,13 +18,10 @@ async function getOne(id:string): Promise<IRecipe | null> {
  * @returns 
  */
  async function getByTitle(title:string): Promise<Array<any >> {
-    var dt = await recipeRepo.getByTitle(title);
+    const dt = await recipeRepo.getByTitle(title);
  
     return dt;
 }
-
-
- 
 
 // Export default
 export default {

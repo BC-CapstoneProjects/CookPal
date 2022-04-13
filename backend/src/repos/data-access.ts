@@ -1,8 +1,7 @@
-import { IRecipe } from "@models/recipe-model";
 import { SearchParam } from "@models/SearchParam";
 import { SearchType } from "@models/SearchType";
 
-var axios = require('axios');
+const axios = require('axios');
 const fs = require('fs');
 const path = require("path");
 
@@ -16,14 +15,14 @@ const searchType:SearchType = {TITLE:'',INGREDIENT:'',ALL:''};
   
 async function findOne(id:string): Promise<any> {
         
-        const data = {'filter': { "_id": { "$oid": id } } };
-   
-        return await queryDB(data, 'findOne');
+    const data = {'filter': { "_id": { "$oid": id } } };
+
+    return await queryDB(data, 'findOne');
 }
 
 async function findByTitle(title:string): Promise<Array<any>> {
           
-    var searchParams = [{searchValues:[title], searchType:searchType}];
+    const searchParams = [{searchValues:[title], searchType:searchType}];
 
     return await getRecipesFromQuery(searchParams);
 }
@@ -60,7 +59,7 @@ function getSingleFieldRegex(values: Array<String>): String {
 
 function getRegexQuery(field: string, regex: String, options: String): any {
 
-    var query:any = {};
+    const query:any = {};
 
     query[field] = {'$regex':regex,'$options':options};
  
@@ -84,7 +83,7 @@ function getRegexQuery(field: string, regex: String, options: String): any {
 
     const parts = contents.split(',');
 
-        var config = {
+    const config = {
         method: 'post',
         url: 'https://data.mongodb-api.com/app/' + parts[0] + '/endpoint/data/beta/action/' + action,
         headers: {
@@ -95,10 +94,10 @@ function getRegexQuery(field: string, regex: String, options: String): any {
         data : queryStr
         };
    
-       var resp = await axios(config)
+        const resp = await axios(config)
         .then(function (response:any) {
 
-            var rdata:String = JSON.stringify(response.data);
+            const rdata:String = JSON.stringify(response.data);
             //console.log(rdata);
         
             return response.data;
