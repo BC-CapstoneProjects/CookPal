@@ -1,5 +1,5 @@
 
-// User schema
+// Recipe schema
 export interface IRecipe {
     id: string;
     label: string;
