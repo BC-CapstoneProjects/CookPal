@@ -15,7 +15,12 @@ async function getOne(id: string): Promise<IRecipe | null> {
     return data;
 }
 
-
+/**
+ * Get recipes by title.
+ * 
+ * @param title 
+ * @returns 
+ */
 async function getByTitle(title: string): Promise<Array<any>> {
     const data = await dataAccess.findByTitle(title);
   

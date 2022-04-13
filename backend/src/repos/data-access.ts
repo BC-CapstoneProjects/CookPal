@@ -8,9 +8,9 @@ const path = require("path");
 const searchType:SearchType = {TITLE:'',INGREDIENT:'',ALL:''};
 
 /**
- * get one object by id.
+ * get one recipe by id.
  * 
- * @returns 
+ * @returns a recipe object
  */
   
 async function findOne(id:string): Promise<any> {
@@ -19,6 +19,12 @@ async function findOne(id:string): Promise<any> {
 
     return await queryDB(data, 'findOne');
 }
+
+/**
+ * get recipes by title.
+ * 
+ * @returns an array of recipe objects
+ */
 
 async function findByTitle(title:string): Promise<Array<any>> {
           
