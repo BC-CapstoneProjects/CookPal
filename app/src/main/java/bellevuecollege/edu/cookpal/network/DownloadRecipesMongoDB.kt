@@ -57,9 +57,23 @@ class DownloadRecipesMongoDB {
             val mapper = ObjectMapper(YAMLFactory())
             configenv = mapper.readValue(inputStream, ConfigEnv::class.java)
 
+            var server = "";
+
+            if (configenv.env == "local")
+            {
+                server = configenv.localserver;
+            }
+            else if (configenv.env == "aws")
+            {
+                server = configenv.awsserver
+            }
+            else
+            {
+                throw Exception("invalid env value");
+            }
 
             val request = Request.Builder()
-                    .url(configenv.localserver + "/api/recipe/title/" + keyWord)
+                    .url(server + "/api/recipe/title/" + keyWord)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Access-Control-Request-Headers", "*")
                     .build()
