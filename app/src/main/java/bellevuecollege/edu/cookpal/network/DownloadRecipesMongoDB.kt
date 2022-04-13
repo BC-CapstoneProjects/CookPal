@@ -1,54 +1,23 @@
 package bellevuecollege.edu.cookpal.network
 
-import Config
-import RecipeAdapter
-import SearchParam
-import SearchType
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
-import java.nio.file.Files
-import java.nio.file.Paths
 
 class DownloadRecipesMongoDB {
 
     private lateinit var configenv: ConfigEnv
-    private lateinit var config: Config
-
-    suspend fun getRecipesout(keyWord: String, context: Context): List<Recipe> {
-        try
-        {
-            val inputStream = context.assets.open("storageAccess/config.yaml")
-            val adapter = RecipeAdapter(inputStream)
-            val converter = RecipeClassConverter()
-
-            return adapter.getRecipesFromQuery(listOf(SearchParam(SearchType.TITLE, listOf(keyWord))))
-                    .map { converter.convert(it) }
-        }
-        catch (e:Exception)
-        {
-            println(e.message);
-            return listOf()
-        }
-
-    }
 
     data class Response(val documents: List<Recipe>)
 
     suspend fun getRecipes(keyWord: String, context: Context): List<Recipe>
     {
         val client = OkHttpClient()
-        val mediaType = "application/json".toMediaTypeOrNull()
-
-
 
         try
         {
@@ -101,7 +70,5 @@ class DownloadRecipesMongoDB {
             println(e.message);
             return listOf();
         }
-
-
     }
 }
