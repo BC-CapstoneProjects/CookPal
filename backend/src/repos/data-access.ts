@@ -27,7 +27,7 @@ async function findByTitle(title:string): Promise<Array<any>> {
     return await getRecipesFromQuery(searchParams);
 }
 
-function getFieldQuery(field: string, values: Array<String>): String {
+function getFieldQuery(field: string, values: Array<string>): string {
     return getRegexQuery(field, getSingleFieldRegex(values), "i");
 }
 
@@ -40,7 +40,7 @@ async function getRecipesFromQuery(param: Array<SearchParam>): Promise<any> {
     return await queryDB(queryFilter, "find");
 }
 
-function getFieldArrayQuery(field: string, values: Array<String>): String {
+function getFieldArrayQuery(field: string, values: Array<string>): string {
     return getRegexQuery(field, values.join(",\n"), "i");
 }
 
@@ -53,11 +53,11 @@ function getQueryFromEnum(param: SearchParam): any {
     return searchType.TITLE;
 }
 
-function getSingleFieldRegex(values: Array<String>): String {
+function getSingleFieldRegex(values: Array<string>): string {
     return "^" + "(?=.*" + values.join("") + ")" + ".+";
 }
 
-function getRegexQuery(field: string, regex: String, options: String): any {
+function getRegexQuery(field: string, regex: string, options: string): any {
 
     const query:any = {};
 
@@ -70,7 +70,7 @@ function getRegexQuery(field: string, regex: String, options: String): any {
       
     const fullPath = path.resolve(__dirname, "../creds.txt");
  
-    const contents:String = fs.readFileSync(fullPath, {encoding:'utf8', flag:'r'});
+    const contents:string = fs.readFileSync(fullPath, {encoding:'utf8', flag:'r'});
     const query = {...queryParm};
 
     query.collection = 'Recipes';
@@ -97,7 +97,7 @@ function getRegexQuery(field: string, regex: String, options: String): any {
         const resp = await axios(config)
         .then(function (response:any) {
 
-            const rdata:String = JSON.stringify(response.data);
+            const rdata:string = JSON.stringify(response.data);
             //console.log(rdata);
         
             return response.data;
