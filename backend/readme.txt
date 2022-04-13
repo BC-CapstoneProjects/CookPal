@@ -8,7 +8,7 @@ npm run start:dev
 
 
 create file called configenv.yaml and put this file in this folder app/src/main/assets, use information below to put in the file
-# replace ip address with the ip address of where the node js server is running
+# replace ip address of localserver with the ip address of where the node js server is running
 # change env to aws to use awsserver
 env: local
 localserver: http://10.0.0.167:3000
