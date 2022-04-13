@@ -1,7 +1,7 @@
 # Adding api info like the apiKey to git is not safe, as the repo is public.
 # Hence, these values are intentionally left blank for manual entry.
-collection: Recipes
-database: CookPal
-dataSource: CookPal
-apiKey: L2jOucju0Ifu2EQYOQisTKvef9UTfP4Y6b63sQFS4ImyT17cb4odHk0GP9bZWUhh
-apiAppID: data-dgwfl
+collection:
+database:
+dataSource:
+apiKey:
+apiAppID:
