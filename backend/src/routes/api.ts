@@ -13,5 +13,11 @@ baseRouter.get('/test', async (req: Request, res: Response) => {
     return res.status(OK).json({'data':'some data'});
 });
 
+baseRouter.get('/update', async (req: Request, res: Response) => {
+     
+    // use to update api for aws
+    return res.status(OK).json({'data':'some data'});
+});
+
 // Export default.
 export default baseRouter;
