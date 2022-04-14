@@ -1,5 +1,6 @@
 import { SearchParam } from "@models/SearchParam";
 import { SearchType } from "@models/SearchType";
+import utils from "src/utils/utils";
 
 const axios = require('axios');
 const fs = require('fs');
@@ -86,6 +87,7 @@ function getRegexQuery(field: string, regex: string, options: string): any {
     const queryStr = JSON.stringify(query);
  
     console.log(queryStr); 
+    utils.log(queryStr);
 
     const parts = contents.split(',');
 
