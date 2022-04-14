@@ -1,6 +1,6 @@
 import { SearchParam } from "@models/SearchParam";
 import { SearchType } from "@models/SearchType";
-import utils from "src/utils/utils";
+import utils from "../utils/utils";
 
 const axios = require('axios');
 const fs = require('fs');

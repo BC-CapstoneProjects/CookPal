@@ -1,7 +1,7 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import recipeService from '@services/recipe-service';
-import utils from 'src/utils/utils';
+import utils from '../utils/utils';
 
 // Constants
 const router = Router();
@@ -38,7 +38,7 @@ router.get(p.get, async (req: Request, res: Response) => {
 
     console.log(JSON.stringify(data));
     utils.log(JSON.stringify(data));
-    
+
     data = utils.hideError(data);
    
     return res.status(OK).json(data);
