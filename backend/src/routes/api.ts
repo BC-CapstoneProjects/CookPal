@@ -12,7 +12,7 @@ baseRouter.use('/recipe', recipeRouter);
 
 baseRouter.get('/test', async (req: Request, res: Response) => {
      
-    return res.status(OK).json({'data':'some data'});
+    return res.status(OK).json({'data':'some data1'});
 });
  
 baseRouter.get('/update', async (req: Request, res: Response) => {
