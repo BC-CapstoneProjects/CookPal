@@ -2,7 +2,11 @@ var fs = require('fs');
 
 class utils
 {
-    public static log(data: string) {
+    public static logerror(data: string) {
+        utils.log(data, 'error-log');
+    }
+
+    public static log(data: string, name:string = 'log') {
         
         var dir = './logs';
 
@@ -12,7 +16,7 @@ class utils
 
         const date = new Date();
  
-        var filename = `log-${date.getFullYear()}-${date.getMonth()}-${date.getDay()}.txt`;
+        var filename = name + `-${date.getFullYear()}-${date.getMonth()}-${date.getDay()}.txt`;
         var fullPath = dir + '/' + filename;
  
         fs.appendFile(fullPath, data + "\n", (err:any) => {

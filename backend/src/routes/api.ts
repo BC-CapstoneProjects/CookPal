@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import recipeRouter from './recipe-router';
 import StatusCodes from 'http-status-codes';
 import dataAccess from '@repos/data-access';
+import utils from 'src/utils/utils';
 
 // Export the base-router
 const baseRouter = Router();
@@ -32,6 +33,7 @@ baseRouter.get('/update', async (req: Request, res: Response) => {
     }
     catch (e:any)
     {
+        utils.logerror(JSON.stringify(e));
         return res.status(OK).json({'error':'an error has occurred'});
     }
 });

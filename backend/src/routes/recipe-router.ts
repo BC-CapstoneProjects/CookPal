@@ -30,6 +30,7 @@ router.get(p.get, async (req: Request, res: Response) => {
     }
     catch (e:any)
     {
+        utils.logerror(JSON.stringify(e));
         return res.status(OK).json({'error':'an error has occurred'});
     }
 });
@@ -54,6 +55,7 @@ router.get(p.get, async (req: Request, res: Response) => {
     }
     catch (e:any)
     {
+        utils.logerror(JSON.stringify(e));
         return res.status(OK).json({'error':'an error has occurred'});
     }
     
