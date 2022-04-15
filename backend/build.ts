@@ -14,6 +14,10 @@ import childProcess from 'child_process';
         await remove('./dist/');        
         // Copy production env file
         await copy('./src/pre-start/env/production.env', './dist/pre-start/env/production.env');
+
+         // Copy creds files
+        await copy('./src/creds.txt', './dist/creds.txt');
+        await copy('./src/dbcreds.txt', './dist/dbcreds.txt');
         // Copy back-end files
         await exec('tsc --build tsconfig.prod.json', './')
     } catch (err) {
