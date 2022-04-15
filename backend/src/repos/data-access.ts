@@ -5,6 +5,9 @@ import utils from "../utils/utils";
 const axios = require('axios');
 const fs = require('fs');
 const path = require("path");
+const mysql = require('mysql');
+ 
+var connection:any;
 
 const searchType:SearchType = {TITLE:'',INGREDIENT:'',ALL:''};
 
@@ -13,6 +16,58 @@ const searchType:SearchType = {TITLE:'',INGREDIENT:'',ALL:''};
  * 
  * @returns a recipe object
  */
+
+function connectToMysql()
+{
+    if (connection)
+    {
+        return;
+    }
+
+    const fullPath = path.resolve(__dirname, "../dbcreds.txt");
+
+    const pwd:string = fs.readFileSync(fullPath, {encoding:'utf8', flag:'r'});
+
+    connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'nduser',
+    password : pwd,
+    database : 'nddb'
+    });
+    
+    connection.connect();    
+}
+  
+function putinPendingCodeUpdate(): Promise<any> {
+    return new Promise(function(resolve, reject) {
+          
+        connectToMysql();
+
+        connection.query('insert into tblcodeupd (val) values (0)', function (error:any, results:any, fields:any) {
+        if (error) {
+            return reject(error);
+        }
+        console.log('The solution is: ', results);
+        resolve(results);
+        });
+    }); 
+}
+
+ function getPendingCodeUpdates(): Promise<Array<any>> {
+    return new Promise(function(resolve, reject) {
+          
+        connectToMysql();
+
+        connection.query('select * from tblcodeupd where val = 0', function (error:any, results:any, fields:any) {
+        if (error) {
+            return reject(error);
+        }
+        console.log('The solution is: ', results);
+        resolve(results);
+        });
+    }); 
+}
+
   
 async function findOne(id:string): Promise<any> {
         
@@ -121,5 +176,7 @@ function getRegexQuery(field: string, regex: string, options: string): any {
 // Export default
 export default {
     findOne,
-    findByTitle
+    findByTitle,
+    putinPendingCodeUpdate,
+    getPendingCodeUpdates
 } as const;

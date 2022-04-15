@@ -98,6 +98,7 @@ StorageLayer/src/main/resources/config.yaml
 
 backend/node_modules
 backend/src/creds.txt
+backend/src/dbcreds.txt
 backend/package-lock.json 
 backend/logs
 
