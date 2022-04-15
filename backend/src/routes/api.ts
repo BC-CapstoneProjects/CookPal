@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import recipeRouter from './recipe-router';
 import StatusCodes from 'http-status-codes';
 import dataAccess from '@repos/data-access';
-import utils from 'src/utils/utils';
+import utils from '../utils/utils';
 
 // Export the base-router
 const baseRouter = Router();
