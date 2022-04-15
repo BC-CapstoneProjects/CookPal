@@ -12,7 +12,12 @@ create file called configenv.yaml and put this file in this folder app/src/main/
 # change env to aws to use awsserver
 env: local
 localserver: http://10.0.0.167:3000
-awsserver: 
+awsserver: http://52.205.220.71:8081
+
+
+to update the aws node js code use this url 
+http://52.205.220.71:8081/api/update
+the code should update within 1-2 minutes
 
 create file called creds.txt and put this file in this folder backend/src, put the information below in it, the appid and appkey need to be on one line and seperated by a comma
 appid,appkey
