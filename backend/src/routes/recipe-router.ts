@@ -17,15 +17,21 @@ export const p = {
  * Get one recipe.
  */
 router.get(p.get, async (req: Request, res: Response) => {
-     
-    let data = await recipeService.getOne(req.params.id);
+    try
+    {
+        let data = await recipeService.getOne(req.params.id);
 
-    console.log(JSON.stringify(data));
-    utils.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
+        utils.log(JSON.stringify(data));
 
-    data = utils.hideError(data);
-   
-    return res.status(OK).json(data);
+        data = utils.hideError(data);
+    
+        return res.status(OK).json(data);
+    }
+    catch (e:any)
+    {
+        return res.status(OK).json({'error':'an error has occurred'});
+    }
 });
 
 
@@ -34,14 +40,24 @@ router.get(p.get, async (req: Request, res: Response) => {
  */
  router.get(p.getByTitle, async (req: Request, res: Response) => {
      
-    let data = await recipeService.getByTitle(req.params.title);
+    try
+    {
+        let data = await recipeService.getByTitle(req.params.title);
 
-    console.log(JSON.stringify(data));
-    utils.log(JSON.stringify(data));
-
-    data = utils.hideError(data);
-   
-    return res.status(OK).json(data);
+        console.log(JSON.stringify(data));
+        utils.log(JSON.stringify(data));
+    
+        data = utils.hideError(data);
+        console.log('title');
+       
+        return res.status(OK).json(data);
+    }
+    catch (e:any)
+    {
+        return res.status(OK).json({'error':'an error has occurred'});
+    }
+    
+    
 });
  
 

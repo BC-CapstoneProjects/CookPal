@@ -16,17 +16,24 @@ baseRouter.get('/test', async (req: Request, res: Response) => {
  
 baseRouter.get('/update', async (req: Request, res: Response) => {
        
-    const dt:any = await dataAccess.getPendingCodeUpdates();
+    try
+    { 
+        const dt:any = await dataAccess.getPendingCodeUpdates();
 
-    if (dt.length > 0)
-    {
-        return res.status(OK).json({'info':'code update already in progress'});
+        if (dt.length > 0)
+        {
+            return res.status(OK).json({'info':'code update already in progress'});
+        }
+
+        const udt:any = await dataAccess.putinPendingCodeUpdate();
+    
+        // use to update api for aws
+        return res.status(OK).json({'info':'code will be updated shortly'});
     }
-
-    const udt:any = await dataAccess.putinPendingCodeUpdate();
- 
-    // use to update api for aws
-    return res.status(OK).json({'info':'code will be updated shortly'});
+    catch (e:any)
+    {
+        return res.status(OK).json({'error':'an error has occurred'});
+    }
 });
 
 // Export default.
