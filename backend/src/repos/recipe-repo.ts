@@ -1,8 +1,6 @@
 import { IRecipe } from '@models/recipe-model';
 import  dataAccess from './data-access'
 
-
-
 /**
  * Get one recipe.
  * 
@@ -10,9 +8,7 @@ import  dataAccess from './data-access'
  * @returns 
  */
 async function getOne(id: string): Promise<IRecipe | null> {
-    const data = await dataAccess.findOne(id);
-  
-    return data;
+    return await dataAccess.findOne(id);
 }
 
 /**
@@ -21,14 +17,10 @@ async function getOne(id: string): Promise<IRecipe | null> {
  * @param title 
  * @returns 
  */
-async function getByTitle(title: string): Promise<Array<any>> {
-    const data = await dataAccess.findByTitle(title);
-  
-    return data;
+async function getByTitle(title: string): Promise<Array<IRecipe>> {
+    return await dataAccess.findByTitle(title);
 }
  
-
-
 // Export default
 export default {
     getOne, 

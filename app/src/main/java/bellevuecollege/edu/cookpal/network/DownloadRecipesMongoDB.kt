@@ -28,17 +28,12 @@ class DownloadRecipesMongoDB {
 
             var server = "";
 
-            if (configenv.env == "local")
-            {
-                server = configenv.localserver;
-            }
-            else if (configenv.env == "aws")
-            {
-                server = configenv.awsserver
-            }
-            else
-            {
-                throw Exception("invalid env value");
+            server = when (configenv.env){
+                "local"->configenv.localserver
+                "aws"->configenv.awsserver
+                else -> {
+                    throw Exception("invalid env value")
+                }
             }
 
             val request = Request.Builder()
@@ -52,15 +47,10 @@ class DownloadRecipesMongoDB {
             }
             //logger.info { "Response code: ${response.code()}" }
             val responseBody = response.body
-            println("this runs" )
 
             val responseString = withContext(Dispatchers.IO) {
                 responseBody?.string()
             }
-
-            println ( "Response body: $responseString" )
-            println ( "this also runs" )
-            println("Response body: $responseString")
 
             val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}
             return jacksonObjectMapper().readValue(responseString, typeRef).documents

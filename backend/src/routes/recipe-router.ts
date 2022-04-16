@@ -2,6 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import recipeService from '@services/recipe-service';
 import utils from '../utils/utils';
+import { IRecipe } from '@models/recipe-model';
 
 // Constants
 const router = Router();
@@ -19,14 +20,24 @@ export const p = {
 router.get(p.get, async (req: Request, res: Response) => {
     try
     {
-        let data = await recipeService.getOne(req.params.id);
+        let data:IRecipe | null = await recipeService.getOne(req.params.id);
 
-        console.log(JSON.stringify(data));
-        utils.log(JSON.stringify(data));
-
-        data = utils.hideError(data);
+        if (data)
+        {
+            console.log(JSON.stringify(data));
+            utils.log(JSON.stringify(data));
     
-        return res.status(OK).json(data);
+            data = utils.hideError(data);
+        
+            return res.status(OK).json(data);
+        }
+        else
+        {
+            console.log('null');
+            utils.log('null');
+            
+            return res.status(OK).json({});
+        } 
     }
     catch (e:any)
     {
@@ -43,15 +54,17 @@ router.get(p.get, async (req: Request, res: Response) => {
      
     try
     {
-        let data = await recipeService.getByTitle(req.params.title);
+        let data:Array<IRecipe> = await recipeService.getByTitle(req.params.title);
 
-        console.log(JSON.stringify(data));
-        utils.log(JSON.stringify(data));
+        let finalData:any = {documents:data};
+
+        console.log(JSON.stringify(finalData));
+        utils.log(JSON.stringify(finalData));
     
-        data = utils.hideError(data);
+        finalData = utils.hideError(finalData);
         console.log('title');
        
-        return res.status(OK).json(data);
+        return res.status(OK).json(finalData);
     }
     catch (e:any)
     {

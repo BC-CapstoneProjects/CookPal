@@ -15,6 +15,7 @@ baseRouter.get('/test', async (req: Request, res: Response) => {
     return res.status(OK).json({'data':'some data3'});
 });
  
+// url to update server code
 baseRouter.get('/update', async (req: Request, res: Response) => {
        
     try
@@ -26,7 +27,7 @@ baseRouter.get('/update', async (req: Request, res: Response) => {
             return res.status(OK).json({'info':'code update already in progress'});
         }
 
-        const udt:any = await dataAccess.putinPendingCodeUpdate();
+        const udt:any = await dataAccess.putInPendingCodeUpdate();
     
         // use to update api for aws
         return res.status(OK).json({'info':'code will be updated shortly'});

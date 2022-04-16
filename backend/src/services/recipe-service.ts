@@ -7,9 +7,7 @@ import { IRecipe } from '@models/recipe-model';
  * @returns 
  */
 async function getOne(id:string): Promise<IRecipe | null> {
-    const dt = await recipeRepo.getOne(id);
- 
-    return dt;
+    return await recipeRepo.getOne(id); 
 }
 
 /**
@@ -17,11 +15,9 @@ async function getOne(id:string): Promise<IRecipe | null> {
  * 
  * @returns 
  */
- async function getByTitle(title:string): Promise<Array<any >> {
-    const dt = await recipeRepo.getByTitle(title);
- 
-    return dt;
-}
+ async function getByTitle(title:string): Promise<Array<IRecipe >> {
+    return await recipeRepo.getByTitle(title);
+ }
 
 // Export default
 export default {
