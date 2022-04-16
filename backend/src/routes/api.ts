@@ -14,6 +14,11 @@ baseRouter.get('/test', async (req: Request, res: Response) => {
      
     return res.status(OK).json({'data':'some data3'});
 });
+
+baseRouter.get('/apiversion', async (req: Request, res: Response) => {
+     
+    return res.status(OK).json({'version':'04-16-2022a'});
+});
  
 // url to update server code
 baseRouter.get('/update', async (req: Request, res: Response) => {
