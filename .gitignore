@@ -102,5 +102,6 @@ backend/src/dbcreds.txt
 backend/package-lock.json 
 backend/logs
 backend/dist
+backend/serverscripts
 
 app/src/main/assets/configenv.yaml
