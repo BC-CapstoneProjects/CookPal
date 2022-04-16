@@ -12,12 +12,12 @@ baseRouter.use('/recipe', recipeRouter);
 
 baseRouter.get('/test', async (req: Request, res: Response) => {
      
-    return res.status(OK).json({'data':'some data3'});
+    return res.status(OK).json({'data':'some data'});
 });
 
 baseRouter.get('/version', async (req: Request, res: Response) => {
      
-    return res.status(OK).json({'version':'04-16-2022b'});
+    return res.status(OK).json({'version':'04-16-2022c'});
 });
  
 // url to update server code
