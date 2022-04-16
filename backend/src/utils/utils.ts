@@ -6,10 +6,17 @@ class utils
         utils.log(data, 'error-log');
     }
 
+    /**
+     * 
+     * @param data the data to be written to the log file
+     * @param name the name of the log file
+     * return nothings
+     */
     public static log(data: string, name:string = 'log') {
         
         var dir = './logs';
 
+        // since log folder isn't in git we need to create it if it doesn't exist
         if (!fs.existsSync(dir)){
             fs.mkdirSync(dir);
         }

@@ -35,6 +35,7 @@ function connectToMysql() {
 }
 
 // put request in to update the server code
+// returns results of query exection
 function putInPendingCodeUpdate(): Promise<any> {
   return new Promise(function (resolve, reject) {
     connectToMysql();
@@ -53,6 +54,7 @@ function putInPendingCodeUpdate(): Promise<any> {
 }
 
 // check if there are pending rquests to update the sever code
+// returns an array of rending code updates, the array could be 0 size
 function getPendingCodeUpdates(): Promise<Array<any>> {
   return new Promise(function (resolve, reject) {
     connectToMysql();
@@ -73,6 +75,7 @@ function getPendingCodeUpdates(): Promise<Array<any>> {
 /**
  * get one recipe by id.
  *
+ * @id the id of the receipe
  * @returns a recipe object
  */
 async function findOne(id: string): Promise<IRecipe | null> {
@@ -95,6 +98,7 @@ async function findOne(id: string): Promise<IRecipe | null> {
 /**
  * get recipes by title.
  *
+ * @title the title of the receipe
  * @returns an array of recipe objects
  */
 
@@ -143,6 +147,12 @@ function getRegexQuery(field: string, regex: string, options: string): any {
   return query;
 }
 
+/**
+ * make a https call to the mongo db server with a query to get some data
+ * @param queryParm the db query
+ * @param action which action we are requesting from the database
+ * @returns an array of recipes
+ */
 async function queryDB(queryParm: any, action: string): Promise<Array<IRecipe>> {
   const fullPath = path.resolve(__dirname, "../creds.txt");
 
@@ -183,6 +193,7 @@ async function queryDB(queryParm: any, action: string): Promise<Array<IRecipe>> 
       const rdata: string = JSON.stringify(response.data);
       //console.log(rdata);
 
+      // access the recipes off the document or documents, document is used with the action findOne, documents is used with the action find
       if (response.data.document) {
         return response.data.document;
       }
@@ -190,13 +201,14 @@ async function queryDB(queryParm: any, action: string): Promise<Array<IRecipe>> 
         return response.data.documents;
       }
       else {
-        return [];
+        return []; // return empty array otherwise if the response data has no document or documents
       }
     })
     .catch(function (error: any) {
       // console.log(error);
     });
   
+    // findOne returns single object but this method excepts an array to be returned
     if (action == 'findOne')
     { 
         return [resp];
