@@ -12,9 +12,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import bellevuecollege.edu.cookpal.databinding.RecipeDetailsFragmentBinding
-import bellevuecollege.edu.cookpal.network.Recipe
-import bellevuecollege.edu.cookpal.profile.UserProfile
-import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import java.io.File
 import java.util.*
 
@@ -24,18 +21,16 @@ class RecipeDetailsFragment : Fragment() {
     private lateinit var recipeVoiceFile: File
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var binding: RecipeDetailsFragmentBinding
-    private val up: UserProfile = UserProfile()
-    private lateinit var recipe : Recipe
+    private var fullRecipe: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Setup Text To Speech engine
-        mTTS = TextToSpeech(
-            activity?.applicationContext
+        mTTS = TextToSpeech(activity?.applicationContext
         ) { status ->
             if (status != TextToSpeech.ERROR) {
                 //if there is no error then set language
-                mTTS.language = Locale.US
+                mTTS.language = Locale.UK
             }
         }
     }
@@ -55,70 +50,112 @@ class RecipeDetailsFragment : Fragment() {
         ).get(RecipeDetailsViewModel::class.java)
         mediaPlayer = MediaPlayer()
 
-        UserProfileHelper.loadProfile { data ->
-            up.setProfile(data)
-        }
-
-        //View model
         val tempView = binding.viewModel
-        //Get selected recipe information and place into xml
         if (tempView != null) {
+
             tempView.selectedRecipe.observe(viewLifecycleOwner) { parsedRecipe ->
-                recipe = parsedRecipe
-                //binding.recipeSummary.text = parsedRecipe.summary
-                binding.recipeIngredients.text =
-                    parsedRecipe.ingredients.joinToString("") { "- $it\n" }
-                binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
+                binding.recipeSummary.text = parsedRecipe.summary
+                binding.recipeIngredients.text = parsedRecipe.ingredients.toString()
+                binding.recipeInstructions.text = parsedRecipe.steps.toString()
+                // Construct full recipe
+                fullRecipe = "Summary:... " + parsedRecipe.summary + "... " +
+                        "Ingredients:... " + parsedRecipe.ingredients.toString() + "... " +
+                        "Instructions:... " + parsedRecipe.steps.toString()
             }
-        }
 
-        binding.addFavorite.setOnClickListener {
+            // Setup Record button handler
+            binding.recordRecipeInstructionsButton.setOnClickListener {
+                // Construct sound file
+                recipeVoiceFile = File(
+                    context?.cacheDir?.absolutePath,
+                    tempView.selectedRecipe.value?.rId + ".wav"
+                )
+                if (recipeVoiceFile.exists()) {
+                    recipeVoiceFile.delete()
+                }
+                val b = Bundle()
+                if (fullRecipe.isNotEmpty()) {
 
-            up.favoriteRecipes.add(recipe)
-            UserProfileHelper.saveProfile(up)
+                    // Save cooking instructions as a sound file, this may take time
+                    mTTS.synthesizeToFile(fullRecipe, b, recipeVoiceFile, UTTERANCE_ID)
+                    mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                        override fun onStart(utteranceId: String?) {
+                            Log.d("Recipe Details Fragment", "Started synthesize To File")
+                        }
 
-            Toast.makeText(
-                activity,
-                "Added to favorites",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        // Setup Speak button handler
-        binding.speakRecipeInstructionsButton.setOnClickListener {
-            if (tempView != null) {
-                val instructions = tempView.selectedRecipe.value?.steps.toString().replace("[","").replace("]","")
-                Log.d("-----instructions-----", instructions.toString())
-                if (instructions != null) {
-                    if (instructions.isNotEmpty()) {
-                        mTTS.speak(instructions, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                        override fun onDone(utteranceId: String?) {
+                            if (utteranceId == UTTERANCE_ID) {
+                                Log.d(
+                                    "Recipe Details Fragment",
+                                    "word is read, resuming with the next word"
+                                )
+                                if (recipeVoiceFile.exists()) {
+                                    mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
+                                    mediaPlayer.prepare()
+                                }
+                            }
+                        }
+
+                        override fun onError(utteranceId: String?) {
+                            Log.e("Recipe Details Fragment", "Error synthesize to File")
+                        }
+                    })
+
+                    // Enable related buttons
+                    binding.deleteRecipeInstructionsButton.isEnabled = true
+                    binding.playRecipeInstructionsButton.isEnabled = true
+                }
+            }
+            // Setup Play button handler
+            binding.playRecipeInstructionsButton.setOnClickListener {
+                try {
+                    if (recipeVoiceFile.exists()) {
+                        mediaPlayer.start()
+                        binding.pauseRecipeInstructionsButton.isEnabled = true
+                    }
+                } catch (e: Exception) {
+                    Log.d("Recipe Details Fragment", "Error when playing audio")
+                }
+            }
+
+            // Setup Speak button handler
+            binding.speakRecipeInstructionsButton.setOnClickListener {
+                    if (fullRecipe.isNotEmpty()) {
+                        mTTS.speak(fullRecipe, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
                         binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
                     } else {
-                        Log.e(
-                            "Recipe Details Fragment",
-                            "No recipe instructions supplied for TTS"
-                        )
+                        Log.e("Recipe Details Fragment", "No recipe instructions supplied for TTS")
                     }
-                }
             }
-        }
 
-        // Setup Pause button handler
-        binding.pauseRecipeInstructionsButton.setOnClickListener {
-            if (mTTS.isSpeaking) {
-                //if speaking then Pause
-                mTTS.stop()
-            } else if (mediaPlayer.isPlaying) {
+            // Setup Pause button handler
+            binding.pauseRecipeInstructionsButton.setOnClickListener {
+                if (mTTS.isSpeaking) {
+                    //if speaking then Pause
+                    mTTS.stop()
+                } else if (mediaPlayer.isPlaying) {
                     mediaPlayer.pause()
-            } else {
+                } else {
                     //if not speaking
                     Toast.makeText(
                         activity,
                         "Not speaking or playing recipe instructions",
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+            }
+
+            // Setup Delete button handler
+            binding.deleteRecipeInstructionsButton.setOnClickListener {
+                if (recipeVoiceFile.exists()) {
+                    recipeVoiceFile.delete()
+                    binding.deleteRecipeInstructionsButton.isEnabled = false
+                    binding.playRecipeInstructionsButton.isEnabled = false
+                }
             }
         }
+
         return binding.root
     }
 
