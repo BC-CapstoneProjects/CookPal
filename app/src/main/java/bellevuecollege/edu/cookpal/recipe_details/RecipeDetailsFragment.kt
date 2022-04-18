@@ -130,10 +130,10 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     recipeVoiceFile.delete()
                 }
                 val b = Bundle()
-                if (fullRecipe.isNotEmpty()) {
+                if (translatedText.isNotEmpty()) {
 
                     // Save cooking instructions as a sound file, this may take time
-                    mTTS.synthesizeToFile(fullRecipe, b, recipeVoiceFile, UTTERANCE_ID)
+                    mTTS.synthesizeToFile(translatedText, b, recipeVoiceFile, UTTERANCE_ID)
                     mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                         override fun onStart(utteranceId: String?) {
                             Log.d("Recipe Details Fragment", "Started synthesize To File")
@@ -177,7 +177,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             // Setup Speak button handler
             binding.speakRecipeInstructionsButton.setOnClickListener {
                     if (fullRecipe.isNotEmpty()) {
-                        mTTS.speak(fullRecipe, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
+                        mTTS.speak(translatedText, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
                         binding.pauseRecipeInstructionsButton.isEnabled = true
                         Log.d("Recipe Details Fragment", "TTS successfully speak out recipe")
                     } else {
