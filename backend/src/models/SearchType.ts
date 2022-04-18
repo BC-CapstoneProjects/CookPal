@@ -1,6 +1,5 @@
-export interface SearchType
-{
-    TITLE:string, 
-    INGREDIENT:string, 
-    ALL:string
+export interface SearchType {
+  TITLE: string;
+  INGREDIENT: string;
+  ALL: string;
 }

@@ -88,7 +88,7 @@ async function findOne(id: string): Promise<IRecipe | null> {
   */
   // reutrn await queryDB(data, "findOne")[0];
 
-  const res:Array<IRecipe> = await queryDB(data, "findOne");
+  const res: Array<IRecipe> = await queryDB(data, "findOne");
 
   console.log(res);
 
@@ -112,7 +112,9 @@ function getFieldQuery(field: string, values: Array<string>): string {
   return getRegexQuery(field, getSingleFieldRegex(values), "i");
 }
 
-async function getRecipesFromQuery(param: Array<SearchParam>): Promise<Array<IRecipe>> {
+async function getRecipesFromQuery(
+  param: Array<SearchParam>
+): Promise<Array<IRecipe>> {
   const filter = getQueryFromEnum(param[0]);
 
   const queryFilter = { filter: filter };
@@ -153,7 +155,10 @@ function getRegexQuery(field: string, regex: string, options: string): any {
  * @param action which action we are requesting from the database
  * @returns an array of recipes
  */
-async function queryDB(queryParm: any, action: string): Promise<Array<IRecipe>> {
+async function queryDB(
+  queryParm: any,
+  action: string
+): Promise<Array<IRecipe>> {
   const fullPath = path.resolve(__dirname, "../creds.txt");
 
   const contents: string = fs.readFileSync(fullPath, {
@@ -196,27 +201,22 @@ async function queryDB(queryParm: any, action: string): Promise<Array<IRecipe>> 
       // access the recipes off the document or documents, document is used with the action findOne, documents is used with the action find
       if (response.data.document) {
         return response.data.document;
-      }
-      else if (response.data.documents) {
+      } else if (response.data.documents) {
         return response.data.documents;
-      }
-      else {
+      } else {
         return []; // return empty array otherwise if the response data has no document or documents
       }
     })
     .catch(function (error: any) {
       // console.log(error);
     });
-  
-    // findOne returns single object but this method excepts an array to be returned
-    if (action == 'findOne')
-    { 
-        return [resp];
-    }
-    else
-    {
-        return resp;
-    } 
+
+  // findOne returns single object but this method excepts an array to be returned
+  if (action == "findOne") {
+    return [resp];
+  } else {
+    return resp;
+  }
 }
 
 // Export default
