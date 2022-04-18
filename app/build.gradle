@@ -24,11 +24,11 @@ apply plugin: 'com.google.gms.google-services'
 
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
     defaultConfig {
         applicationId "bellevuecollege.edu.cookpal"
         minSdkVersion 25
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -115,6 +115,9 @@ dependencies {
     // Jackson
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
     implementation project(path: ':StorageLayer')
+
+    //Google's MLkit
+    implementation 'com.google.mlkit:translate:17.0.0'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 }
