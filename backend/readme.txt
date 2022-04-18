@@ -22,5 +22,5 @@ the code should update within 1-2 minutes
 create file called creds.txt and put this file in this folder backend/src, put the information below in it, the appid and appkey need to be on one line and seperated by a comma
 appid,appkey
 
-to check api version on aws use this url
+to view api version on aws
 https://cookpal.cloud:8081/api/version
