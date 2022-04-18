@@ -37,7 +37,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var recipe : Recipe
     private lateinit var textTranslator: Translator
     private val espanol: Locale = Locale("es","es")
-    private val lang: Array<String> = arrayOf("English", "Spanish", "Japanese")
+    private val lang: Array<String> = arrayOf("English", "Spanish", "Japanese", "Chinese", "French")
     //private lateinit var instructions: String
     private lateinit var translatedText: String
     private var flag: Int = -1
@@ -292,6 +292,88 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 val options = TranslatorOptions.Builder()
                     .setSourceLanguage(TranslateLanguage.ENGLISH)
                     .setTargetLanguage(TranslateLanguage.JAPANESE)
+                    .build()
+                textTranslator = Translation.getClient(options)
+                var conditions = DownloadConditions.Builder()
+                    .requireWifi()
+                    .build()
+                //download language model
+                //Language models are around 30MB, don't have too many.
+                textTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener {
+                        // Model downloaded successfully. Okay to start translating
+                        // Set a flag, unhide the translation UI, etc.
+                        Log.d("Translator", "Model download successful")
+                        textTranslator.translate(fullRecipe)
+                            .addOnSuccessListener {
+                                Log.d("Translated text", it) //it refers to the translated string
+                                translatedText = it
+                            }
+                    }
+                    .addOnFailureListener {
+                        //Model couldn't be downloaded or other internal error
+                        Log.e("Translator", "Model download failed")
+                    }
+            }
+
+            3 -> {
+                //Set up TTS language
+                mTTS = TextToSpeech(
+                    activity?.applicationContext
+                ) { status ->
+                    if (status != TextToSpeech.ERROR) {
+                        //if there is no error then set language
+                        mTTS.language = Locale.CHINESE
+                    }
+                }
+
+                /**
+                 * Set up chinese translator model
+                 */
+                val options = TranslatorOptions.Builder()
+                    .setSourceLanguage(TranslateLanguage.ENGLISH)
+                    .setTargetLanguage(TranslateLanguage.CHINESE)
+                    .build()
+                textTranslator = Translation.getClient(options)
+                var conditions = DownloadConditions.Builder()
+                    .requireWifi()
+                    .build()
+                //download language model
+                //Language models are around 30MB, don't have too many.
+                textTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener {
+                        // Model downloaded successfully. Okay to start translating
+                        // Set a flag, unhide the translation UI, etc.
+                        Log.d("Translator", "Model download successful")
+                        textTranslator.translate(fullRecipe)
+                            .addOnSuccessListener {
+                                Log.d("Translated text", it) //it refers to the translated string
+                                translatedText = it
+                            }
+                    }
+                    .addOnFailureListener {
+                        //Model couldn't be downloaded or other internal error
+                        Log.e("Translator", "Model download failed")
+                    }
+            }
+
+            4 -> {
+                //Set up TTS language
+                mTTS = TextToSpeech(
+                    activity?.applicationContext
+                ) { status ->
+                    if (status != TextToSpeech.ERROR) {
+                        //if there is no error then set language
+                        mTTS.language = Locale.FRENCH
+                    }
+                }
+
+                /**
+                 * Set up french translator model
+                 */
+                val options = TranslatorOptions.Builder()
+                    .setSourceLanguage(TranslateLanguage.ENGLISH)
+                    .setTargetLanguage(TranslateLanguage.FRENCH)
                     .build()
                 textTranslator = Translation.getClient(options)
                 var conditions = DownloadConditions.Builder()
