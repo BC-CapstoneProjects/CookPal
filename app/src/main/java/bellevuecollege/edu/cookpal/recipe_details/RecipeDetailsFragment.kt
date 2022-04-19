@@ -37,7 +37,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var recipe : Recipe
     private lateinit var textTranslator: Translator
     private val espanol: Locale = Locale("es","es")
-    private val lang: Array<String> = arrayOf("English", "Spanish", "Japanese", "Chinese", "French")
     //private lateinit var instructions: String
     private lateinit var translatedText: String
     private var flag: Int = -1
@@ -61,6 +60,15 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //            }
 //        }
     //}
+
+    //Enum class for supported language
+    enum class Language {
+        English,
+        Spanish,
+        Japanese,
+        Chinese,
+        French
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,7 +115,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
             //Array adapter for spinner/drop down menu
-            val aa = ArrayAdapter(requireActivity().applicationContext, R.layout.simple_spinner_item, lang)
+            val aa = ArrayAdapter(requireActivity().applicationContext, R.layout.simple_spinner_item, Language.values())
             aa.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             val spinner = binding.langSpinner
             spinner.adapter = aa
@@ -219,8 +227,8 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
      * Spinner drop down listeners
      */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        when (position) {
-            0 -> {
+        when (Language.values()[position]) {
+            Language.English -> {
                 //English set up
                 mTTS = TextToSpeech(
                     activity?.applicationContext
@@ -235,7 +243,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     translatedText = fullRecipe
                 }
             }
-            1 -> {
+            Language.Spanish -> {
                 //Set up text to speech language
                 mTTS = TextToSpeech(
                     activity?.applicationContext
@@ -275,7 +283,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         Log.e("Translator", "Model download failed")
                     }
             }
-            2 -> {
+            Language.Japanese -> {
                 //Set up TTS language
                 mTTS = TextToSpeech(
                     activity?.applicationContext
@@ -316,7 +324,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     }
             }
 
-            3 -> {
+            Language.Chinese -> {
                 //Set up TTS language
                 mTTS = TextToSpeech(
                     activity?.applicationContext
@@ -357,7 +365,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     }
             }
 
-            4 -> {
+            Language.French -> {
                 //Set up TTS language
                 mTTS = TextToSpeech(
                     activity?.applicationContext
@@ -404,6 +412,9 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         // Another interface callback
     }
 
+    fun createTTSEngine(){
+
+    }
 
     override fun onPause() {
         mTTS.stop()
