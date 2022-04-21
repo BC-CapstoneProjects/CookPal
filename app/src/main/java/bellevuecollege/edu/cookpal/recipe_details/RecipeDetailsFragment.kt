@@ -41,26 +41,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var translatedText: String
     private var flag: Int = -1
 
-    /**
-     * Can remove onCreate function
-     * spinner is default to english so
-     * TTS engine is created there.
-     * See OnItemSelected function down below.
-     */
-    //override fun onCreate(savedInstanceState: Bundle?) {
-    //super.onCreate(savedInstanceState)
-    // Setup Text To Speech engine
-    // Defaults to english
-//        mTTS = TextToSpeech(
-//            activity?.applicationContext
-//        ) { status ->
-//            if (status != TextToSpeech.ERROR) {
-//                //if there is no error then set language
-//                mTTS.language = Locale.UK
-//            }
-//        }
-    //}
-
     //Enum class for supported languages
     enum class Language {
         English,
