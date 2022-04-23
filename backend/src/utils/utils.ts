@@ -22,7 +22,8 @@ class utils {
     const date = new Date();
 
     var filename =
-      name + `-${date.getFullYear()}-${date.getMonth()}-${date.getDay()}.txt`;
+      name +
+      `-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}.txt`;
     var fullPath = dir + "/" + filename;
 
     fs.appendFile(fullPath, data + "\n", (err: any) => {
