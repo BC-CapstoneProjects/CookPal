@@ -34,9 +34,9 @@
                     android:id="@+id/lang_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/sofia_pro_regular"
                     android:layout_marginStart="120dp"
                     android:drawSelectorOnTop="true"
+                    android:fontFamily="@font/sofia_pro_regular"
                     android:spinnerMode="dropdown"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -48,11 +48,11 @@
                     android:fontFamily="@font/sofia_pro_bold"
                     android:gravity="center_horizontal"
                     android:text="@{viewModel.selectedRecipe.title}"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lang_spinner"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/lang_spinner" />
 
                 <ImageView
                     android:id="@+id/recipe_image"
@@ -72,11 +72,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sofia_pro_bold"
                     android:gravity="start"
-                    android:text="Summary:"
+                    android:text="@string/summary"
                     android:textColor="#4E5156"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_image"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
 
                 <TextView
                     android:id="@+id/recipe_summary"
@@ -87,7 +87,7 @@
                     android:text="@{viewModel.selectedRecipe.summary}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary_header" />
 
                 <TextView
                     android:id="@+id/recipe_ingredients_header"
@@ -95,11 +95,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sofia_pro_bold"
                     android:gravity="start"
-                    android:text="Ingredients:"
+                    android:text="@string/ingredients"
                     android:textColor="#4E5156"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_summary" />
 
                 <TextView
                     android:id="@+id/recipe_ingredients"
@@ -110,7 +110,7 @@
                     android:text="@{viewModel.selectedRecipe.ingredients.toString()}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients_header"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients_header" />
 
                 <TextView
                     android:id="@+id/recipe_instructions_header"
@@ -118,11 +118,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sofia_pro_bold"
                     android:gravity="start"
-                    android:text="Instructions:"
+                    android:text="@string/instructions"
                     android:textColor="#4E5156"
                     app:layout_constraintLeft_toLeftOf="parent"
 
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients" />
 
                 <TextView
                     android:id="@+id/recipe_instructions"
@@ -133,67 +133,54 @@
                     android:text="@{viewModel.selectedRecipe.steps.toString()}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/play_recipe_instructions_button"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/play_recipe_instructions_button" />
+
+                <Button
+                    android:id="@+id/replay_recipe_instructions_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/button_box"
+                    android:enabled="true"
+                    android:fontFamily="@font/sofia_pro_regular"
+                    android:text="@string/replay"
+                    app:layout_constraintEnd_toStartOf="@+id/play_recipe_instructions_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
                 <Button
                     android:id="@+id/play_recipe_instructions_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="50dp"
-                    android:enabled="false"
-                    android:text="Play"
-                    app:layout_constraintEnd_toEndOf="@+id/record_recipe_instructions_button"
-                    app:layout_constraintEnd_toStartOf="@+id/record_recipe_instructions_button"
-                    app:layout_constraintHorizontal_bias="0.739"
-                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
-                    app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></Button>
-
-                <Button
-                    android:id="@+id/record_recipe_instructions_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="true"
-                    android:text="Record"
-                    app:layout_constraintEnd_toStartOf="@+id/delete_recipe_instructions_button"
-                    app:layout_constraintHorizontal_bias="0.495"
-                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
-                    app:layout_constraintTop_toBottomOf="@+id/speak_recipe_instructions_button"></Button>
-
-                <Button
-                    android:id="@+id/delete_recipe_instructions_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Delete"
-                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
-                    app:layout_constraintHorizontal_bias="0.137"
-                    app:layout_constraintStart_toEndOf="@+id/record_recipe_instructions_button"
-                    app:layout_constraintTop_toBottomOf="@+id/pause_recipe_instructions_button"></Button>
-
-                <Button
-                    android:id="@+id/speak_recipe_instructions_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/button_box"
-                    android:enabled="true"
-                    android:fontFamily="@font/sofia_pro_regular"
-                    android:text="Speak"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_instructions_header"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></Button>
+                    android:enabled="false"
+                    android:text="@string/play"
+                    app:layout_constraintEnd_toStartOf="@+id/pause_recipe_instructions_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/replay_recipe_instructions_button"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header" />
 
                 <Button
                     android:id="@+id/pause_recipe_instructions_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/button_box"
                     android:enabled="true"
                     android:fontFamily="@font/sofia_pro_regular"
-                    android:text="Pause"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.288"
-                    app:layout_constraintStart_toEndOf="@+id/speak_recipe_instructions_button"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"></Button>
+                    android:text="@string/pause"
+                    app:layout_constraintEnd_toStartOf="@+id/add_favorite"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/play_recipe_instructions_button"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"/>
 
                 <ImageButton
                     android:id="@+id/add_favorite"
@@ -202,8 +189,10 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="8dp"
                     android:background="#00000000"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/pause_recipe_instructions_button"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_ingredients"
+                    app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"
                     app:srcCompat="@drawable/ic_star_shape" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
