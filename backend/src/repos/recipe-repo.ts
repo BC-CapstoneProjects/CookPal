@@ -19,8 +19,18 @@ async function getByTitle(title: string): Promise<Array<IRecipe>> {
   return await dataAccess.findByTitle(title);
 }
 
+/**
+ * uploads a list of recipes
+ * @param recipes the list of recipes
+ * @returns
+ */
+async function uploadRecipes(recipes: Array<IRecipe>): Promise<any> {
+  return await dataAccess.uploadRecipes(recipes);
+}
+
 // Export default
 export default {
   getOne,
   getByTitle,
+  uploadRecipes,
 } as const;

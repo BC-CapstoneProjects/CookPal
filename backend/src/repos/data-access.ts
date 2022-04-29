@@ -149,6 +149,11 @@ function getRegexQuery(field: string, regex: string, options: string): any {
   return query;
 }
 
+async function uploadRecipes(recipes: Array<IRecipe>) {
+  const dt = { data: recipes };
+  return await queryDB(dt, "insertMany");
+}
+
 /**
  * make a https call to the mongo db server with a query to get some data
  * @param queryParm the db query
@@ -225,4 +230,5 @@ export default {
   findByTitle,
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
+  uploadRecipes,
 } as const;
