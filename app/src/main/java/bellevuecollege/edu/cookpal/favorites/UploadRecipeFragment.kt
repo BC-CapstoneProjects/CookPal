@@ -64,11 +64,17 @@ class UploadRecipeFragment : Fragment() {
             Log.d(TAG, "Try to upload a photo recipe to Firebase Storage")
             uploadFileToFirebaseStorage()
         }
+
+        // Upload recipe from gallery listener
+        binding.uploadFromImageGallery.setOnClickListener { view: View ->
+
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
-    // Receiver
+    // Receiver for recipe image
     private val choosePictureFromGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
