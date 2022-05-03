@@ -92,6 +92,14 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 fullRecipe = "Ingredients:... " + parsedRecipe.ingredients.toString() + "... " +
                         "Instructions:... " + parsedRecipe.steps.toString()
                 translatedText = fullRecipe //grab text on create to be translated
+
+                // Construct sound file
+                recipeVoiceFile = File(
+                    context?.cacheDir?.absolutePath,
+                    tempView.selectedRecipe.value?.rId + ".wav"
+                )
+                // Always record recipe
+                recordRecipe()
             }
 
             //Array adapter for spinner/drop down menu
@@ -107,49 +115,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 UserProfileHelper.saveProfile(up)
             }
 
-            // Setup Record button handler
-            binding.recordRecipeInstructionsButton.setOnClickListener {
-                // Construct sound file
-                recipeVoiceFile = File(
-                    context?.cacheDir?.absolutePath,
-                    tempView.selectedRecipe.value?.rId + ".wav"
-                )
-                if (recipeVoiceFile.exists()) {
-                    recipeVoiceFile.delete()
-                }
-                val b = Bundle()
-                if (translatedText.isNotEmpty()) {
-
-                    // Save cooking instructions as a sound file, this may take time
-                    mTTS.synthesizeToFile(translatedText, b, recipeVoiceFile, UTTERANCE_ID)
-                    mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                        override fun onStart(utteranceId: String?) {
-                            Log.d("Recipe Details Fragment", "Started synthesize To File")
-                        }
-
-                        override fun onDone(utteranceId: String?) {
-                            if (utteranceId == UTTERANCE_ID) {
-                                Log.d(
-                                    "Recipe Details Fragment",
-                                    "word is read, resuming with the next word"
-                                )
-                                if (recipeVoiceFile.exists()) {
-                                    mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
-                                    mediaPlayer.prepare()
-                                }
-                            }
-                        }
-
-                        override fun onError(utteranceId: String?) {
-                            Log.e("Recipe Details Fragment", "Error synthesize to File")
-                        }
-                    })
-
-                    // Enable related buttons
-                    binding.deleteRecipeInstructionsButton.isEnabled = true
-                    binding.playRecipeInstructionsButton.isEnabled = true
-                }
-            }
             // Setup Play button handler
             binding.playRecipeInstructionsButton.setOnClickListener {
                 try {
@@ -162,8 +127,8 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
 
-            // Setup Speak button handler
-            binding.speakRecipeInstructionsButton.setOnClickListener {
+            // Setup Replay button handler
+            binding.replayRecipeInstructionsButton.setOnClickListener {
                     if (fullRecipe.isNotEmpty()) {
                         mTTS.speak(translatedText, TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID)
                         binding.pauseRecipeInstructionsButton.isEnabled = true
@@ -187,15 +152,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         "Not speaking or playing recipe instructions",
                         Toast.LENGTH_SHORT
                     ).show()
-                }
-            }
-
-            // Setup Delete button handler
-            binding.deleteRecipeInstructionsButton.setOnClickListener {
-                if (recipeVoiceFile.exists()) {
-                    recipeVoiceFile.delete()
-                    binding.deleteRecipeInstructionsButton.isEnabled = false
-                    binding.playRecipeInstructionsButton.isEnabled = false
                 }
             }
         }
@@ -231,14 +187,57 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     /**
+     * Record translated recipe
+     */
+    private fun recordRecipe() {
+        if (recipeVoiceFile.exists()) {
+            recipeVoiceFile.delete()
+        }
+        val b = Bundle()
+        if (translatedText.isNotEmpty()) {
+
+            // Save cooking instructions as a sound file, this may take time
+            mTTS.synthesizeToFile(translatedText, b, recipeVoiceFile, UTTERANCE_ID)
+            mTTS.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(utteranceId: String?) {
+                    Log.d("Recipe Details Fragment", "Started synthesize To File")
+                }
+
+                override fun onDone(utteranceId: String?) {
+                    if (utteranceId == UTTERANCE_ID) {
+                        Log.d(
+                            "Recipe Details Fragment",
+                            "word is read, resuming with the next word"
+                        )
+                        if (recipeVoiceFile.exists()) {
+                            mediaPlayer.reset() // Super important, need this to bind Media Player to new audio file
+                            mediaPlayer.setDataSource(recipeVoiceFile.absolutePath)
+                            mediaPlayer.prepareAsync()
+                        }
+                    }
+                }
+
+                override fun onError(utteranceId: String?) {
+                    Log.e("Recipe Details Fragment", "Error synthesize to File")
+                }
+            })
+
+            // Enable related buttons
+            binding.playRecipeInstructionsButton.isEnabled = true
+        }
+    }
+    /**
      * Creates TTS engine and translator model based on language
      */
-    fun createTTS(Lang: String){
+    private fun createTTS(Lang: String){
         //Text to speech parameters
         data class TTSParams(val local: Locale, val lang: String)
         //Dictionary of currently supported languages
-        val languageDiction = mapOf("English" to TTSParams(Locale.UK, TranslateLanguage.ENGLISH), "Spanish" to TTSParams(espanol, TranslateLanguage.SPANISH),
-            "Japanese" to TTSParams(Locale.JAPANESE, TranslateLanguage.JAPANESE), "Chinese" to TTSParams(Locale.CHINESE, TranslateLanguage.CHINESE),
+        val languageDiction = mapOf(
+            "English" to TTSParams(Locale.UK, TranslateLanguage.ENGLISH),
+            "Spanish" to TTSParams(espanol, TranslateLanguage.SPANISH),
+            "Japanese" to TTSParams(Locale.JAPANESE, TranslateLanguage.JAPANESE),
+            "Chinese" to TTSParams(Locale.CHINESE, TranslateLanguage.CHINESE),
             "French" to TTSParams(Locale.FRENCH, TranslateLanguage.FRENCH))
         //Create text to speech engine
         mTTS = TextToSpeech(
@@ -256,7 +255,7 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                  * Translate back to English if re-selected
                  */
                 if(Lang == "English"){
-                    flag+=1
+                    flag += 1
                     if(flag > 0) {
                         translatedText = fullRecipe
                     }
@@ -289,6 +288,10 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                 .addOnSuccessListener {
                                     Log.d("Translated text", it) //it refers to the translated string
                                     translatedText = it
+
+                                    // Record translated recipe
+                                    Log.d("Translated tex", "Record translated text")
+                                    recordRecipe()
                                 }
                         }
                         .addOnFailureListener {
