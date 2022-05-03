@@ -74,16 +74,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Summary" />
-
-            <EditText
-                android:id="@+id/recipeInstructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="instructions"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:hint="instructions" />
             <EditText
                 android:id="@+id/recipeIngredients"
                 android:layout_width="match_parent"
@@ -93,6 +83,15 @@
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:hint="ingredients" />
+            <EditText
+                android:id="@+id/recipeInstructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="instructions"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:hint="instructions" />
         </LinearLayout>
     </LinearLayout>
 

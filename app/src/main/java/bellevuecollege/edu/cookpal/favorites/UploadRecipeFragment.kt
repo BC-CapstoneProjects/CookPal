@@ -204,10 +204,37 @@ class UploadRecipeFragment : Fragment() {
         val result = recognizer.process(image)
             .addOnSuccessListener { visionText ->
                 Log.d("Image text", visionText.text) //print to log entire text
-//                for (block in visionText.textBlocks)
-//                {
-//                    binding.photoRecipeName.setText(block.text)
-//                }
+                var block = visionText.textBlocks
+                var name = ""
+                var ingre = ""
+                var instr = ""
+                var flag = 0
+                for(section in block)
+                {
+                    if (section.text.startsWith("Ingredients"))
+                    {
+                        flag = 1
+                    }
+                    if (section.text.startsWith("Instructions"))
+                    {
+                        flag = 2
+                    }
+                    if (flag == 0)
+                    {
+                        name += section.text
+                    }
+                    if (flag == 1)
+                    {
+                        ingre += section.text + "\n"
+                    }
+                    if (flag == 2)
+                    {
+                        instr += section.text + "\n"
+                    }
+                }
+                binding.photoRecipeName.setText(name)
+                binding.recipeIngredients.setText(ingre)
+                binding.recipeInstructions.setText(instr)
             }
             .addOnFailureListener { e ->
 
