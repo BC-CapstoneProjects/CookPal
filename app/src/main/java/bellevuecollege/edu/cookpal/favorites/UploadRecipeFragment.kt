@@ -2,6 +2,7 @@ package bellevuecollege.edu.cookpal.favorites
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import bellevuecollege.edu.cookpal.databinding.FragmentUploadRecipeBinding
@@ -33,6 +35,7 @@ class UploadRecipeFragment : Fragment() {
     private val TAG = "UploadRecipeFragment"
     private lateinit var filePath: Uri
     private lateinit var binding: FragmentUploadRecipeBinding
+    private lateinit var bitmap: Bitmap
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -67,7 +70,11 @@ class UploadRecipeFragment : Fragment() {
 
         // Upload recipe from gallery listener
         binding.uploadFromImageGallery.setOnClickListener { view: View ->
-
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+            }
+            chooseRecipeFromGallery.launch(intent)
         }
 
         // Inflate the layout for this fragment
@@ -77,45 +84,50 @@ class UploadRecipeFragment : Fragment() {
     // Receiver for recipe image
     private val choosePictureFromGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                filePath = it.data?.data!!
-
-                try {
-                    filePath?.let {
-                        if (Build.VERSION.SDK_INT < 31) {
-                            val bitmap = MediaStore.Images.Media.getBitmap(
-                                this.activity?.contentResolver,
-                                filePath
-                            )
-                            binding.selectRecipeImage.setImageBitmap(bitmap)
-
-                            //Create input image for text recognition from path file
-                            val image: InputImage
-                            try {
-                                image = InputImage.fromFilePath(requireActivity().applicationContext, filePath)
-                                recognizeText(image)
-                            } catch (e: IOException) {
-                                e.printStackTrace()
-                            }
-
-                        } else {
-                            val source = this.activity?.let { it1 ->
-                                ImageDecoder.createSource(
-                                    it1.contentResolver,
-                                    filePath
-                                )
-                            }
-                            val bitmap = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }
-                            binding.selectRecipeImage.setImageBitmap(bitmap)
-                        }
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            } else {
-                Log.d(TAG, "Fail to select image from Gallery")
+            selectFromGallery(it)
+            binding.selectRecipeImage.setImageBitmap(bitmap)
+        }
+    private val chooseRecipeFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            selectFromGallery(it)
+            //Create input image for text recognition from path file
+            val image: InputImage
+            try {
+                image = InputImage.fromFilePath(requireActivity().applicationContext, filePath)
+                recognizeText(image)
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
+
+    private fun selectFromGallery(result: ActivityResult){
+        if (result.resultCode == Activity.RESULT_OK) {
+            filePath = result.data?.data!!
+
+            try {
+                filePath?.let {
+                    if (Build.VERSION.SDK_INT < 31) {
+                        bitmap = MediaStore.Images.Media.getBitmap(
+                            this.activity?.contentResolver,
+                            filePath
+                        )
+                    } else {
+                        val source = this.activity?.let { it1 ->
+                            ImageDecoder.createSource(
+                                it1.contentResolver,
+                                filePath
+                            )
+                        }
+                        bitmap = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }!!
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            Log.d(TAG, "Fail to select image from Gallery")
+        }
+    }
 
     private fun uploadFileToFirebaseStorage() {
         if (filePath == null) return
