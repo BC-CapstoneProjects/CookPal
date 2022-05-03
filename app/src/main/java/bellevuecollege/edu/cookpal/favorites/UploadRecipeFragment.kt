@@ -18,6 +18,10 @@ import bellevuecollege.edu.cookpal.profile.LoginFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.io.IOException
 import java.util.*
 
 /**
@@ -72,12 +76,22 @@ class UploadRecipeFragment : Fragment() {
 
                 try {
                     filePath?.let {
-                        if (Build.VERSION.SDK_INT < 28) {
+                        if (Build.VERSION.SDK_INT < 31) {
                             val bitmap = MediaStore.Images.Media.getBitmap(
                                 this.activity?.contentResolver,
                                 filePath
                             )
                             binding.selectRecipeImage.setImageBitmap(bitmap)
+
+                            //Create input image for text recognition from path file
+                            val image: InputImage
+                            try {
+                                image = InputImage.fromFilePath(requireActivity().applicationContext, filePath)
+                                recognizeText(image)
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+
                         } else {
                             val source = this.activity?.let { it1 ->
                                 ImageDecoder.createSource(
@@ -156,6 +170,23 @@ class UploadRecipeFragment : Fragment() {
                     TAG,
                     "Failed to upload photo recipe to Firebase Database. Error: ${it.message}"
                 )
+            }
+    }
+
+    //Function to recognize text from image
+    private fun recognizeText(image: InputImage) {
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+        val result = recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                Log.d("Image text", visionText.text)
+//                for (block in visionText.textBlocks)
+//                {
+//
+//                }
+            }
+            .addOnFailureListener { e ->
+
             }
     }
 }
