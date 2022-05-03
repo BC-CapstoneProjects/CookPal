@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text = "Upload from gallery"
+                android:fontFamily="@font/sofia_pro_bold"
                 app:srcCompat="@android:drawable/btn_dialog" />
             <ProgressBar
                 android:id="@+id/upload_progress_bar"
@@ -37,7 +38,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Save to profile" />
+                android:text="Save to profile"
+                android:fontFamily="@font/sofia_pro_bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +56,8 @@
                 android:id="@+id/photoRecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="name" />
+                android:fontFamily="@font/sofia_pro_bold"
+                android:hint="Name" />
             <ImageView
                 android:id="@+id/selectRecipeImage"
                 android:layout_width="350dp"
@@ -73,7 +76,8 @@
                 android:id="@+id/photoRecipeSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Summary" />
+                android:hint="Summary"
+                android:fontFamily="@font/sofia_pro_regular"/>
             <EditText
                 android:id="@+id/recipeIngredients"
                 android:layout_width="match_parent"
@@ -82,7 +86,8 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:hint="ingredients" />
+                android:hint="Ingredients"
+                android:fontFamily="@font/sofia_pro_regular"/>
             <EditText
                 android:id="@+id/recipeInstructions"
                 android:layout_width="match_parent"
@@ -91,7 +96,8 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:hint="instructions" />
+                android:hint="Instructions"
+                android:fontFamily="@font/sofia_pro_regular"/>
         </LinearLayout>
     </LinearLayout>
 

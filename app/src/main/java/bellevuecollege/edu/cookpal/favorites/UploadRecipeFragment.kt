@@ -201,43 +201,47 @@ class UploadRecipeFragment : Fragment() {
     private fun recognizeText(image: InputImage) {
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-        val result = recognizer.process(image)
+        recognizer.process(image)
             .addOnSuccessListener { visionText ->
                 Log.d("Image text", visionText.text) //print to log entire text
-                var block = visionText.textBlocks
                 var name = ""
                 var ingre = ""
                 var instr = ""
+
+                /**
+                 * flag is used to determine which string to concatenate to
+                 * flag = 0 is name
+                 * flag = 1 is ingredients
+                 * flag = 2 is instructions
+                 */
                 var flag = 0
-                for(section in block)
+
+                //Concatenate to string
+                for(block in visionText.textBlocks)
                 {
-                    if (section.text.startsWith("Ingredients"))
-                    {
+                    //Change flag state when "ingredients" is found
+                    if (block.text.startsWith("Ingredients"))
                         flag = 1
-                    }
-                    if (section.text.startsWith("Instructions"))
-                    {
+                    //Change flag state when "instructions" is found
+                    if (block.text.startsWith("Instructions"))
                         flag = 2
-                    }
+                    //Concatenate to name
                     if (flag == 0)
-                    {
-                        name += section.text
-                    }
+                        name += block.text + " "
+                    //Concatenate to ingredients
                     if (flag == 1)
-                    {
-                        ingre += section.text + "\n"
-                    }
+                        ingre += block.text + "\n"
+                    //Concatenate to instructions
                     if (flag == 2)
-                    {
-                        instr += section.text + "\n"
-                    }
+                        instr += block.text + "\n"
                 }
+                //Change text on view
                 binding.photoRecipeName.setText(name)
                 binding.recipeIngredients.setText(ingre)
                 binding.recipeInstructions.setText(instr)
             }
-            .addOnFailureListener { e ->
-
+            .addOnFailureListener {
+                Log.e("Recognize Text", "Recognize Text Failed")
             }
     }
 }

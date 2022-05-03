@@ -80,14 +80,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 binding.recipeIngredients.text =
                     parsedRecipe.ingredients.joinToString("") { "- $it\n" }
                 binding.recipeInstructions.text = parsedRecipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
-
-                //@TODO Old instructions code, may need to remove
-                //instructions = recipe.steps.mapIndexed{index, s -> "${index+1}) $s" }.joinToString("") { "$it\n" }
-
-                // Construct full recipe
-//                fullRecipe = "Summary:... " + parsedRecipe.summary + "... " +
-//                        "Ingredients:... " + parsedRecipe.ingredients.toString() + "... " +
-//                        "Instructions:... " + parsedRecipe.steps.toString()
                 // No summary version
                 fullRecipe = "Ingredients:... " + parsedRecipe.ingredients.toString() + "... " +
                         "Instructions:... " + parsedRecipe.steps.toString()
