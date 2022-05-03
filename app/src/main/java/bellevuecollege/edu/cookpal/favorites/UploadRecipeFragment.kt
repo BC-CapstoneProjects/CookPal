@@ -87,6 +87,8 @@ class UploadRecipeFragment : Fragment() {
             selectFromGallery(it)
             binding.selectRecipeImage.setImageBitmap(bitmap)
         }
+
+    // Receiver for recipe
     private val chooseRecipeFromGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             selectFromGallery(it)
@@ -100,6 +102,10 @@ class UploadRecipeFragment : Fragment() {
             }
         }
 
+    /**
+     * Updates filepath and bitmap
+     * to selected picture from gallery
+     */
     private fun selectFromGallery(result: ActivityResult){
         if (result.resultCode == Activity.RESULT_OK) {
             filePath = result.data?.data!!
@@ -200,7 +206,7 @@ class UploadRecipeFragment : Fragment() {
                 Log.d("Image text", visionText.text) //print to log entire text
 //                for (block in visionText.textBlocks)
 //                {
-//
+//                    binding.photoRecipeName.setText(block.text)
 //                }
             }
             .addOnFailureListener { e ->
