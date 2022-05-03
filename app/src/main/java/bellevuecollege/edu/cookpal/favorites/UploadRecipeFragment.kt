@@ -179,7 +179,7 @@ class UploadRecipeFragment : Fragment() {
 
         val result = recognizer.process(image)
             .addOnSuccessListener { visionText ->
-                Log.d("Image text", visionText.text)
+                Log.d("Image text", visionText.text) //print to log entire text
 //                for (block in visionText.textBlocks)
 //                {
 //

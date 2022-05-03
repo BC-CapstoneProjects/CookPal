@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
 
     <LinearLayout
@@ -16,12 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/cancel_upload_recipe"
+
+            <Button
+                android:id="@+id/upload_from_image_gallery"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:text = "Upload from gallery"
                 app:srcCompat="@android:drawable/btn_dialog" />
             <ProgressBar
                 android:id="@+id/upload_progress_bar"
@@ -36,10 +37,9 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="upload" />
-
-
+                android:text="Save to profile" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,28 +50,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"/>
-
             <EditText
                 android:id="@+id/photoRecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="name" />
+            <ImageView
+                android:id="@+id/selectRecipeImage"
+                android:layout_width="400dp"
+                android:layout_height="252dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/border_image" />
+
+            <!-- Summary currently not being used -->
+
+            <TextView
+                android:id="@+id/selectPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:text="SELECT PHOTO" />
+
             <EditText
                 android:id="@+id/photoRecipeSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Summary" />
-            <ImageView
-                android:id="@+id/selectRecipeImage"
-                android:layout_marginStart="4dp"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@drawable/border_image" />
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SELECT PHOTO" />
 
             <EditText
                 android:id="@+id/recipeInstructions"
