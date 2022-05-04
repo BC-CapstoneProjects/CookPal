@@ -23,9 +23,9 @@ async function getByTitle(title: string): Promise<Array<IRecipe>> {
     return results;
   }
   // data scrape
-  results = webscraping.getResults(title);
+  results = await webscraping.getResults(title);
 
-  dataAccess.uploadRecipes(results);
+  await dataAccess.uploadRecipes(results);
 
   return results;
 }
