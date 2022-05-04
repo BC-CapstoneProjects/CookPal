@@ -1,4 +1,5 @@
 import { IRecipe } from "@models/recipe-model";
+import webscraping from "src/utils/webscraping";
 import dataAccess from "./data-access";
 
 /**
@@ -16,7 +17,17 @@ async function getOne(id: string): Promise<IRecipe | null> {
  * @returns an array of recipes
  */
 async function getByTitle(title: string): Promise<Array<IRecipe>> {
-  return await dataAccess.findByTitle(title);
+  let results: Array<IRecipe> = await dataAccess.findByTitle(title);
+
+  if (results.length > 0) {
+    return results;
+  }
+  // data scrape
+  results = webscraping.getResults(title);
+
+  dataAccess.uploadRecipes(results);
+
+  return results;
 }
 
 /**
