@@ -1,44 +1,42 @@
 import { IRecipe } from "@models/recipe-model";
+import driverPool from "../driverPool";
+var DOMParser = require("dom-parser");
+const cheerio = require("cheerio");
 abstract class BaseScraper {
-  retrieveRecipes(
-    keyword: string,
-    numPages: Number,
-    numDrivers: Number,
-    writeLocation: string
-  ) {
-    const driverPool = new DriverPool();
+  public retrieveRecipes(keyword: string, numPages: Number) {
+    const drivers = new driverPool();
     const allRecipes = this.returnRecipesFromKeyword(
       keyword,
-      driverPool,
+      drivers,
       numPages
     );
+    return allRecipes.then((result) => result);
     //TODO: write recipes to mongoDB
   }
   /**
    * Given a keyword, result an array of recipes
    * @param keyword
-   * @param driverPool
+   * @param drivers
    * @param numPages
    * @returns
    */
-  returnRecipesFromKeyword(
+  async returnRecipesFromKeyword(
     keyword: string,
-    driverPool: DriverPool,
+    drivers: driverPool,
     numPages: Number
-  ): IRecipe[] {
+  ): Promise<IRecipe[]> {
     const pageUrls = [];
     for (let page = 0; page < numPages; page++) {
       pageUrls.push(this.getUrlForPage(page, keyword));
     }
-    const pageResults = driverPool.getOutputs(pageUrls);
+    const pageResults = drivers.getOutputs(pageUrls);
     const recipeUrls: string[] = [];
     const parser = new DOMParser();
-    for (const page of pageResults) {
-      recipeUrls.push(
-        ...this.getRecipeUrlsFromPage(parser.parseFromString(page, "text/html"))
-      );
+    for (const page of await pageResults) {
+      recipeUrls.push(...this.getRecipeUrlsFromPage(page));
     }
-    const recipeResults = driverPool.getOutputs(recipeUrls);
+    console.log(recipeUrls);
+    const recipeResults = await drivers.getOutputs(recipeUrls);
     return recipeResults.map((recipe, index) =>
       this.parseRecipeHtml(
         parser.parseFromString(recipe, "text/html"),
@@ -51,7 +49,7 @@ abstract class BaseScraper {
    * Given html, return urls for recipes stored on the webpage
    * @param html
    */
-  protected abstract getRecipeUrlsFromPage(html: Document): Array<string>;
+  protected abstract getRecipeUrlsFromPage(html: string): Array<string>;
 
   /**
    * Given a page and keyword, return a url for a page with search results
@@ -65,7 +63,7 @@ abstract class BaseScraper {
    * @param html
    * @param url
    */
-  protected abstract parseRecipeHtml(html: Document, url: string): IRecipe;
+  protected abstract parseRecipeHtml(html: string, url: string): IRecipe;
 
   /**
    * Given a query, return the textcontent of the first element or an empty string if null
@@ -73,8 +71,11 @@ abstract class BaseScraper {
    * @param cssQuery
    * @returns
    */
-  protected getFirstOrEmptyText(html: Document, cssQuery: string): string {
-    const result = html.querySelector(cssQuery);
+  protected getFirstOrEmptyText(doc: string, cssQuery: string): string {
+    const html = cheerio.load(doc);
+    const result = html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a").map(
+      (_: any, element: cheerio.Cheerio) => html(element)
+    )[0];
     return result === null ? "" : this.textContent(result);
   }
 
@@ -86,11 +87,14 @@ abstract class BaseScraper {
    * @returns
    */
   protected getFirstOrEmptyAttr(
-    html: Document,
+    doc: string,
     cssQuery: string,
     attr: string
   ): string {
-    const result = html.querySelector(cssQuery);
+    const html = cheerio.load(doc);
+    const result = html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a").map(
+      (_: any, element: cheerio.Cheerio) => html(element).attr(attr)
+    )[0];
     return result ? this.attribute(result, attr) : "";
   }
 
@@ -111,11 +115,11 @@ abstract class BaseScraper {
       dishType: [],
     };
   }
-  protected textContent(html: Document | Element): string {
-    return html.textContent ? html.textContent : "";
+  protected textContent(html: cheerio.Cheerio): string {
+    return html.text() ? html.text() : "";
   }
-  protected attribute(element: Element, attribute: string): string {
-    const result = element.getAttribute(attribute);
+  protected attribute(element: cheerio.Cheerio, attribute: string): string {
+    const result = element.attr(attribute);
     return result ? result : "";
   }
 }
