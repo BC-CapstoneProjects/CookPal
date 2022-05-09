@@ -16,7 +16,7 @@ class DriverPool {
         "--no-sandbox",
         "--disable-dev-shm-usage",
         `--user-data-dir=C:/ChromeProfiles/Profile${this.chromeProfileIndex}`,
-        // "--headless",
+        "--headless",
         // "--log-level=3",
       ],
     };

@@ -1,6 +1,7 @@
 import { IRecipe } from "@models/recipe-model";
 import BaseScraper from "./BaseScraper";
 const cheerio = require("cheerio");
+
 class FoodNetwork extends BaseScraper {
   parseRecipeHtml(doc: string, url: string): IRecipe {
     const recipe = this.returnEmptyRecipe();
@@ -11,10 +12,12 @@ class FoodNetwork extends BaseScraper {
       ".m-RecipeSummary .assetTitle .o-AssetTitle__a-HeadlineText:first-of-type"
     );
     if (recipe.title == "") return recipe;
-    
-    recipe.steps = [...html(".o-Method__m-Body li").map(
-      (_: any, element: cheerio.Cheerio) => this.textContent(html(element))
-    )]
+
+    recipe.steps = html(".o-Method__m-Body li")
+      .map((_: any, element: cheerio.Cheerio) =>
+        this.textContent(html(element)).trim()
+      )
+      .toArray();
 
     // recipe.steps = [...html.querySelectorAll(".o-Method__m-Body li")].map(
     //   (col) => this.textContent(col)
@@ -29,11 +32,17 @@ class FoodNetwork extends BaseScraper {
       recipe.imageUrl = "https:" + recipe.imageUrl;
     }
 
-    recipe.ingredients = [
-      ...html.querySelectorAll(".o-Ingredients__a-Ingredient--CheckboxLabel"),
-    ]
-      .map((col) => this.textContent(col))
-      .filter((val) => val !== "Deselect All");
+    recipe.ingredients = html(".o-Ingredients__a-Ingredient--CheckboxLabel")
+      .map((_: any, element: cheerio.Cheerio) =>
+        this.textContent(html(element))
+      )
+      .filter((_: any, val: string) => val !== "Deselect All")
+      .toArray();
+    // recipe.ingredients = [
+    //   ...html.querySelectorAll(".o-Ingredients__a-Ingredient--CheckboxLabel"),
+    // ]
+    //   .map((col) => this.textContent(col))
+    //   .filter((val) => val !== "Deselect All");
 
     recipe.totalTime = this.getFirstOrEmptyText(
       html,
@@ -56,7 +65,7 @@ class FoodNetwork extends BaseScraper {
       ".review .review-summary .rating-stars",
       "title"
     );
-
+    console.log(recipe);
     return recipe;
   }
   // add to existing element
@@ -65,7 +74,8 @@ class FoodNetwork extends BaseScraper {
     //console.log(html);
     //console.log(`doc is ${doc}`);
     return html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a").map(
-      (_: any, element: cheerio.Cheerio) => "https:"+html(element).attr("href")
+      (_: any, element: cheerio.Cheerio) =>
+        "https:" + html(element).attr("href")
     );
   }
   getUrlForPage(page: Number, keyword: string): string {

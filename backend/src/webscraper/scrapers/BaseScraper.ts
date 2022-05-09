@@ -29,17 +29,16 @@ abstract class BaseScraper {
     for (let page = 0; page < numPages; page++) {
       pageUrls.push(this.getUrlForPage(page, keyword));
     }
-    const pageResults = drivers.getOutputs(pageUrls);
+    const pageResults = await drivers.getOutputs(pageUrls);
     const recipeUrls: string[] = [];
-    const parser = new DOMParser();
-    for (const page of await pageResults) {
+    for (const page of pageResults) {
       recipeUrls.push(...this.getRecipeUrlsFromPage(page));
     }
     console.log(recipeUrls);
     const recipeResults = await drivers.getOutputs(recipeUrls);
     return recipeResults.map((recipe, index) =>
       this.parseRecipeHtml(
-        parser.parseFromString(recipe, "text/html"),
+        recipe,
         recipeUrls[index]
       )
     );
@@ -73,8 +72,8 @@ abstract class BaseScraper {
    */
   protected getFirstOrEmptyText(doc: string, cssQuery: string): string {
     const html = cheerio.load(doc);
-    const result = html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a").map(
-      (_: any, element: cheerio.Cheerio) => html(element)
+    const result = html(cssQuery).map((_: any, element: cheerio.Cheerio) =>
+      html(element)
     )[0];
     return result === null ? "" : this.textContent(result);
   }
@@ -92,10 +91,17 @@ abstract class BaseScraper {
     attr: string
   ): string {
     const html = cheerio.load(doc);
-    const result = html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a").map(
-      (_: any, element: cheerio.Cheerio) => html(element).attr(attr)
+    const result = html(cssQuery).map((_: any, element: cheerio.Cheerio) =>
+      html(element).attr(attr)
     )[0];
     return result ? this.attribute(result, attr) : "";
+  }
+
+  protected query(doc: string, cssQuery: string): cheerio.Cheerio[] {
+    const html = cheerio.load(doc);
+    return html(cssQuery).map((_: any, element: cheerio.Cheerio) =>
+      html(element).html()
+    );
   }
 
   protected returnEmptyRecipe(): IRecipe {
@@ -116,7 +122,7 @@ abstract class BaseScraper {
     };
   }
   protected textContent(html: cheerio.Cheerio): string {
-    return html.text() ? html.text() : "";
+    return html == null ? "" : html.text() ? html.text() : "";
   }
   protected attribute(element: cheerio.Cheerio, attribute: string): string {
     const result = element.attr(attribute);
