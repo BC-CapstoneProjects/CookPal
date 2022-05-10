@@ -2,6 +2,7 @@ package bellevuecollege.edu.cookpal.favorites
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import bellevuecollege.edu.cookpal.databinding.FragmentUploadRecipeBinding
@@ -18,6 +20,10 @@ import bellevuecollege.edu.cookpal.profile.LoginFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.io.IOException
 import java.util.*
 
 /**
@@ -29,6 +35,7 @@ class UploadRecipeFragment : Fragment() {
     private val TAG = "UploadRecipeFragment"
     private lateinit var filePath: Uri
     private lateinit var binding: FragmentUploadRecipeBinding
+    private lateinit var bitmap: Bitmap
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -60,42 +67,73 @@ class UploadRecipeFragment : Fragment() {
             Log.d(TAG, "Try to upload a photo recipe to Firebase Storage")
             uploadFileToFirebaseStorage()
         }
+
+        // Upload recipe from gallery listener
+        binding.uploadFromImageGallery.setOnClickListener { view: View ->
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+            }
+            chooseRecipeFromGallery.launch(intent)
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
-    // Receiver
+    // Receiver for recipe image
     private val choosePictureFromGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                filePath = it.data?.data!!
+            selectFromGallery(it)
+            binding.selectRecipeImage.setImageBitmap(bitmap)
+        }
 
-                try {
-                    filePath?.let {
-                        if (Build.VERSION.SDK_INT < 28) {
-                            val bitmap = MediaStore.Images.Media.getBitmap(
-                                this.activity?.contentResolver,
-                                filePath
-                            )
-                            binding.selectRecipeImage.setImageBitmap(bitmap)
-                        } else {
-                            val source = this.activity?.let { it1 ->
-                                ImageDecoder.createSource(
-                                    it1.contentResolver,
-                                    filePath
-                                )
-                            }
-                            val bitmap = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }
-                            binding.selectRecipeImage.setImageBitmap(bitmap)
-                        }
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            } else {
-                Log.d(TAG, "Fail to select image from Gallery")
+    // Receiver for recipe
+    private val chooseRecipeFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            selectFromGallery(it)
+            //Create input image for text recognition from path file
+            val image: InputImage
+            try {
+                image = InputImage.fromFilePath(requireActivity().applicationContext, filePath)
+                recognizeText(image)
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
+
+    /**
+     * Updates filepath and bitmap
+     * to selected picture from gallery
+     */
+    private fun selectFromGallery(result: ActivityResult){
+        if (result.resultCode == Activity.RESULT_OK) {
+            filePath = result.data?.data!!
+
+            try {
+                filePath?.let {
+                    if (Build.VERSION.SDK_INT < 31) {
+                        bitmap = MediaStore.Images.Media.getBitmap(
+                            this.activity?.contentResolver,
+                            filePath
+                        )
+                    } else {
+                        val source = this.activity?.let { it1 ->
+                            ImageDecoder.createSource(
+                                it1.contentResolver,
+                                filePath
+                            )
+                        }
+                        bitmap = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }!!
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            Log.d(TAG, "Fail to select image from Gallery")
+        }
+    }
 
     private fun uploadFileToFirebaseStorage() {
         if (filePath == null) return
@@ -156,6 +194,54 @@ class UploadRecipeFragment : Fragment() {
                     TAG,
                     "Failed to upload photo recipe to Firebase Database. Error: ${it.message}"
                 )
+            }
+    }
+
+    //Function to recognize text from image
+    private fun recognizeText(image: InputImage) {
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                Log.d("Image text", visionText.text) //print to log entire text
+                var name = ""
+                var ingre = ""
+                var instr = ""
+
+                /**
+                 * flag is used to determine which string to concatenate to
+                 * flag = 0 is name
+                 * flag = 1 is ingredients
+                 * flag = 2 is instructions
+                 */
+                var flag = 0
+
+                //Concatenate to string
+                for(block in visionText.textBlocks)
+                {
+                    //Change flag state when "ingredients" is found
+                    if (block.text.startsWith("Ingredients"))
+                        flag = 1
+                    //Change flag state when "instructions" is found
+                    if (block.text.startsWith("Instructions"))
+                        flag = 2
+                    //Concatenate to name
+                    if (flag == 0)
+                        name += block.text + " "
+                    //Concatenate to ingredients
+                    if (flag == 1)
+                        ingre += block.text + "\n"
+                    //Concatenate to instructions
+                    if (flag == 2)
+                        instr += block.text + "\n"
+                }
+                //Change text on view
+                binding.photoRecipeName.setText(name)
+                binding.recipeIngredients.setText(ingre)
+                binding.recipeInstructions.setText(instr)
+            }
+            .addOnFailureListener {
+                Log.e("Recognize Text", "Recognize Text Failed")
             }
     }
 }
