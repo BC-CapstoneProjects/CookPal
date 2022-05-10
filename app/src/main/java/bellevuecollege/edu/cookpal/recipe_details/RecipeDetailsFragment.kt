@@ -37,7 +37,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var recipe : Recipe
     private lateinit var textTranslator: Translator
     private val espanol: Locale = Locale("es","es")
-    //private lateinit var instructions: String
     private lateinit var translatedText: String
     private var flag: Int = -1
 
