@@ -101,8 +101,8 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             spinner.adapter = aa
             spinner.onItemSelectedListener = this
 
+            //Favorite button listener
             binding.addFavorite.setOnClickListener {
-
                 up.favoriteRecipes.add(recipe)
                 UserProfileHelper.saveProfile(up)
             }

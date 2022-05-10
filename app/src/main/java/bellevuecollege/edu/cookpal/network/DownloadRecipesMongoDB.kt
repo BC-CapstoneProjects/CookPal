@@ -36,8 +36,13 @@ class DownloadRecipesMongoDB {
                 }
             }
 
+            /**
+             * Note
+             * May need to add another / so line
+             * 45 should look like .url(server + "/api/recipe/title/" + keyWord)
+             */
             val request = Request.Builder()
-                    .url(server + "/api/recipe/title/" + keyWord)
+                    .url(server + "api/recipe/title/" + keyWord)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Access-Control-Request-Headers", "*")
                     .build()
