@@ -38,8 +38,9 @@ class DownloadRecipesMongoDB {
 
             /**
              * Note
-             * May need to add another / so line
-             * 45 should look like .url(server + "/api/recipe/title/" + keyWord)
+             * May need to add another /
+             * line 46 should look like .url(server + "/api/recipe/title/" + keyWord)
+             * if getting 404 from local web server
              */
             val request = Request.Builder()
                     .url(server + "api/recipe/title/" + keyWord)
