@@ -2,7 +2,6 @@ import { IRecipe } from "@models/recipe-model";
 import BaseScraper from "./BaseScraper";
 import * as cheerio from "cheerio";
 class TasteOfHome extends BaseScraper {
-  
   getRecipeUrlsFromPage(doc: string): string[] {
     const html = cheerio.load(doc);
 

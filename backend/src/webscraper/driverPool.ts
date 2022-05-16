@@ -5,7 +5,7 @@ class DriverPool {
   chromeProfileIndex = 0;
 
   async getOutput(url: string): Promise<string> {
-    console.log(`${url} started`)
+    console.log(`${url} started`);
     let options = new Chrome.Options();
     options.addArguments(
       "--no-sandbox",
