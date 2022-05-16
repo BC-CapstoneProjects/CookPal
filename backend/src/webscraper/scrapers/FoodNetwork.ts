@@ -1,6 +1,6 @@
 import { IRecipe } from "@models/recipe-model";
 import BaseScraper from "./BaseScraper";
-const cheerio = require("cheerio");
+import * as cheerio from "cheerio";
 
 class FoodNetwork extends BaseScraper {
   parseRecipeHtml(doc: string, url: string): IRecipe {
@@ -14,17 +14,11 @@ class FoodNetwork extends BaseScraper {
     if (recipe.title == "") return recipe;
 
     recipe.steps = html(".o-Method__m-Body li")
-      .map((_: any, element: cheerio.Cheerio) =>
-        this.textContent(html(element)).trim()
-      )
-      .toArray();
-
-    // recipe.steps = [...html.querySelectorAll(".o-Method__m-Body li")].map(
-    //   (col) => this.textContent(col)
-    // );
+      .toArray()
+      .map((element) => this.textContent(html(element)).trim());
 
     recipe.imageUrl = this.getFirstOrEmptyAttr(
-      html,
+      doc,
       ".recipe-lead .m-MediaBlock__m-MediaWrap img",
       "src"
     );
@@ -33,24 +27,17 @@ class FoodNetwork extends BaseScraper {
     }
 
     recipe.ingredients = html(".o-Ingredients__a-Ingredient--CheckboxLabel")
-      .map((_: any, element: cheerio.Cheerio) =>
-        this.textContent(html(element))
-      )
-      .filter((_: any, val: string) => val !== "Deselect All")
-      .toArray();
-    // recipe.ingredients = [
-    //   ...html.querySelectorAll(".o-Ingredients__a-Ingredient--CheckboxLabel"),
-    // ]
-    //   .map((col) => this.textContent(col))
-    //   .filter((val) => val !== "Deselect All");
+      .toArray()
+      .map((element) => this.textContent(html(element)))
+      .filter((val) => val !== "Deselect All");
 
     recipe.totalTime = this.getFirstOrEmptyText(
-      html,
+      doc,
       ".o-RecipeInfo__m-Time .o-RecipeInfo__a-Description"
     );
     recipe.sourceUrl = url;
     const recipeNumberString = this.getFirstOrEmptyText(
-      html,
+      doc,
       ".review .review-summary span"
     );
 
@@ -61,22 +48,18 @@ class FoodNetwork extends BaseScraper {
       );
     }
     recipe.rating = this.getFirstOrEmptyAttr(
-      html,
+      doc,
       ".review .review-summary .rating-stars",
       "title"
     );
-    console.log(recipe);
     return recipe;
   }
   // add to existing element
-  getRecipeUrlsFromPage(doc: String): string[] {
+  getRecipeUrlsFromPage(doc: string): string[] {
     const html = cheerio.load(doc);
-    //console.log(html);
-    //console.log(`doc is ${doc}`);
-    return html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a").map(
-      (_: any, element: cheerio.Cheerio) =>
-        "https:" + html(element).attr("href")
-    );
+    return html(".o-RecipeResult .l-List .m-MediaBlock__a-Headline a")
+      .toArray()
+      .map((element) => "https:" + html(element).attr("href"));
   }
   getUrlForPage(page: Number, keyword: string): string {
     return `https://www.foodnetwork.com/search/${keyword}-/p/${page}/CUSTOM_FACET:RECIPE_FACET`;

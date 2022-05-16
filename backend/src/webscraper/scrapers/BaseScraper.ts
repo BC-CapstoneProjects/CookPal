@@ -1,7 +1,6 @@
 import { IRecipe } from "@models/recipe-model";
 import driverPool from "../driverPool";
-var DOMParser = require("dom-parser");
-const cheerio = require("cheerio");
+import * as cheerio from "cheerio";
 abstract class BaseScraper {
   public retrieveRecipes(keyword: string, numPages: Number) {
     const drivers = new driverPool();
@@ -35,13 +34,17 @@ abstract class BaseScraper {
       recipeUrls.push(...this.getRecipeUrlsFromPage(page));
     }
     console.log(recipeUrls);
-    const recipeResults = await drivers.getOutputs(recipeUrls);
-    return recipeResults.map((recipe, index) =>
-      this.parseRecipeHtml(
-        recipe,
-        recipeUrls[index]
-      )
+    const recipeResults = await Promise.all(
+      recipeUrls.map((url) => {
+        return drivers.getOutput(url).then((result) => {
+          const recipe = this.parseRecipeHtml(result, url);
+          // Send to mongodb/user here.
+          console.log(`${recipe.sourceUrl} resolved`);
+          return recipe;
+        });
+      })
     );
+    return recipeResults;
   }
 
   /**
@@ -72,9 +75,9 @@ abstract class BaseScraper {
    */
   protected getFirstOrEmptyText(doc: string, cssQuery: string): string {
     const html = cheerio.load(doc);
-    const result = html(cssQuery).map((_: any, element: cheerio.Cheerio) =>
-      html(element)
-    )[0];
+    const result = html(cssQuery)
+      .toArray()
+      .map((element) => html(element))[0];
     return result === null ? "" : this.textContent(result);
   }
 
@@ -91,17 +94,18 @@ abstract class BaseScraper {
     attr: string
   ): string {
     const html = cheerio.load(doc);
-    const result = html(cssQuery).map((_: any, element: cheerio.Cheerio) =>
-      html(element).attr(attr)
-    )[0];
-    return result ? this.attribute(result, attr) : "";
+    const result = html(cssQuery)
+      .toArray()
+      .map((element) => html(element).attr(attr))[0];
+    return result ? result : "";
   }
 
   protected query(doc: string, cssQuery: string): cheerio.Cheerio[] {
     const html = cheerio.load(doc);
-    return html(cssQuery).map((_: any, element: cheerio.Cheerio) =>
-      html(element).html()
-    );
+    const result = html(cssQuery)
+      .toArray()
+      .map((element) => html(element));
+    return result;
   }
 
   protected returnEmptyRecipe(): IRecipe {

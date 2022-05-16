@@ -1,8 +1,8 @@
 import "./pre-start"; // Must be the first import
 import logger from "jet-logger";
 import server from "./server";
-import DriverPool from "./webscraper/driverPool";
 import FoodNetwork from "./webscraper/scrapers/FoodNetwork";
+import TasteOfHome from "./webscraper/scrapers/TasteOfHome"
 
 // Constants
 const serverStartMsg = "Express server started on port: ",
@@ -45,6 +45,4 @@ if (process.env.NODE_ENV === "production") {
     logger.info(serverStartMsg + port);
   });
 
-  var y = new FoodNetwork();
-  y.retrieveRecipes("test", 1);
 }
