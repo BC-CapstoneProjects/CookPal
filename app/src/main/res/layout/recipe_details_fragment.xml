@@ -182,18 +182,18 @@
                     app:layout_constraintStart_toEndOf="@+id/play_recipe_instructions_button"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"/>
 
-                <ImageButton
+                <ToggleButton
                     android:id="@+id/add_favorite"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
-                    android:background="#00000000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/pause_recipe_instructions_button"
                     app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_header"
-                    app:srcCompat="@drawable/ic_star_shape" />
+                    style = "@style/toggleButton"
+                    android:background="@drawable/ic_favorite_button_background"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
