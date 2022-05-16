@@ -16,7 +16,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import bellevuecollege.edu.cookpal.databinding.FragmentUploadRecipeBinding
+import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.profile.LoginFragment
+import bellevuecollege.edu.cookpal.profile.UserProfile
+import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -25,6 +28,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -36,6 +40,8 @@ class UploadRecipeFragment : Fragment() {
     private lateinit var filePath: Uri
     private lateinit var binding: FragmentUploadRecipeBinding
     private lateinit var bitmap: Bitmap
+    private var recipe : Recipe = Recipe()
+    private val up: UserProfile = UserProfile()
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -52,6 +58,10 @@ class UploadRecipeFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
+        UserProfileHelper.loadProfile { data ->
+            up.setProfile(data)
+        }
+
         // Select recipe button listener to select Gallery image
         binding.selectRecipeImage.setOnClickListener { view: View ->
             Log.d(TAG, "Try to select a recipe photo from Gallery")
@@ -66,6 +76,14 @@ class UploadRecipeFragment : Fragment() {
         binding.confirmUploadRecipe.setOnClickListener { view: View ->
             Log.d(TAG, "Try to upload a photo recipe to Firebase Storage")
             uploadFileToFirebaseStorage()
+            up.favoriteRecipes.add(recipe)
+            if (up.favoriteRecipes.isEmpty())
+            {
+                Log.d("Favorite recipes upload: ", "No favorite Recipes")
+            }
+            else{
+                Log.d("Recipe stored: ", up.favoriteRecipes[0].title)
+            }
         }
 
         // Upload recipe from gallery listener
@@ -184,7 +202,6 @@ class UploadRecipeFragment : Fragment() {
             binding.recipeInstructions.text.toString(),
             binding.recipeIngredients.text.toString()
         )
-
         ref.push().setValue(photoRecipe)
             .addOnSuccessListener {
                 Log.d(TAG, "Successfully saved photo recipe to Firebase Database")
@@ -235,6 +252,19 @@ class UploadRecipeFragment : Fragment() {
                     if (flag == 2)
                         instr += block.text + "\n"
                 }
+
+                recipe.title = name
+                var ingredientsArray = ArrayList<String>()
+                for (i in ingre.lines()) {
+                    ingredientsArray.add(i)
+                }
+                recipe.ingredients = ingredientsArray
+                var stepsArray = ArrayList<String>()
+                for (i in instr.lines())
+                {
+                    stepsArray.add(i)
+                }
+                recipe.steps = stepsArray
                 //Change text on view
                 binding.photoRecipeName.setText(name)
                 binding.recipeIngredients.setText(ingre)
