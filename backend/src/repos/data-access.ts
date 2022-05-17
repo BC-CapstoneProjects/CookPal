@@ -150,7 +150,7 @@ function getRegexQuery(field: string, regex: string, options: string): any {
 }
 
 async function uploadRecipes(recipes: Array<IRecipe>) {
-  const dt = { data: recipes };
+  const dt = { documents: recipes };
   return await queryDB(dt, "insertMany");
 }
 
