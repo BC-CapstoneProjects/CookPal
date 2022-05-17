@@ -27,16 +27,6 @@ class FavoriteRecipesFragment : Fragment() {
         //Load profile
         UserProfileHelper.loadProfile { data ->
             up.setProfile(data)
-            Log.d("Profile name", up.name)
-        }
-
-        if(up.favoriteRecipes.isEmpty())
-        {
-            Log.d("Favorite Recipe Fragment: ", "Favorites is empty")
-        }
-        else
-        {
-            Log.d("Favorite Recipe Fragment: ", up.favoriteRecipes[0].toString())
         }
         return binding.root
     }
