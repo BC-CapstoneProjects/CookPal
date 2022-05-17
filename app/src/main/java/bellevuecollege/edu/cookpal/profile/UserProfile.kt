@@ -50,5 +50,5 @@ class UserProfile {
     var name : String = ""
     var emailAddress : String = ""
     var profilePhotoPath : String = ""
-    val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
+    val favoriteRecipes : ArrayList<Recipe> = ArrayList()
 }

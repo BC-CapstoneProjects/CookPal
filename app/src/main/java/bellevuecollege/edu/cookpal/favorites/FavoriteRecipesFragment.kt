@@ -27,6 +27,7 @@ class FavoriteRecipesFragment : Fragment() {
         //Load profile
         UserProfileHelper.loadProfile { data ->
             up.setProfile(data)
+            Log.d("Profile name", up.name)
         }
 
         if(up.favoriteRecipes.isEmpty())

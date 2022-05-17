@@ -104,12 +104,14 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             binding.addFavorite.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     //Add recipe to favorites
+                    //recipe.isFavorite = true
                     up.favoriteRecipes.add(recipe)
                     UserProfileHelper.saveProfile(up)
                 } else {
                     //Remove recipe from favorites
                     up.favoriteRecipes.remove(recipe)
                     UserProfileHelper.saveProfile(up)
+                    //recipe.isFavorite = false
                 }
             }
 
