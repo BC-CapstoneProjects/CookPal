@@ -101,9 +101,16 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             spinner.onItemSelectedListener = this
 
             //Favorite button listener
-            binding.addFavorite.setOnClickListener {
-                up.favoriteRecipes.add(recipe)
-                UserProfileHelper.saveProfile(up)
+            binding.addFavorite.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    //Add recipe to favorites
+                    up.favoriteRecipes.add(recipe)
+                    UserProfileHelper.saveProfile(up)
+                } else {
+                    //Remove recipe from favorites
+                    up.favoriteRecipes.remove(recipe)
+                    UserProfileHelper.saveProfile(up)
+                }
             }
 
             // Setup Play button handler
