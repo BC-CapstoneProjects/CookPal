@@ -1,5 +1,5 @@
 import { IRecipe } from "@models/recipe-model";
-import webscraping from "src/utils/webscraping";
+import webscraping from "../utils/webscraping";
 import dataAccess from "./data-access";
 
 /**
