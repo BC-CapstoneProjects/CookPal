@@ -2,13 +2,12 @@ import { IRecipe } from "@models/recipe-model";
 import { SearchParam } from "@models/SearchParam";
 import { SearchType } from "@models/SearchType";
 import utils from "../utils/utils";
+import axios, { AxiosRequestConfig } from "axios";
+import fs from "fs";
+import path from "path";
+import mysql from "mysql";
 
-const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
-const mysql = require("mysql");
-
-var connection: any;
+var connection: mysql.Connection;
 
 const searchType: SearchType = { TITLE: "", INGREDIENT: "", ALL: "" };
 
@@ -149,6 +148,12 @@ function getRegexQuery(field: string, regex: string, options: string): any {
   return query;
 }
 
+function upload(recipes: Array<IRecipe>): Promise<Array<IRecipe>> {
+  const documents = { documents: recipes };
+  console.log(documents);
+  return queryDB(documents, "insertMany");
+}
+
 /**
  * make a https call to the mongo db server with a query to get some data
  * @param queryParm the db query
@@ -178,7 +183,7 @@ async function queryDB(
 
   const parts = contents.split(",");
 
-  const config = {
+  const config: AxiosRequestConfig = {
     method: "post",
     url:
       "https://data.mongodb-api.com/app/" +
@@ -225,4 +230,5 @@ export default {
   findByTitle,
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
+  upload
 } as const;

@@ -1,6 +1,7 @@
 import { IRecipe } from "@models/recipe-model";
 import driverPool from "../driverPool";
 import * as cheerio from "cheerio";
+import dataAccess from "@repos/data-access"
 abstract class BaseScraper {
   public retrieveRecipes(keyword: string, numPages: Number) {
     const drivers = new driverPool();
@@ -38,12 +39,13 @@ abstract class BaseScraper {
       recipeUrls.map((url) => {
         return drivers.getOutput(url).then((result) => {
           const recipe = this.parseRecipeHtml(result, url);
-          // Send to mongodb/user here.
+          // Send to user here.
           console.log(`${recipe.sourceUrl} resolved`);
           return recipe;
         });
       })
     );
+    dataAccess.upload(recipeResults);
     return recipeResults;
   }
 

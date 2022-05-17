@@ -1,7 +1,7 @@
 import "./pre-start"; // Must be the first import
 import logger from "jet-logger";
 import server from "./server";
-
+import FoodNetwork from "./webscraper/scrapers/FoodNetwork";
 // Constants
 const serverStartMsg = "Express server started on port: ",
   port = process.env.PORT || 3000;
@@ -42,4 +42,6 @@ if (process.env.NODE_ENV === "production") {
   server.listen(port, () => {
     logger.info(serverStartMsg + port);
   });
+  const a = new FoodNetwork();
+  a.retrieveRecipes("fish", 1);
 }
