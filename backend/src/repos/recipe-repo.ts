@@ -23,7 +23,7 @@ async function getByTitle(title: string): Promise<Array<IRecipe>> {
     return results;
   }
   // data scrape
-  results = await webscraping.getResults(title);
+  results = await webscraping.getResults(title, 20);
 
   await dataAccess.uploadRecipes(results);
 
