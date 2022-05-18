@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".recipes.FilterFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewFilterTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="10dp"
+                android:text="Filter Options" />
+
+            <EditText
+                android:id="@+id/filterIngredients"
+                android:layout_width="310dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="30dp"
+                android:autofillHints="ingredients"
+                android:background="@drawable/search_box"
+                android:ems="10"
+                android:fontFamily="@font/sofia_pro_regular"
+                android:hint="ingredients"
+                android:padding="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+            <TextView
+                android:id="@+id/textViewProg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="100dp"
+                android:text="10" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="120dp"
+                android:max="50" />
+
+            <TextView
+                android:id="@+id/minminspr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="100dp"
+                android:text="Minimum minutes:" />
+
+
+            <TextView
+                android:id="@+id/textViewProgMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="150dp"
+                android:text="10" />
+
+            <SeekBar
+                android:id="@+id/seekBarMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="170dp"
+                android:max="50" />
+
+            <TextView
+                android:id="@+id/maxminspr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="150dp"
+                android:text="Maximum minutes:" />
+
+
+            <TextView
+                android:id="@+id/textViewProgRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="200dp"
+                android:text="0" />
+
+            <SeekBar
+                android:id="@+id/seekBarRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="220dp"
+                android:max="10" />
+
+            <TextView
+                android:id="@+id/maxminsprRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="200dp"
+                android:text="Rating:" />
+
+            <Button
+                android:id="@+id/buttonApplyFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="250dp"
+                android:text="Apply" />
+
+            <Button
+                android:id="@+id/buttonCancelFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="250dp"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/buttonRemoveFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="240dp"
+                android:layout_marginTop="250dp"
+                android:text="Remove" />
+
+
+        </RelativeLayout>
+
+    </FrameLayout>
+</layout>

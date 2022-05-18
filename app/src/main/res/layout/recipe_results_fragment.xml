@@ -16,11 +16,28 @@
         tools:context="bellevuecollege.edu.cookpal.recipes.RecipeResultsFragment">
 
         <ImageButton
+            android:id="@+id/done_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="1dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@+string/Search button"
+            android:enabled="@{viewModel.searchButtonVisible}"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:onClick="@{() -> viewModel.openFilter()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_more"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
             android:id="@+id/done_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="36dp"
             android:background="#00FFFFFF"
             android:contentDescription="@+string/Search button"
             android:enabled="@{viewModel.searchButtonVisible}"
