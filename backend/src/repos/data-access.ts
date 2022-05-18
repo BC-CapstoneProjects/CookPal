@@ -5,9 +5,9 @@ import utils from "../utils/utils";
 import axios, { AxiosRequestConfig } from "axios";
 import fs from "fs";
 import path from "path";
-import mysql from "mysql";
+const mysql = require("mysql");
 
-var connection: mysql.Connection;
+var connection: any;
 
 const searchType: SearchType = { TITLE: "", INGREDIENT: "", ALL: "" };
 
@@ -230,5 +230,5 @@ export default {
   findByTitle,
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
-  upload
+  upload,
 } as const;
