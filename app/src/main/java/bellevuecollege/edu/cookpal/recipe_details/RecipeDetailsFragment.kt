@@ -66,6 +66,9 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         UserProfileHelper.loadProfile { data ->
             up.setProfile(data)
+            //Log.d("RecipeDetailsFragment recipe ", recipe.toString())
+            //Log.d("RecipeDetailsFragment favoriteRecipe contains ", up.favoriteRecipes.contains(recipe).toString())
+            // Log.d("RecipeDetailsFragment tempFR contains ", up.tempFR.contains(recipe).toString())
         }
 
         //View model

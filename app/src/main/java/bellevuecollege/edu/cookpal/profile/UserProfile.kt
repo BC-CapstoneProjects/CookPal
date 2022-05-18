@@ -21,7 +21,13 @@ class UserProfile {
         }
 
         try {
-            favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
+            //favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
+            tempFR = mp["favoriteRecipes"] as ArrayList<Recipe>
+            val toAdd = mp["favoriteRecipes"] as ArrayList<Recipe>
+            for (recipe in toAdd)
+            {
+                favoriteRecipes.add(recipe)
+            }
         } catch (e: Exception) {
 
         }
@@ -48,4 +54,5 @@ class UserProfile {
     var emailAddress : String = ""
     var profilePhotoPath : String = ""
     var favoriteRecipes : ArrayList<Recipe> = ArrayList()
+    var tempFR : ArrayList<Recipe> = ArrayList()
 }
