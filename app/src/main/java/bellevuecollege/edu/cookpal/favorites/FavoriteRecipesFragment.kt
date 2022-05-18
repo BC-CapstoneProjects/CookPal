@@ -29,7 +29,6 @@ class FavoriteRecipesFragment : Fragment() {
             up.setProfile(data)
             Log.d("FavoriteRecipeFragment Name", up.name)
             Log.d("FavoriteRecipeFragment favorites", up.favoriteRecipes.toString())
-            Log.d("FavoriteRecipeFragment tempFR", up.tempFR.toString())
         }
         return binding.root
     }

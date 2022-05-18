@@ -21,13 +21,7 @@ class UserProfile {
         }
 
         try {
-            //favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
-            tempFR = mp["favoriteRecipes"] as ArrayList<Recipe>
-            val toAdd = mp["favoriteRecipes"] as ArrayList<Recipe>
-            for (recipe in toAdd)
-            {
-                favoriteRecipes.add(recipe)
-            }
+            favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
         } catch (e: Exception) {
 
         }

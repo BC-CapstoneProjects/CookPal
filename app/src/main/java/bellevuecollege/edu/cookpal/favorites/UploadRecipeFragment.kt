@@ -58,10 +58,6 @@ class UploadRecipeFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        UserProfileHelper.loadProfile { data ->
-            up.setProfile(data)
-        }
-
         // Select recipe button listener to select Gallery image
         binding.selectRecipeImage.setOnClickListener { view: View ->
             Log.d(TAG, "Try to select a recipe photo from Gallery")
@@ -72,18 +68,15 @@ class UploadRecipeFragment : Fragment() {
             choosePictureFromGallery.launch(intent)
         }
 
+        UserProfileHelper.loadProfile { data ->
+            up.setProfile(data)
+        }
         // Confirm upload recipe button listener
         binding.confirmUploadRecipe.setOnClickListener { view: View ->
             Log.d(TAG, "Try to upload a photo recipe to Firebase Storage")
             uploadFileToFirebaseStorage()
             up.favoriteRecipes.add(recipe)
-            if (up.favoriteRecipes.isEmpty())
-            {
-                Log.d("Favorite recipes upload: ", "No favorite Recipes")
-            }
-            else{
-                Log.d("Recipe stored: ", up.favoriteRecipes[0].title)
-            }
+            UserProfileHelper.saveProfile(up)
         }
 
         // Upload recipe from gallery listener
@@ -161,15 +154,14 @@ class UploadRecipeFragment : Fragment() {
 
         binding.uploadProgressBar.visibility = View.INVISIBLE
         binding.uploadProgressText.visibility = View.INVISIBLE
-
         ref.putFile(filePath!!)
             .addOnSuccessListener {
                 Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
                     Log.d(TAG, "File Location: $it")
-
                     saveUserToFirebaseDatabase(it.toString())
+                    recipe.imageUrl = it.toString()
                     binding.uploadProgressBar.visibility = View.INVISIBLE
                     binding.uploadProgressText.visibility = View.INVISIBLE
                 }
@@ -194,7 +186,6 @@ class UploadRecipeFragment : Fragment() {
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/recipe_data")
-
         val photoRecipe = PhotoRecipe(
             profileImageUrl,
             binding.photoRecipeName.text.toString(),
