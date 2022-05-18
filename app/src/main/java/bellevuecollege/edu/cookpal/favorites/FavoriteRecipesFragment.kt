@@ -24,7 +24,6 @@ class FavoriteRecipesFragment : Fragment() {
     //private val _recipes = MutableLiveData<ArrayList<Recipe>>()
     var favoriteRecipes: ArrayList<Recipe> = ArrayList()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
