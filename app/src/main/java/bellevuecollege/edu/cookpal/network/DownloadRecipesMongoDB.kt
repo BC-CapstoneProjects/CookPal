@@ -43,7 +43,7 @@ class DownloadRecipesMongoDB {
              * if getting 404 from local web server
              */
             val request = Request.Builder()
-                    .url(server + "api/recipe/title/" + keyWord)
+                    .url(server + "/api/recipe/title/" + keyWord)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Access-Control-Request-Headers", "*")
                     .build()
