@@ -2,6 +2,8 @@ package bellevuecollege.edu.cookpal.recipes
 
 import android.app.Application
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -67,6 +69,13 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
         getIngredientSearchRecipes()
     }
 
+    var minMins = 10
+    var maxMins = 10
+    var rating:Float = 0.0f
+    var ingredients = ""
+
+    var filter: RecipeFilter? = null;
+
     fun openFilter() {
 
         // inflate the layout of the popup window
@@ -89,9 +98,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(bd.root, Gravity.TOP, 0, 350)
 
-            var minMins = 10
-            var maxMins = 10
-            var rating:Float = 0.0f
+
 
             var sb:SeekBar? =  popupView?.findViewById<SeekBar>(R.id.seekBar)
             var sbm:SeekBar? =  popupView?.findViewById<SeekBar>(R.id.seekBarMax)
@@ -101,6 +108,25 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             var txr:TextView? =  popupView?.findViewById<TextView>(R.id.textViewProgRate)
             var ing:EditText? =  popupView?.findViewById<EditText>(R.id.filterIngredients)
 
+            ing?.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {
+                    ingredients = s.toString()
+                }
+
+                override fun beforeTextChanged(
+                        s: CharSequence, start: Int,
+                        count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                        s: CharSequence, start: Int,
+                        before: Int, count: Int
+                ) {
+                }
+            })
+
             var btnapply:Button? =  popupView?.findViewById<Button>(R.id.buttonApplyFilter)
             var btncancel:Button? =  popupView?.findViewById<Button>(R.id.buttonCancelFilter)
             var btnremove:Button? =  popupView?.findViewById<Button>(R.id.buttonRemoveFilter)
@@ -109,17 +135,22 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
             btnapply?.setOnClickListener {
                 popupWindow.dismiss()
-                showingFilterPopupMenu = false
+                filter = RecipeFilter()
+                filter?.maxMins = maxMins
+                filter?.minMins = minMins
+                filter?.rating = rating
+                filter?.ingredients = ingredients
+                getIngredientSearchRecipes()
             }
 
             btncancel?.setOnClickListener {
                 popupWindow.dismiss()
-                showingFilterPopupMenu = false
             }
 
             btnremove?.setOnClickListener {
                 popupWindow.dismiss()
-                showingFilterPopupMenu = false
+                filter = null
+                getIngredientSearchRecipes()
             }
 
             sbr?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
@@ -211,7 +242,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
                 val searchResponse =
                     DownloadRecipesMongoDB().getRecipes(
 
-                        _searchTerm,context
+                        _searchTerm,context,filter
 
                     )
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")

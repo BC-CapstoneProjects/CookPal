@@ -1,6 +1,7 @@
 package bellevuecollege.edu.cookpal.network
 
 import android.content.Context
+import bellevuecollege.edu.cookpal.recipes.RecipeFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
@@ -15,7 +16,7 @@ class DownloadRecipesMongoDB {
 
     data class Response(val documents: List<Recipe>)
 
-    suspend fun getRecipes(keyWord: String, context: Context): List<Recipe>
+    suspend fun getRecipes(keyWord: String, context: Context, filter:RecipeFilter? = null): List<Recipe>
     {
         val client = OkHttpClient()
 
@@ -36,8 +37,14 @@ class DownloadRecipesMongoDB {
                 }
             }
 
+            var url = server + "/api/recipe/title/" + keyWord
+
+            if (filter != null) {
+                url += "?usefilter&" + filter.ToQueryString()
+            }
+
             val request = Request.Builder()
-                    .url(server + "/api/recipe/title/" + keyWord)
+                    .url(url)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Access-Control-Request-Headers", "*")
                     .build()
