@@ -50,7 +50,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
                         title = recipe.title,
-                        imgUrl = recipe.imgUrl,
+                        imageUrl = recipe.imageUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }
@@ -81,7 +81,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
                     Recipe(
 
                         title = recipe.title,
-                        imgUrl = recipe.imgUrl,
+                        imageUrl = recipe.imageUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }
@@ -113,7 +113,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
                     Recipe(
 
                         title = recipe.title,
-                        imgUrl = recipe.imgUrl,
+                        imageUrl = recipe.imageUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }
@@ -142,7 +142,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
                         title = recipe.title,
-                        imgUrl = recipe.imgUrl,
+                        imageUrl = recipe.imageUrl,
                         sourceUrl = recipe.sourceUrl
                     )
                 }

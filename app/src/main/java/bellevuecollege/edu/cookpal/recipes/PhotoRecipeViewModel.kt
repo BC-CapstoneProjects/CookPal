@@ -51,7 +51,7 @@ class PhotoRecipeViewModel : ViewModel() {
                                         Recipe(
                                             rId = "FIREBASE_DATA",
                                             title = it.name,
-                                            imgUrl = it.filePath,
+                                            imageUrl = it.filePath,
                                             sourceUrl = "",
                                             steps = arrayListOf(it.instructions),
                                             ingredients = arrayListOf(it.ingredients),
