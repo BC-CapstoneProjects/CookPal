@@ -52,11 +52,10 @@ async function getByTitleFilter(
       }
     } else {
       for (let j: number = 0; j < results[i].ingredients.length; j++) {
-        if (
-          include &&
-          filter.ingredients.toLowerCase() ==
-            results[i].ingredients[j].toLowerCase()
-        ) {
+        let filterIngrLower = filter.ingredients.toLowerCase();
+        let itemIngrLower = results[i].ingredients[j].toLowerCase();
+
+        if (include && itemIngrLower.indexOf(filterIngrLower) >= 0) {
           finalResults.push(results[i]);
           break;
         }
