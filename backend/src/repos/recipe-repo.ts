@@ -1,5 +1,4 @@
 import { IRecipe } from "@models/recipe-model";
-import webscraping from "../utils/webscraping";
 import dataAccess from "./data-access";
 
 /**
@@ -17,31 +16,11 @@ async function getOne(id: string): Promise<IRecipe | null> {
  * @returns an array of recipes
  */
 async function getByTitle(title: string): Promise<Array<IRecipe>> {
-  let results: Array<IRecipe> = await dataAccess.findByTitle(title);
-
-  if (results.length > 0) {
-    return results;
-  }
-  // data scrape
-  results = await webscraping.getResults(title, 20);
-
-  await dataAccess.uploadRecipes(results);
-
-  return results;
-}
-
-/**
- * uploads a list of recipes
- * @param recipes the list of recipes
- * @returns
- */
-async function uploadRecipes(recipes: Array<IRecipe>): Promise<any> {
-  return await dataAccess.uploadRecipes(recipes);
+  return await dataAccess.findByTitle(title);
 }
 
 // Export default
 export default {
   getOne,
   getByTitle,
-  uploadRecipes,
 } as const;
