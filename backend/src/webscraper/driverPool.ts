@@ -11,8 +11,7 @@ class DriverPool {
       "--no-sandbox",
       "--disable-dev-shm-usage",
       "--headless",
-      "--log-level=3",
-      `--user-data-dir=C:/ChromeProfiles/Profile${this.chromeProfileIndex++}`
+      "--log-level=3"
     );
     let driver = await new webdriver.Builder()
       .forBrowser("chrome")
