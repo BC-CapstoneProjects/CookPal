@@ -1,10 +1,10 @@
 package bellevuecollege.edu.cookpal.recipes
 
 class RecipeFilter {
-    var minMins = 10
-    var maxMins = 10
-    var rating:Float = 0.0f
-    var ingredients = ""
+    var minMins:Int? = 10
+    var maxMins:Int? = 10
+    var rating:Float? = 0.0f
+    var ingredients:String? = ""
 
     fun ToQueryString():String {
         var queryString = ""

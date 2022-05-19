@@ -69,10 +69,10 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
         getIngredientSearchRecipes()
     }
 
-    var minMins = 10
-    var maxMins = 10
-    var rating:Float = 0.0f
-    var ingredients = ""
+    var minMins:Int? = 10
+    var maxMins:Int? = 10
+    var rating:Float? = 0.0f
+    var ingredients:String? = ""
 
     var filter: RecipeFilter? = null;
 
@@ -97,8 +97,6 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(bd.root, Gravity.TOP, 0, 350)
-
-
 
             var sb:SeekBar? =  popupView?.findViewById<SeekBar>(R.id.seekBar)
             var sbm:SeekBar? =  popupView?.findViewById<SeekBar>(R.id.seekBarMax)
@@ -133,6 +131,24 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
             ingStr = ing?.text.toString()
 
+            if (filter != null) {
+                ing?.setText(filter?.ingredients)
+                sb?.progress = filter?.minMins!! - 10
+                sbr?.progress = (filter?.rating?.times(2))?.toInt()!!
+                sbm?.progress = filter?.maxMins!! - 10
+            }
+
+            minMins = sb?.progress?.plus(10)
+            rating = sbr?.progress?.toFloat()
+            rating = rating?.div(2.0f)
+
+            maxMins = sbm?.progress?.plus(10)
+            ingredients = ing?.text.toString()
+
+            txr?.text = rating.toString()
+            txm?.text = maxMins.toString()
+            tx?.text = minMins.toString()
+
             btnapply?.setOnClickListener {
                 popupWindow.dismiss()
                 filter = RecipeFilter()
@@ -150,6 +166,15 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             btnremove?.setOnClickListener {
                 popupWindow.dismiss()
                 filter = null
+                txr?.text = ""
+                sb?.progress = 0
+                sbr?.progress = 0
+                sbm?.progress = 0
+                maxMins = 10
+                minMins = 10
+                rating = 0.0f
+                ingredients = ""
+
                 getIngredientSearchRecipes()
             }
 
@@ -176,13 +201,13 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                     maxMins = progress + 10
 
-                    if (maxMins < minMins)
+                    if (maxMins!! < minMins!!)
                     {
                         minMins = maxMins
 
                         tx?.text = minMins.toString()
 
-                        sb?.progress = minMins - 10
+                        sb?.progress = minMins!! - 10
                     }
 
                     txm?.text = maxMins.toString()
@@ -203,13 +228,13 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                     minMins = progress + 10
 
-                    if (maxMins < minMins)
+                    if (maxMins!! < minMins!!)
                     {
                         maxMins = minMins
 
                         txm?.text = maxMins.toString()
 
-                        sbm?.progress = maxMins - 10
+                        sbm?.progress = maxMins!! - 10
                     }
 
                     tx?.text = minMins.toString()
