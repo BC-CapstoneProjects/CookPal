@@ -33,7 +33,7 @@ class RecipeGridAdapter(private val onClickListener: OnClickListener) : ListAdap
         }
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-            return oldItem.imgUrl == newItem.imgUrl
+            return oldItem.imageUrl == newItem.imageUrl
         }
     }
 

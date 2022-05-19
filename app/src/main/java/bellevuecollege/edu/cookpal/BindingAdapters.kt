@@ -21,7 +21,7 @@ import com.bumptech.glide.request.target.Target
 @BindingAdapter("recipeImage")
 fun bindRecipeImage(imgView: ImageView, recipe: Recipe?) {
     recipe?.let {
-        val imgUri = recipe.imgUrl.toUri().buildUpon().scheme("https").build()
+        val imgUri = recipe.imageUrl.toUri().buildUpon().scheme("https").build()
         Log.d("recipeImage", imgUri.toString())
         Glide.with(imgView.context)
             .load(imgUri)
