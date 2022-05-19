@@ -1,3 +1,4 @@
+import { IRecipeFilter } from "@models/recipe-filter-model";
 import { IRecipe } from "@models/recipe-model";
 import dataAccess from "./data-access";
 
@@ -19,8 +20,56 @@ async function getByTitle(title: string): Promise<Array<IRecipe>> {
   return await dataAccess.findByTitle(title);
 }
 
+/**
+ * Gets list of recipes by the title and using a filter
+ * @param title the title of the recipes we are looking for
+ * @returns an array of recipes
+ */
+async function getByTitleFilter(
+  title: string,
+  filter: IRecipeFilter
+): Promise<Array<IRecipe>> {
+  let results = await dataAccess.findByTitle(title);
+  let finalResults = [];
+  let include = false;
+
+  for (let i: number = 0; i < results.length; i++) {
+    let rating = results[i].rating.substring(0, 3);
+    let ratingf = parseFloat(rating);
+
+    let totaltime = results[i].totalTime.trim(); // " 5 mins"
+    let parts = totaltime.split(" ");
+    let minutes = parseInt(parts[0]);
+
+    include =
+      filter.rating <= ratingf &&
+      filter.minMins <= minutes &&
+      minutes <= filter.maxMins;
+
+    if (filter.ingredients.trim() == "") {
+      if (include) {
+        finalResults.push(results[i]);
+      }
+    } else {
+      for (let j: number = 0; j < results[i].ingredients.length; j++) {
+        if (
+          include &&
+          filter.ingredients.toLowerCase() ==
+            results[i].ingredients[j].toLowerCase()
+        ) {
+          finalResults.push(results[i]);
+          break;
+        }
+      }
+    }
+  }
+
+  return finalResults;
+}
+
 // Export default
 export default {
   getOne,
   getByTitle,
+  getByTitleFilter,
 } as const;
