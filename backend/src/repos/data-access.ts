@@ -5,9 +5,9 @@ import utils from "../utils/utils";
 import axios, { AxiosRequestConfig } from "axios";
 import fs from "fs";
 import path from "path";
-const mysql = require("mysql");
+import mysql from "mysql";
 
-var connection: any;
+var connection: mysql.Connection;
 
 const searchType: SearchType = { TITLE: "", INGREDIENT: "", ALL: "" };
 
