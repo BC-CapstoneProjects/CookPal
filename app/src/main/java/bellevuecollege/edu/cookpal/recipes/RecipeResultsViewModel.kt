@@ -68,9 +68,10 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
     init {
         getIngredientSearchRecipes()
     }
+    val MIN_MINUTES:Int = 5
 
-    var minMins:Int? = 10
-    var maxMins:Int? = 10
+    var minMins:Int? = MIN_MINUTES
+    var maxMins:Int? = MIN_MINUTES
     var rating:Float? = 0.0f
     var ingredients:String? = ""
 
@@ -133,16 +134,16 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
             if (filter != null) {
                 ing?.setText(filter?.ingredients)
-                sb?.progress = filter?.minMins!! - 10
+                sb?.progress = filter?.minMins!! - MIN_MINUTES
                 sbr?.progress = (filter?.rating?.times(2))?.toInt()!!
-                sbm?.progress = filter?.maxMins!! - 10
+                sbm?.progress = filter?.maxMins!! - MIN_MINUTES
             }
 
-            minMins = sb?.progress?.plus(10)
+            minMins = sb?.progress?.plus(MIN_MINUTES)
             rating = sbr?.progress?.toFloat()
             rating = rating?.div(2.0f)
 
-            maxMins = sbm?.progress?.plus(10)
+            maxMins = sbm?.progress?.plus(MIN_MINUTES)
             ingredients = ing?.text.toString()
 
             txr?.text = rating.toString()
@@ -170,8 +171,8 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
                 sb?.progress = 0
                 sbr?.progress = 0
                 sbm?.progress = 0
-                maxMins = 10
-                minMins = 10
+                maxMins = MIN_MINUTES
+                minMins = MIN_MINUTES
                 rating = 0.0f
                 ingredients = ""
 
@@ -199,7 +200,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             sbm?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
 
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    maxMins = progress + 10
+                    maxMins = progress + MIN_MINUTES
 
                     if (maxMins!! < minMins!!)
                     {
@@ -207,7 +208,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
                         tx?.text = minMins.toString()
 
-                        sb?.progress = minMins!! - 10
+                        sb?.progress = minMins!! - MIN_MINUTES
                     }
 
                     txm?.text = maxMins.toString()
@@ -226,7 +227,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             sb?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
 
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    minMins = progress + 10
+                    minMins = progress + MIN_MINUTES
 
                     if (maxMins!! < minMins!!)
                     {
@@ -234,7 +235,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
                         txm?.text = maxMins.toString()
 
-                        sbm?.progress = maxMins!! - 10
+                        sbm?.progress = maxMins!! - MIN_MINUTES
                     }
 
                     tx?.text = minMins.toString()
