@@ -87,6 +87,8 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
         val popupView: View? = inflater?.inflate(R.layout.fragment_filter, null)
 
+            popupView?.setBackgroundColor(0xFFe6eaed.toInt());
+
         // create the popup window
         val width = LinearLayout.LayoutParams.WRAP_CONTENT
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
