@@ -9,7 +9,7 @@ class RecipeClassConverter {
             sourceUrl = recipe.sourceUrl,
             ingredients = recipe.ingredients,
             steps = recipe.steps,
-            imgUrl = recipe.imgUrl,
+            imageUrl = recipe.imgUrl,
             rating = recipe.rating,
             reviewNumber = recipe.reviewNumber as Int,
             totalTime = recipe.totalTime
