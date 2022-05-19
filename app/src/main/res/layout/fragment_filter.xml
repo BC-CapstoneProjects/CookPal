@@ -22,7 +22,7 @@
                 android:text="Filter Options" />
 
             <EditText
-                android:id="@+id/filterIngredients"
+                android:id="@+id/txtFilterIngredients"
                 android:layout_width="310dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="70dp"
@@ -38,7 +38,7 @@
 
 
             <TextView
-                android:id="@+id/textViewProg"
+                android:id="@+id/lblMinMins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
@@ -46,7 +46,7 @@
                 android:text="10" />
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/sbMinMinsFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
@@ -54,7 +54,7 @@
                 android:max="55" />
 
             <TextView
-                android:id="@+id/minminspr"
+                android:id="@+id/lblMinMinsPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
@@ -63,7 +63,7 @@
 
 
             <TextView
-                android:id="@+id/textViewProgMax"
+                android:id="@+id/lblMaxMins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
@@ -71,7 +71,7 @@
                 android:text="10" />
 
             <SeekBar
-                android:id="@+id/seekBarMax"
+                android:id="@+id/sbMaxMinsFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
@@ -79,7 +79,7 @@
                 android:max="55" />
 
             <TextView
-                android:id="@+id/maxminspr"
+                android:id="@+id/lblMaxMinsPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
@@ -88,7 +88,7 @@
 
 
             <TextView
-                android:id="@+id/textViewProgRate"
+                android:id="@+id/lblRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
@@ -96,7 +96,7 @@
                 android:text="0" />
 
             <SeekBar
-                android:id="@+id/seekBarRate"
+                android:id="@+id/sbRatingFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
@@ -104,7 +104,7 @@
                 android:max="10" />
 
             <TextView
-                android:id="@+id/maxminsprRate"
+                android:id="@+id/lblRatingPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
