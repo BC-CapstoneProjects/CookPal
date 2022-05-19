@@ -47,8 +47,8 @@ router.get(p.get, async (req: Request, res: Response) => {
  */
 router.get(p.getByTitle, async (req: Request, res: Response) => {
   try {
-    var parts = url.parse(req.url, true);
-    var query = parts.query;
+    var parts: any = url.parse(req.url, true);
+    var query: any = parts.query;
     let data: Array<IRecipe>;
 
     if (query != undefined && query.usefilter != undefined) {

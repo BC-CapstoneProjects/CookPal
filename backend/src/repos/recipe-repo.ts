@@ -29,17 +29,17 @@ async function getByTitleFilter(
   title: string,
   filter: IRecipeFilter
 ): Promise<Array<IRecipe>> {
-  let results = await dataAccess.findByTitle(title);
-  let finalResults = [];
-  let include = false;
+  let results: Array<IRecipe> = await dataAccess.findByTitle(title);
+  let finalResults: Array<IRecipe> = [];
+  let include: boolean = false;
 
   for (let i: number = 0; i < results.length; i++) {
-    let rating = results[i].rating.substring(0, 3);
-    let ratingf = parseFloat(rating);
+    let rating: string = results[i].rating.substring(0, 3);
+    let ratingf: number = parseFloat(rating);
 
-    let totaltime = results[i].totalTime.trim(); // " 5 mins"
-    let parts = totaltime.split(" ");
-    let minutes = parseInt(parts[0]);
+    let totaltime: string = results[i].totalTime.trim(); // " 5 mins"
+    let parts: Array<string> = totaltime.split(" ");
+    let minutes: number = parseInt(parts[0]);
 
     include =
       filter.rating <= ratingf &&
@@ -52,8 +52,8 @@ async function getByTitleFilter(
       }
     } else {
       for (let j: number = 0; j < results[i].ingredients.length; j++) {
-        let filterIngrLower = filter.ingredients.toLowerCase();
-        let itemIngrLower = results[i].ingredients[j].toLowerCase();
+        let filterIngrLower: string = filter.ingredients.toLowerCase();
+        let itemIngrLower: string = results[i].ingredients[j].toLowerCase();
 
         if (include && itemIngrLower.indexOf(filterIngrLower) >= 0) {
           finalResults.push(results[i]);
