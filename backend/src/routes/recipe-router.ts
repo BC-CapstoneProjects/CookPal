@@ -70,10 +70,11 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
 
     let finalData: any = { documents: data };
 
-    console.log("item count: " + data.length);
     utils.log("item count: " + data.length);
     console.log(JSON.stringify(finalData));
     utils.log(JSON.stringify(finalData));
+
+    console.log("item count: " + data.length);
 
     finalData = utils.hideError(finalData);
     console.log("title");
