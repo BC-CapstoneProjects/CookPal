@@ -23,6 +23,7 @@ async function getByTitle(title: string): Promise<Array<IRecipe>> {
 /**
  * Gets list of recipes by the title and using a filter
  * @param title the title of the recipes we are looking for
+ * @param filter the filter to use
  * @returns an array of recipes
  */
 async function getByTitleFilter(
