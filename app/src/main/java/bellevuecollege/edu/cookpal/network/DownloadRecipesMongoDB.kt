@@ -36,21 +36,8 @@ class DownloadRecipesMongoDB {
                 }
             }
 
-            val request = Request.Builder()
-                    .url(server + "/api/recipe/title/" + keyWord)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Access-Control-Request-Headers", "*")
-                    .build()
-            val response = withContext(Dispatchers.IO) {
-                client.newCall(request).execute()
-
-            }
-            //logger.info { "Response code: ${response.code()}" }
-            val responseBody = response.body
-
-            val responseString = withContext(Dispatchers.IO) {
-                responseBody?.string()
-            }
+            val responseString = Utils.makeAPIGetRequest(server + "/api/recipe/title/" + keyWord,
+        mapOf("Content-Type" to "application/json", "Access-Control-Request-Headers" to "*"))
 
             val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}
             return jacksonObjectMapper().readValue(responseString, typeRef).documents
