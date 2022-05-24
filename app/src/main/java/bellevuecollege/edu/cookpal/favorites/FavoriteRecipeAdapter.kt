@@ -39,8 +39,6 @@ class FavoriteRecipeAdapter(private val context: Context, private val favoriteRe
 
         val rowView = inflater.inflate(R.layout.list_favorite_recipe, parent, false)
 
-        //val favoriteRecipeHashMap : HashMap<Int, Recipe> = HashMap()
-
         // Get title element
         val titleTextView = rowView.findViewById(R.id.recipe_list_title) as TextView
 
