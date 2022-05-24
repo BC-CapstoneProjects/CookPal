@@ -37,6 +37,9 @@ class FavoriteRecipesFragment : Fragment() {
 
             val arrayAdapter: ArrayAdapter<*> =
                 ArrayAdapter(requireActivity().applicationContext, android.R.layout.simple_list_item_1, favoriteRecipes)
+            //val arrayAdapter = FavoriteRecipeAdapter(requireActivity().applicationContext, favoriteRecipes)
+//            val arrayAdapter: FavoriteRecipeAdapter =
+//                FavoriteRecipeAdapter(requireActivity().applicationContext, favoriteRecipes)
             binding.favoriteRecipeView.adapter = arrayAdapter
         }
 
