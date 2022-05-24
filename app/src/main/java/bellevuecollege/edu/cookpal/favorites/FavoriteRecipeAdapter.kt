@@ -47,18 +47,14 @@ class FavoriteRecipeAdapter(private val context: Context, private val favoriteRe
         // Get thumbnail element
         val thumbnailImageView = rowView.findViewById(R.id.recipe_list_thumbnail) as ImageView
 
-        titleTextView.text = "Nice"
-        val testUrl = "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2017/1/6/1/KC1201_Cauliflower-Fried-Rice_s4x3.jpg.rend.hgtvcom.826.620.suffix/1529948516413.jpeg"
-
-        //@TODO java.lang.ClassCastException: java.util.HashMap cannot be cast to bellevuecollege.edu.cookpal.network.Recipe
+        //Get recipe information
         val recipe = getItem (position)
         val recipeAsString = recipe.toString()
         val recipeImageURL = recipeAsString.substringAfter("imageUrl=").substringBefore(", loadedSuccessful")
         val recipeTitle = recipeAsString.substringAfter("title=").substringBefore(", steps")
-        Log.d("Favorite Recipe adapter 1", recipeImageURL)
-        Log.d("Favorite Recipe adapter 2", recipeTitle)
+        //Log.d("Favorite Recipe adapter 1", recipeImageURL)
+        //Log.d("Favorite Recipe adapter 2", recipeTitle)
 
-        //val recipe = getItem(position) as Recipe
         titleTextView.text = recipeTitle
 
         //Coroutine to load image from web
@@ -66,7 +62,6 @@ class FavoriteRecipeAdapter(private val context: Context, private val favoriteRe
         GlobalScope.launch {
             loadImageFromWeb(recipeImageURL, thumbnailImageView)
         }
-
         return rowView
     }
 
