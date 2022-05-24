@@ -5,16 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import bellevuecollege.edu.cookpal.R
 import bellevuecollege.edu.cookpal.databinding.FragmentFavoriteRecipesBinding
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.profile.UserProfile
 import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipe_parser.TAG
-import bellevuecollege.edu.cookpal.recipes.RecipeGridAdapter
 
 class FavoriteRecipesFragment : Fragment() {
 
@@ -37,12 +34,16 @@ class FavoriteRecipesFragment : Fragment() {
             up.setProfile(data)
             favoriteRecipes = up.favoriteRecipes
             Log.d(TAG, favoriteRecipes.toString())
+
+            val arrayAdapter: ArrayAdapter<*> =
+                ArrayAdapter(requireActivity().applicationContext, android.R.layout.simple_list_item_1, favoriteRecipes)
+            binding.favoriteRecipeView.adapter = arrayAdapter
         }
-
-
 
         return binding.root
     }
+
+
 
 
 }
