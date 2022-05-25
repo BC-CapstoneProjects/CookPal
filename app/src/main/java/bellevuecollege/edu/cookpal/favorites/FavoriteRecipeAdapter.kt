@@ -46,14 +46,10 @@ class FavoriteRecipeAdapter(private val context: Context, private val favoriteRe
         val thumbnailImageView = rowView.findViewById(R.id.recipe_list_thumbnail) as ImageView
 
         //Get recipe information
-        val recipe = getItem (position)
-        val recipeAsString = recipe.toString()
-        val recipeImageURL = recipeAsString.substringAfter("imageUrl=").substringBefore(", loadedSuccessful")
-        val recipeTitle = recipeAsString.substringAfter("title=").substringBefore(", steps")
-        //Log.d("Favorite Recipe adapter 1", recipeImageURL)
-        //Log.d("Favorite Recipe adapter 2", recipeTitle)
+        var map : HashMap<String, String> = getItem(position) as HashMap<String, String>
 
-        titleTextView.text = recipeTitle
+        titleTextView.text = map["title"].toString()
+        val recipeImageURL = map["imageUrl"].toString()
 
         //Coroutine to load image from web
         //Cannot load images using main thread
