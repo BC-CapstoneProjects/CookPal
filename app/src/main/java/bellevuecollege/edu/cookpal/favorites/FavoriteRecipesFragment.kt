@@ -69,7 +69,6 @@ class FavoriteRecipesFragment : Fragment() {
                 selectedRecipe._id = map["_id"] as String
                 selectedRecipe.id = map["id"] as String
 
-
                 //Log.d("Map Values", selectedRecipe.toString())
             }
         }
