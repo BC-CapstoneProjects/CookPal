@@ -53,6 +53,8 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        createTTS("English")
+
         val application = requireNotNull(activity).application
         binding = RecipeDetailsFragmentBinding.inflate(inflater)
 

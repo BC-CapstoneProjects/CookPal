@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import bellevuecollege.edu.cookpal.databinding.FragmentFavoriteRecipesBinding
 import bellevuecollege.edu.cookpal.network.Recipe
 import bellevuecollege.edu.cookpal.profile.UserProfile
@@ -23,6 +25,10 @@ class FavoriteRecipesFragment : Fragment() {
 
     //private val _recipes = MutableLiveData<ArrayList<Recipe>>()
     lateinit var favoriteRecipes: ArrayList<Recipe>
+
+    private val viewModel: FavoriteRecipesViewModel by lazy {
+        ViewModelProvider(this).get(FavoriteRecipesViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +75,16 @@ class FavoriteRecipesFragment : Fragment() {
                 selectedRecipe._id = map["_id"] as String
                 selectedRecipe.id = map["id"] as String
 
+                viewModel.displayRecipeDetails(selectedRecipe)
+                viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
+                    if(null != it){
+                        this.findNavController().navigate(
+                            FavoriteRecipesFragmentDirections.
+                            actionFavoriteRecipesFragmentToRecipeDetailsFragment(it)
+                        )
+//                        viewModel.displayRecipeDetailsComplete()
+                    }
+                }
                 //Log.d("Map Values", selectedRecipe.toString())
             }
         }
