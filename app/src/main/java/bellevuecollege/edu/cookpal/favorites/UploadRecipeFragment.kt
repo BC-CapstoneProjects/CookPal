@@ -41,6 +41,7 @@ class UploadRecipeFragment : Fragment() {
     private lateinit var binding: FragmentUploadRecipeBinding
     private lateinit var bitmap: Bitmap
     private var recipe : Recipe = Recipe()
+    private var emptyRecipe: Recipe = Recipe()
     private val up: UserProfile = UserProfile()
 
     companion object {
@@ -73,10 +74,7 @@ class UploadRecipeFragment : Fragment() {
         }
         // Confirm upload recipe button listener
         binding.confirmUploadRecipe.setOnClickListener { view: View ->
-            Log.d(TAG, "Try to upload a photo recipe to Firebase Storage")
             uploadFileToFirebaseStorage()
-            up.favoriteRecipes.add(recipe)
-            UserProfileHelper.saveProfile(up)
         }
 
         // Upload recipe from gallery listener
@@ -156,12 +154,13 @@ class UploadRecipeFragment : Fragment() {
         binding.uploadProgressText.visibility = View.INVISIBLE
         ref.putFile(filePath!!)
             .addOnSuccessListener {
-                Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
+                Log.d("Upload Recipe Fragment success listener", "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-                    Log.d(TAG, "File Location: $it")
                     saveUserToFirebaseDatabase(it.toString())
                     recipe.imageUrl = it.toString()
+                    up.favoriteRecipes.add(recipe)
+                    UserProfileHelper.saveProfile(up)
                     binding.uploadProgressBar.visibility = View.INVISIBLE
                     binding.uploadProgressText.visibility = View.INVISIBLE
                 }
@@ -184,6 +183,7 @@ class UploadRecipeFragment : Fragment() {
     }
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+        Log.d("Upload Recipe Fragment saveUserToFirebaseDatabase", "File Location: $profileImageUrl")
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/recipe_data")
         val photoRecipe = PhotoRecipe(
