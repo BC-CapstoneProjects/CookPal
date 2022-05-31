@@ -21,20 +21,7 @@ class DownloadRecipesMongoDB {
 
         try
         {
-
-            val inputStream = context.assets.open("configenv.yaml")
-            val mapper = ObjectMapper(YAMLFactory())
-            configenv = mapper.readValue(inputStream, ConfigEnv::class.java)
-
-            var server = "";
-
-            server = when (configenv.env){
-                "local"->configenv.localserver
-                "aws"->configenv.awsserver
-                else -> {
-                    throw Exception("invalid env value")
-                }
-            }
+            val server:String = Utils.getServerUrl(context)
 
             val url:String = server + "/api/recipe/title/" + keyWord + "?cid=" + id
             val responseString = Utils.makeAPIGetRequest(url,

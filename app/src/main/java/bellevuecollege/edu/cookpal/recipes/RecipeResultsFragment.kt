@@ -1,5 +1,6 @@
 package bellevuecollege.edu.cookpal.recipes
 
+import android.app.Application
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import bellevuecollege.edu.cookpal.databinding.RecipeResultsFragmentBinding
+import bellevuecollege.edu.cookpal.network.Utils
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -33,7 +35,10 @@ class RecipeResultsFragment : Fragment() {
     ): View? {
 
         try {
-            mSocket = IO.socket("http://10.0.0.167:3000")
+
+            val server:String = Utils.getServerUrl(viewModel.getApplication<Application?>().applicationContext)
+
+            mSocket = IO.socket(server)
             mSocket?.connect()
         } catch (e: URISyntaxException) {
 
