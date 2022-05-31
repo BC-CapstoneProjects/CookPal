@@ -62,7 +62,7 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
     var query: any = parts.query;
     var id: string = query.cid; // id used to identify client for web socket
 
-    if (id != "" && data.length == 0) {
+    if (id != "" && data.length < 4) {
       console.log("web scraping");
 
       var io: any = ws.getWS(); // pointer to io object used to send data to client for the web socket
