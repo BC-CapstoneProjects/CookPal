@@ -2,6 +2,8 @@ import { IRecipe } from "@models/recipe-model";
 import driverPool from "../driverPool";
 import * as cheerio from "cheerio";
 import dataAccess from "@repos/data-access";
+import recipeService from "@services/recipe-service";
+
 abstract class BaseScraper {
   protected io: any;
   protected id: string = "";
@@ -185,6 +187,7 @@ abstract class BaseScraper {
             console.log(`${recipe.sourceUrl} resolved time: ${diff2}`);
 
             lthis.io.to(lthis.id).emit("senddata", recipe);
+            recipeService.uploadRecipe(recipe);
 
             resolve(recipe);
           });
