@@ -129,18 +129,18 @@ abstract class BaseScraper {
     drivers: driverPool,
     urls: string[],
     index: number,
-    receipes: IRecipe[],
+    recipes: IRecipe[],
     resolve: any,
     lthis: any
   ) {
     if (index == urls.length) {
-      resolve(receipes);
+      resolve(recipes);
       return;
     }
 
     lthis.getRecipe(drivers, urls[index], lthis).then(function (result: any) {
-      receipes.push(result);
-      lthis.getRecipesEx(drivers, urls, index + 1, receipes, resolve, lthis);
+      recipes.push(result);
+      lthis.getRecipesEx(drivers, urls, index + 1, recipes, resolve, lthis);
     });
   }
 
