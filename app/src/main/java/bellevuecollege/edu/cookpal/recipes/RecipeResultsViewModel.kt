@@ -68,8 +68,23 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
             var rep:Recipe = jacksonObjectMapper().readValue(ob.toString(), typeRef)
 
+            // if recs is empty then we need to add all the results from our search result that we got from mongodb
+            var addToList:Boolean = (recs.count() == 0)
+
+            for (rec in _recipes.value!!) {
+                // if item from webscraper result is already in list we are done no need to add it to the list
+                if (rec.id == rep.id && rep.id != "") {
+                    return@on
+                }
+
+                if (addToList) {
+                    recs.add(rec)
+                }
+            }
+
             recs.add(rep)
 
+            // is needed because otherwise the list doesn't update on the view, all objects need to be new ones
             var recs2:ArrayList<Recipe> = ArrayList()
 
             for (item in recs)
