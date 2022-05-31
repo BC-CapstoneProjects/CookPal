@@ -171,11 +171,15 @@ abstract class BaseScraper {
           .then((result) => {
             var ob: any = JSON.parse(result);
 
-            var rating: number = ob.ratingsSummaries[0].averageValue;
+            if (ob.ratingsSummaries.length > 0) {
+              var rating: number = ob.ratingsSummaries[0].averageValue;
 
-            rating = Math.round(rating * 100) / 100;
+              rating = Math.round(rating * 100) / 100;
 
-            recipe.rating = rating.toString() + " of 5 stars";
+              recipe.rating = rating.toString() + " of 5 stars";
+            } else {
+              recipe.rating = "";
+            }
 
             console.log(result);
 
