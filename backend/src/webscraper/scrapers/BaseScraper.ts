@@ -111,7 +111,7 @@ abstract class BaseScraper {
       recipeUrls.push(...this.getRecipeUrlsFromPage(page));
     }
 
-    recipeUrls = [recipeUrls[0], recipeUrls[1], recipeUrls[2], recipeUrls[3]];
+    recipeUrls = recipeUrls.slice(0, 4);
 
     return this.getRecipes(drivers, recipeUrls);
   }
