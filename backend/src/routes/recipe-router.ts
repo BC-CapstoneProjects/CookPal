@@ -4,6 +4,10 @@ import recipeService from "@services/recipe-service";
 import utils from "../utils/utils";
 import { IRecipe } from "@models/recipe-model";
 
+import ws from "../websocket";
+import FoodNetwork from "src/webscraper/scrapers/FoodNetwork";
+var url = require("url");
+
 // Constants
 const router = Router();
 const { OK } = StatusCodes;
@@ -53,7 +57,20 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
     utils.log(JSON.stringify(finalData));
 
     finalData = utils.hideError(finalData);
-    console.log("title");
+
+    var parts: any = url.parse(req.url, true);
+    var query: any = parts.query;
+    var id: string = query.cid; // id used to identify client for web socket
+
+    if (id != "" && data.length == 0) {
+      console.log("web scraping");
+
+      var io: any = ws.getWS(); // pointer to io object used to send data to client for the web socket
+
+      var fn: FoodNetwork = new FoodNetwork();
+      fn.setWb(io, id);
+      fn.retrieveRecipes(req.params.title, 1);
+    }
 
     return res.status(OK).json(finalData);
   } catch (e: any) {

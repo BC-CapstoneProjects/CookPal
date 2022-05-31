@@ -15,7 +15,7 @@ class DownloadRecipesMongoDB {
 
     data class Response(val documents: List<Recipe>)
 
-    suspend fun getRecipes(keyWord: String, context: Context): List<Recipe>
+    suspend fun getRecipes(keyWord: String, context: Context, id:String = ""): List<Recipe>
     {
         val client = OkHttpClient()
 
@@ -36,7 +36,8 @@ class DownloadRecipesMongoDB {
                 }
             }
 
-            val responseString = Utils.makeAPIGetRequest(server + "/api/recipe/title/" + keyWord,
+            val url:String = server + "/api/recipe/title/" + keyWord + "?cid=" + id
+            val responseString = Utils.makeAPIGetRequest(url,
         mapOf("Content-Type" to "application/json", "Access-Control-Request-Headers" to "*"))
 
             val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}

@@ -3,6 +3,16 @@ import BaseScraper from "./BaseScraper";
 import * as cheerio from "cheerio";
 
 class FoodNetwork extends BaseScraper {
+  getID(doc: string): string {
+    var str: string = '"DetailID", "';
+    var index: number = doc.indexOf(str);
+    var newDoc: string = doc.substring(index + str.length);
+    index = newDoc.indexOf('"');
+    newDoc = newDoc.substring(0, index);
+    var id: string = newDoc;
+
+    return id;
+  }
   parseRecipeHtml(doc: string, url: string): IRecipe {
     const recipe = this.returnEmptyRecipe();
     const html = cheerio.load(doc);
@@ -52,6 +62,9 @@ class FoodNetwork extends BaseScraper {
       ".review .review-summary .rating-stars",
       "title"
     );
+
+    recipe.id = this.getID(doc);
+
     return recipe;
   }
   // add to existing element

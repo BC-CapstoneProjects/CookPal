@@ -11,8 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import bellevuecollege.edu.cookpal.databinding.RecipeResultsFragmentBinding
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
+import org.json.JSONObject
+import java.net.URISyntaxException
+import java.util.*
+
 
 class RecipeResultsFragment : Fragment() {
+
+    private var mSocket: Socket? = null
 
     private val viewModel: RecipeResultsViewModel by lazy {
         ViewModelProvider(this).get(RecipeResultsViewModel::class.java)
@@ -22,6 +31,22 @@ class RecipeResultsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        try {
+            mSocket = IO.socket("http://10.0.0.167:3000")
+            mSocket?.connect()
+        } catch (e: URISyntaxException) {
+
+        }
+
+        val uuid:String = UUID.randomUUID().toString()
+
+        mSocket?.emit("connecttoserverandroid", uuid)
+
+        mSocket?.let { viewModel.setSocketObject(it, uuid) }
+
+
+
         val binding = RecipeResultsFragmentBinding.inflate(inflater)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
@@ -68,5 +93,12 @@ class RecipeResultsFragment : Fragment() {
             }
         })
         return binding.root
+    }
+
+    override fun onDestroy() {
+
+        super.onDestroy()
+
+        mSocket?.disconnect();
     }
 }
