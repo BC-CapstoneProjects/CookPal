@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import bellevuecollege.edu.cookpal.databinding.FragmentFavoriteRecipesBinding
 import bellevuecollege.edu.cookpal.network.Recipe
@@ -17,6 +18,7 @@ import bellevuecollege.edu.cookpal.profile.UserProfileHelper
 import bellevuecollege.edu.cookpal.recipe_parser.TAG
 import com.google.common.collect.ImmutableList
 import com.google.gson.Gson
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory
 
 class FavoriteRecipesFragment : Fragment() {
 
@@ -39,53 +41,62 @@ class FavoriteRecipesFragment : Fragment() {
         binding.lifecycleOwner = this
 
         //Load profile
-        UserProfileHelper.loadProfile { data ->
-            up.setProfile(data)
-            favoriteRecipes = up.favoriteRecipes
+        setArrayAdapter()
 
-            val arrayAdapter = FavoriteRecipeAdapter(requireActivity().applicationContext, favoriteRecipes)
-            binding.favoriteRecipeView.adapter = arrayAdapter
-
-            var listView = binding.favoriteRecipeView
-            listView.setOnItemClickListener { parent, view, position, id ->
-
-                //val asString = up.favoriteRecipes[position].toString()
-                val map : HashMap<String, Any> = listView.getItemAtPosition(position) as HashMap<String, Any>
-
-                val selectedRecipe : Recipe = Recipe()
-
-                selectedRecipe.summary = map["summary"] as String
-                selectedRecipe.totalTime = map["totalTime"] as String
-                selectedRecipe.rating = map["rating"] as String
-                selectedRecipe.label = map["label"] as String
-                if (map["rId"] != null)
-                    selectedRecipe.rId = map["rId"] as String
-                selectedRecipe.title = map["title"] as String
-                selectedRecipe.steps = map["steps"] as ArrayList<String>
-                selectedRecipe.sourceUrl = map["sourceUrl"] as String
-                selectedRecipe.imageUrl = map["imageUrl"] as String
-                selectedRecipe.isLoadedSuccessful = map["loadedSuccessful"] as Boolean
-                selectedRecipe.ingredients = map["ingredients"] as ArrayList<String>
-
-                selectedRecipe.reviewNumber = map["reviewNumber"].toString().toInt()
-                selectedRecipe._id = map["_id"] as String
-                selectedRecipe.id = map["id"] as String
-
-                viewModel.displayRecipeDetails(selectedRecipe)
-                viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
-                    if(null != it){
-                        this.findNavController().navigate(
-                            FavoriteRecipesFragmentDirections.
-                            actionFavoriteRecipesFragmentToRecipeDetailsFragment(it)
-                        )
-//                        viewModel.displayRecipeDetailsComplete()
-                    }
-                }
+        var selectedRecipe: Recipe
+        binding.favoriteRecipeView.setOnItemClickListener { parent, view, position, id ->
+            val map : HashMap<String, Any> = binding.favoriteRecipeView.getItemAtPosition(position) as HashMap<String, Any>
+            selectedRecipe = mapToRecipe(map)
+            navigateToSelected(selectedRecipe)
             }
-        }
 
         return binding.root
     }
 
+    private fun setArrayAdapter() {
+        UserProfileHelper.loadProfile { data ->
+            up.setProfile(data)
+            favoriteRecipes = up.favoriteRecipes
+
+            val arrayAdapter =
+                FavoriteRecipeAdapter(requireActivity().applicationContext, favoriteRecipes)
+            binding.favoriteRecipeView.adapter = arrayAdapter
+        }
+    }
+
+    private fun navigateToSelected(selectedRecipe: Recipe){
+        viewModel.displayRecipeDetails(selectedRecipe)
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
+            if(null != it){
+                view?.findNavController()?.navigate(
+                    FavoriteRecipesFragmentDirections.
+                    actionFavoriteRecipesFragmentToRecipeDetailsFragment(it)
+                )
+                viewModel.displayRecipeDetailsComplete()
+            }
+        }
+    }
+
+    private fun mapToRecipe(recipeMap : HashMap<String, Any>) : Recipe{
+        var result = Recipe()
+
+        result.summary = recipeMap["summary"] as String
+        result.totalTime = recipeMap["totalTime"] as String
+        result.rating = recipeMap["rating"] as String
+        result.label = recipeMap["label"] as String
+        if (recipeMap["rId"] != null)
+            result.rId = recipeMap["rId"] as String
+        result.title = recipeMap["title"] as String
+        result.steps = recipeMap["steps"] as ArrayList<String>
+        result.sourceUrl = recipeMap["sourceUrl"] as String
+        result.imageUrl = recipeMap["imageUrl"] as String
+        result.isLoadedSuccessful = recipeMap["loadedSuccessful"] as Boolean
+        result.ingredients = recipeMap["ingredients"] as ArrayList<String>
+        result.reviewNumber = recipeMap["reviewNumber"].toString().toInt()
+        result._id = recipeMap["_id"] as String
+        result.id = recipeMap["id"] as String
+
+        return result
+    }
 }
 
