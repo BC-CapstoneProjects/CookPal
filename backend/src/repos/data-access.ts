@@ -148,6 +148,18 @@ function getRegexQuery(field: string, regex: string, options: string): any {
   return query;
 }
 
+async function uploadRecipe(receipe: IRecipe): Promise<IRecipe> {
+  const operation = {
+    upsert: true,
+    update: { $set: receipe },
+    filter: { id: receipe.id },
+  };
+
+  var res: IRecipe[] = await queryDB(operation, "updateOne");
+
+  return res[0];
+}
+
 function upload(recipes: Array<IRecipe>): Promise<Array<IRecipe>> {
   const documents = { documents: recipes };
   console.log(documents);
@@ -230,5 +242,6 @@ export default {
   findByTitle,
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
-  upload
+  upload,
+  uploadRecipe,
 } as const;
