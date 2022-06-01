@@ -5,7 +5,7 @@ import utils from "../utils/utils";
 import { IRecipe } from "@models/recipe-model";
 
 import ws from "../websocket";
-import FoodNetwork from "src/webscraper/scrapers/FoodNetwork";
+import FoodNetwork from "../webscraper/scrapers/FoodNetwork";
 var url = require("url");
 
 // Constants
