@@ -15,14 +15,9 @@ class DownloadRecipesMongoDB {
 
     data class Response(val documents: List<Recipe>)
 
-    suspend fun getRecipes(keyWord: String, context: Context, id:String = ""): List<Recipe>
+    suspend fun getRecipesByTitle(keyWord: String, context:Context, id:String = ""): List<Recipe>
     {
-        return getRecipesByTitle(keyWord, context)
-    }
-
-    suspend fun getRecipesByTitle(keyWord: String, context: Context): List<Recipe>
-    {
-        return getRecipesFn(keyWord, context, "title")
+        return getRecipesFn(keyWord, context, "title", id)
     }
 
     suspend fun getRecipesByRating(keyWord: String, context: Context): List<Recipe>
@@ -30,7 +25,7 @@ class DownloadRecipesMongoDB {
         return getRecipesFn(keyWord, context, "rating")
     }
 
-    suspend fun getRecipesFn(keyWord: String, context: Context, field:String): List<Recipe>
+    suspend fun getRecipesFn(keyWord: String, context: Context, field:String, id:String = ""): List<Recipe>
     {
         val client = OkHttpClient()
 

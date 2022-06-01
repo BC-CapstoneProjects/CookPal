@@ -124,7 +124,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    DownloadRecipesMongoDB().getRecipes(
+                    DownloadRecipesMongoDB().getRecipesByTitle(
 
                         _searchTerm,context,uuid
 

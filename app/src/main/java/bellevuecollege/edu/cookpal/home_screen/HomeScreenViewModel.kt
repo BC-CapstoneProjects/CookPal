@@ -63,7 +63,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    DownloadRecipesMongoDB().getRecipes(
+                    DownloadRecipesMongoDB().getRecipesByTitle(
                         "rice",context
                     )
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
@@ -72,7 +72,9 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
                     Recipe(
                         title = recipe.title,
                         imageUrl = recipe.imageUrl,
-                        sourceUrl = recipe.sourceUrl
+                        sourceUrl = recipe.sourceUrl,
+                            steps = recipe.steps,
+                            ingredients = recipe.ingredients
                     )
                 }
                 _status.value = IngredientSearchApiStatus.DONE
@@ -92,7 +94,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    DownloadRecipesMongoDB().getRecipes(
+                    DownloadRecipesMongoDB().getRecipesByTitle(
                         "burger", context
 
                     )
@@ -103,7 +105,9 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
 
                         title = recipe.title,
                         imageUrl = recipe.imageUrl,
-                        sourceUrl = recipe.sourceUrl
+                        sourceUrl = recipe.sourceUrl,
+                            steps = recipe.steps,
+                            ingredients = recipe.ingredients
                     )
                 }
                 _status.value = IngredientSearchApiStatus.DONE
@@ -123,7 +127,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    DownloadRecipesMongoDB().getRecipes(
+                    DownloadRecipesMongoDB().getRecipesByTitle(
 
                         "juice", context
 
@@ -135,7 +139,9 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
 
                         title = recipe.title,
                         imageUrl = recipe.imageUrl,
-                        sourceUrl = recipe.sourceUrl
+                        sourceUrl = recipe.sourceUrl,
+                            steps = recipe.steps,
+                            ingredients = recipe.ingredients
                     )
                 }
                 _status.value = IngredientSearchApiStatus.DONE
@@ -155,16 +161,18 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
             _status.value = IngredientSearchApiStatus.LOADING
             try {
                 val searchResponse =
-                    DownloadRecipesMongoDB().getRecipes("rice", context) +
-                            DownloadRecipesMongoDB().getRecipes("burger", context) +
-                            DownloadRecipesMongoDB().getRecipes("juice", context)
+                    DownloadRecipesMongoDB().getRecipesByTitle("rice", context) +
+                            DownloadRecipesMongoDB().getRecipesByTitle("burger", context) +
+                            DownloadRecipesMongoDB().getRecipesByTitle("juice", context)
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
                 _recipes.value = searchResponse.map { recipe ->
                     Recipe(
                         title = recipe.title,
                         imageUrl = recipe.imageUrl,
-                        sourceUrl = recipe.sourceUrl
+                        sourceUrl = recipe.sourceUrl,
+                            steps = recipe.steps,
+                            ingredients = recipe.ingredients
                     )
                 }
                 _status.value = IngredientSearchApiStatus.DONE

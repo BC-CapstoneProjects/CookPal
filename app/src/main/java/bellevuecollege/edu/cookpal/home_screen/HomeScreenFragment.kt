@@ -128,8 +128,7 @@ class HomeScreenFragment : Fragment() {
                 }
             }
             catch (e:Exception){
-                var i = 0
-                i++
+
             }
 
         }
