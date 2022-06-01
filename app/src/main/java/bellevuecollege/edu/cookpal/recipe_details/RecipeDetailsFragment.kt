@@ -91,6 +91,9 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     context?.cacheDir?.absolutePath,
                     tempView.selectedRecipe.value?.rId + ".wav"
                 )
+                var inFavs = checkFavorites(up.favoriteRecipes, recipe.title)
+                if(inFavs)
+                    binding.addFavorite.isChecked = true
                 // Always record recipe
                 recordRecipe()
             }
