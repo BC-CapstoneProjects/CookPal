@@ -15,7 +15,7 @@ class DownloadRecipesMongoDB {
 
     data class Response(val documents: List<Recipe>)
 
-    suspend fun getRecipes(keyWord: String, context: Context): List<Recipe>
+    suspend fun getRecipes(keyWord: String, context: Context, id:String = ""): List<Recipe>
     {
         return getRecipesByTitle(keyWord, context)
     }
@@ -36,22 +36,11 @@ class DownloadRecipesMongoDB {
 
         try
         {
+            val server:String = Utils.getServerUrl(context)
 
-            val inputStream = context.assets.open("configenv.yaml")
-            val mapper = ObjectMapper(YAMLFactory())
-            configenv = mapper.readValue(inputStream, ConfigEnv::class.java)
+            val url:String = server + "/api/recipe/" + field + "/" + keyWord + "?cid=" + id
+            val responseString = Utils.makeAPIGetRequest(url,
 
-            var server = "";
-
-            server = when (configenv.env){
-                "local"->configenv.localserver
-                "aws"->configenv.awsserver
-                else -> {
-                    throw Exception("invalid env value")
-                }
-            }
-
-            val responseString = Utils.makeAPIGetRequest(server + "/api/recipe/" + field + "/" + keyWord,
         mapOf("Content-Type" to "application/json", "Access-Control-Request-Headers" to "*"))
 
             val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}

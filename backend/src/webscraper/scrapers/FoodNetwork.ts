@@ -1,8 +1,46 @@
 import { IRecipe } from "@models/recipe-model";
 import BaseScraper from "./BaseScraper";
 import * as cheerio from "cheerio";
+import DriverPool from "../driverPool";
+import recipeService from "@services/recipe-service";
 
 class FoodNetwork extends BaseScraper {
+  async getRecipe(drivers: DriverPool, url: string): Promise<IRecipe> {
+    var recipe = await this.getRecipeBase(drivers, url);
+    return new Promise(async (resolve, _reject) => {
+      const result = await drivers.getOutput(
+        "https://api.sni.foodnetwork.com/moderation-chitter-proxy/v1/ratings/brand/FOOD/type/recipe/id/" +
+          recipe.id
+      );
+      var ob: any = JSON.parse(result);
+      if (ob.ratingsSummaries.length > 0) {
+        var rating: number = ob.ratingsSummaries[0].averageValue;
+
+        rating = Math.round(rating * 100) / 100;
+
+        recipe.rating = rating.toString() + " of 5 stars";
+      } else {
+        recipe.rating = "";
+      }
+      console.log(result);
+      // Send to user here.
+      console.log(`${recipe.sourceUrl} resolved`);
+      var dt3: number = new Date().getTime();
+
+      this.io.to(this.id).emit("senddata", recipe);
+      recipeService.uploadRecipe(recipe);
+      resolve(recipe);
+    });
+  }
+  getID(doc: string): string {
+    var str: string = '"DetailID", "';
+    var index: number = doc.indexOf(str);
+    var newDoc: string = doc.substring(index + str.length);
+    index = newDoc.indexOf('"');
+    newDoc = newDoc.substring(0, index);
+    return newDoc;
+  }
+
   parseRecipeHtml(doc: string, url: string): IRecipe {
     const recipe = this.returnEmptyRecipe();
     const html = cheerio.load(doc);
@@ -52,6 +90,9 @@ class FoodNetwork extends BaseScraper {
       ".review .review-summary .rating-stars",
       "title"
     );
+
+    recipe.id = this.getID(doc);
+
     return recipe;
   }
   // add to existing element
