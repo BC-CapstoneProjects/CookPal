@@ -106,12 +106,12 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             binding.addFavorite.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     //Add recipe to favorites
-                    //recipe.isFavorite = true
-                    UserProfileHelper.loadProfile { data ->
-                        up.setProfile(data)
+                    //Not sure why up.favoriteRecipes.contains does not work.....
+                    var isIn = checkFavorites(up.favoriteRecipes, recipe.title)
+                    if(!isIn){
+                        up.favoriteRecipes.add(recipe)
+                        UserProfileHelper.saveProfile(up)
                     }
-                    up.favoriteRecipes.add(recipe)
-                    UserProfileHelper.saveProfile(up)
                 } else {
                     //Remove recipe from favorites, currently does not work...
                     up.favoriteRecipes.remove(recipe)
@@ -306,6 +306,37 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
         }
+    }
+
+    //Check if recipe name is in favorite recipes
+    private fun checkFavorites(favoriteRecipes: ArrayList<Recipe>, name: String) : Boolean{
+        var result = false
+        var end = false
+
+        if(favoriteRecipes.isEmpty()){
+            return result
+        }
+
+        val asString = favoriteRecipes.toString()
+        var toEdit = asString
+
+        while(!end) {
+            var oneRec = toEdit.substringBefore("}")
+            toEdit = toEdit.replace("$oneRec}", "")
+
+            val title = oneRec.substringAfter("title=").substringBefore(", steps")
+            if(title == name)
+            {
+                result = true
+                break
+            }
+
+            if (!toEdit.contains("title="))
+            {
+                end = true
+            }
+        }
+        return result
     }
 
     override fun onPause() {
