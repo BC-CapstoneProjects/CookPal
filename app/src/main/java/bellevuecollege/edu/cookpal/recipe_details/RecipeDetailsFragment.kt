@@ -107,6 +107,9 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 if (isChecked) {
                     //Add recipe to favorites
                     //recipe.isFavorite = true
+                    UserProfileHelper.loadProfile { data ->
+                        up.setProfile(data)
+                    }
                     up.favoriteRecipes.add(recipe)
                     UserProfileHelper.saveProfile(up)
                 } else {
