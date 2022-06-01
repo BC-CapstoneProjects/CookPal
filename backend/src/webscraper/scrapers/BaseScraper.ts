@@ -71,9 +71,7 @@ abstract class BaseScraper {
 
               var rating: number = ob.ratingsSummaries[0].averageValue;
 
-              rating = Math.round(rating * 100) / 100;
-
-              recipe.rating = rating.toString() + " of 5 stars";
+              recipe.rating = rating.toFixed(2) + " of 5 stars";
 
               console.log(result);
 
@@ -117,11 +115,9 @@ abstract class BaseScraper {
   }
 
   async getRecipes(drivers: driverPool, urls: string[]): Promise<IRecipe[]> {
-    var lthis = this;
     var reps: IRecipe[] = [];
-
-    return new Promise(function (resolve, reject) {
-      lthis.getRecipesEx(drivers, urls, 0, reps, resolve, lthis);
+    return new Promise((resolve, reject) => {
+      this.getRecipesEx(drivers, urls, 0, reps, resolve);
     });
   }
 
@@ -130,26 +126,21 @@ abstract class BaseScraper {
     urls: string[],
     index: number,
     recipes: IRecipe[],
-    resolve: any,
-    lthis: any
+    resolve: any
   ) {
     if (index == urls.length) {
       resolve(recipes);
       return;
     }
 
-    lthis.getRecipe(drivers, urls[index], lthis).then(function (result: any) {
+    this.getRecipe(drivers, urls[index]).then((result: any) => {
       recipes.push(result);
-      lthis.getRecipesEx(drivers, urls, index + 1, recipes, resolve, lthis);
+      this.getRecipesEx(drivers, urls, index + 1, recipes, resolve);
     });
   }
 
-  async getRecipe(
-    drivers: driverPool,
-    url: string,
-    lthis: any
-  ): Promise<IRecipe> {
-    return new Promise(function (resolve, reject) {
+  async getRecipeBase(drivers: driverPool, url: string): Promise<IRecipe> {
+    return new Promise((resolve, _reject) => {
       var dt1: number = new Date().getTime();
 
       drivers.getOutput(url).then((result) => {
@@ -159,45 +150,15 @@ abstract class BaseScraper {
 
         console.log(`${url} resolved time pre: ${diff}`);
 
-        const recipe = lthis.parseRecipeHtml(result, url);
+        const recipe = this.parseRecipeHtml(result, url);
 
         console.log(`${url} resolved time pre next: ${diff}`);
-
-        return drivers
-          .getOutput(
-            "https://api.sni.foodnetwork.com/moderation-chitter-proxy/v1/ratings/brand/FOOD/type/recipe/id/" +
-              recipe.id
-          )
-          .then((result) => {
-            var ob: any = JSON.parse(result);
-
-            if (ob.ratingsSummaries.length > 0) {
-              var rating: number = ob.ratingsSummaries[0].averageValue;
-
-              rating = Math.round(rating * 100) / 100;
-
-              recipe.rating = rating.toString() + " of 5 stars";
-            } else {
-              recipe.rating = "";
-            }
-
-            console.log(result);
-
-            // Send to user here.
-            console.log(`${recipe.sourceUrl} resolved`);
-            var dt3: number = new Date().getTime();
-
-            var diff2: number = dt3 - dt1;
-            console.log(`${recipe.sourceUrl} resolved time: ${diff2}`);
-
-            lthis.io.to(lthis.id).emit("senddata", recipe);
-            recipeService.uploadRecipe(recipe);
-
-            resolve(recipe);
-          });
+        resolve(recipe);
       });
     });
   }
+
+  abstract getRecipe(drivers: driverPool, url: string): Promise<IRecipe>;
 
   /**
    * Given html, return urls for recipes stored on the webpage
