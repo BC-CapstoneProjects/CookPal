@@ -135,7 +135,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
             try {
                 val searchResponse =
                     DownloadRecipesMongoDB().getRecipes("rice", context) +
-                            DownloadRecipesMongoDB().getRecipes("bacon", context) +
+                            DownloadRecipesMongoDB().getRecipes("burger", context) +
                             DownloadRecipesMongoDB().getRecipes("juice", context)
                 Log.d("HomeScreenViewModel", "Successfully get recipes")
                 Log.d("recipe", searchResponse.toString())
