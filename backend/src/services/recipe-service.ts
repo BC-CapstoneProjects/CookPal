@@ -20,6 +20,15 @@ async function getByTitle(title: string): Promise<Array<IRecipe>> {
 }
 
 /**
+ * Gets list of recipes by the rating
+ * @param rating the rating of the recipes we are looking for
+ * @returns an array of recipes
+ */
+async function getByRating(rating: string): Promise<Array<IRecipe>> {
+  return await recipeRepo.getByRating(rating);
+}
+
+/**
  * upload one recipe
  * @param title the recipe to upload
  * @returns an array of recipes
@@ -32,5 +41,6 @@ async function uploadRecipe(recipe: IRecipe): Promise<IRecipe> {
 export default {
   getOne,
   getByTitle,
+  getByRating,
   uploadRecipe,
 } as const;
