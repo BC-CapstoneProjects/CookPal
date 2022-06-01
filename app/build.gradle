@@ -138,5 +138,9 @@ dependencies {
     // Fragment
     implementation "androidx.fragment:fragment-ktx:1.4.1"
     debugImplementation "androidx.fragment:fragment-testing:1.4.1"
+	
+	implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 
 }

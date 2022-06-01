@@ -1,6 +1,8 @@
 package bellevuecollege.edu.cookpal.recipes
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -8,7 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import bellevuecollege.edu.cookpal.network.DownloadRecipesMongoDB
 import bellevuecollege.edu.cookpal.network.Recipe
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import io.socket.client.Socket
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+
 
 enum class IngredientSearchApiStatus { LOADING, ERROR, DONE }
 
@@ -16,6 +22,8 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
     private var ALL_RECIPES_NAME: String = "allrecipes"
     private var _searchTerm: String = "banh mi"
     private val context = getApplication<Application>().applicationContext
+
+    data class Response(val document: Recipe)
 
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<IngredientSearchApiStatus>()
@@ -39,6 +47,63 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
     fun setSearchTerm(searchKeyWord: String) {
         _searchTerm = searchKeyWord
         _searchButtonVisible.value = searchKeyWord.isNotEmpty()
+
+    }
+
+    private lateinit var sk:Socket
+    private lateinit var uuid:String
+    private var recs:ArrayList<Recipe> = ArrayList()
+
+    fun setSocketObject(psk: Socket, puuid:String) {
+        sk = psk
+        uuid = puuid
+
+        sk?.on("senddata") { paramters->
+            println("mSocket func")
+            var ob = paramters[0] as JSONObject
+
+            println(ob.toString())
+
+            val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<bellevuecollege.edu.cookpal.network.Recipe>() {}
+
+            var rep:Recipe = jacksonObjectMapper().readValue(ob.toString(), typeRef)
+
+            // if recs is empty then we need to add all the results from our search result that we got from mongodb
+            var addToList:Boolean = (recs.count() == 0)
+
+            for (rec in _recipes.value!!) {
+                // if item from webscraper result is already in list we are done no need to add it to the list
+                if (rec.id == rep.id && rep.id != "") {
+                    return@on
+                }
+
+                if (addToList) {
+                    recs.add(rec)
+                }
+            }
+
+            recs.add(rep)
+
+            // is needed because otherwise the list doesn't update on the view, all objects need to be new ones
+            var recs2:ArrayList<Recipe> = ArrayList()
+
+            for (item in recs)
+            {
+                recs2.add(item.copy())
+            }
+
+            viewModelScope.launch {
+
+               try
+               {
+                   _recipes.value = recs2
+               }
+               catch (e:Exception)
+               {
+
+               }
+            }
+        }
     }
 
     /**
@@ -52,6 +117,8 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
      * Sets the value of the status LiveData to the IngredientSearch API status.
      */
     fun getIngredientSearchRecipes() {
+        recs = ArrayList()
+
         viewModelScope.launch {
             Log.d("RecipeResultsViewModel", "Retrieving recipes for $_searchTerm")
             _status.value = IngredientSearchApiStatus.LOADING
@@ -59,7 +126,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
                 val searchResponse =
                     DownloadRecipesMongoDB().getRecipes(
 
-                        _searchTerm,context
+                        _searchTerm,context,uuid
 
                     )
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")

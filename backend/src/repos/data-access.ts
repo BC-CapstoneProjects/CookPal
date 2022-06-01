@@ -74,7 +74,7 @@ function getPendingCodeUpdates(): Promise<Array<any>> {
 /**
  * get one recipe by id.
  *
- * @id the id of the receipe
+ * @id the id of the recipe
  * @returns a recipe object
  */
 async function findOne(id: string): Promise<IRecipe | null> {
@@ -97,7 +97,7 @@ async function findOne(id: string): Promise<IRecipe | null> {
 /**
  * get recipes by title.
  *
- * @title the title of the receipe
+ * @title the title of the recipe
  * @returns an array of recipe objects
  */
 
@@ -146,6 +146,18 @@ function getRegexQuery(field: string, regex: string, options: string): any {
   query[field] = { $regex: regex, $options: options };
 
   return query;
+}
+
+async function uploadRecipe(recipe: IRecipe): Promise<IRecipe> {
+  const operation = {
+    upsert: true,
+    update: { $set: recipe },
+    filter: { id: recipe.id },
+  };
+
+  var res: IRecipe[] = await queryDB(operation, "updateOne");
+
+  return res[0];
 }
 
 function upload(recipes: Array<IRecipe>): Promise<Array<IRecipe>> {
@@ -230,5 +242,6 @@ export default {
   findByTitle,
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
-  upload
+  upload,
+  uploadRecipe,
 } as const;
