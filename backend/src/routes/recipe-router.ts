@@ -3,6 +3,8 @@ import { Request, Response, Router } from "express";
 import recipeService from "@services/recipe-service";
 import utils from "../utils/utils";
 import { IRecipe } from "@models/recipe-model";
+import { IRecipeFilter } from "@models/recipe-filter-model";
+var url = require("url");
 
 import ws from "../websocket";
 import FoodNetwork from "../webscraper/scrapers/FoodNetwork";
@@ -71,12 +73,34 @@ router.get(p.get, async (req: Request, res: Response) => {
  */
 router.get(p.getByTitle, async (req: Request, res: Response) => {
   try {
-    let data: Array<IRecipe> = await recipeService.getByTitle(req.params.title);
+    var parts: any = url.parse(req.url, true);
+    var query: any = parts.query;
+    let data: Array<IRecipe>;
+
+    if (query != undefined && query.usefilter != undefined) {
+      console.log("filter");
+
+      let filter: IRecipeFilter = {
+        ingredients: query.ingredients,
+        rating: parseFloat(query.rating),
+        minMins: parseInt(query.minMins),
+        maxMins: parseInt(query.maxMins),
+      };
+
+      data = await recipeService.getByTitleFilter(req.params.title, filter);
+    } else {
+      console.log("no filter");
+
+      data = await recipeService.getByTitle(req.params.title);
+    }
 
     let finalData: any = { documents: data };
 
+    utils.log("item count: " + data.length);
     console.log(JSON.stringify(finalData));
     utils.log(JSON.stringify(finalData));
+
+    console.log("item count: " + data.length);
 
     finalData = utils.hideError(finalData);
 

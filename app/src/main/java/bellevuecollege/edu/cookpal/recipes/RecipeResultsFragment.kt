@@ -78,6 +78,8 @@ class RecipeResultsFragment : Fragment() {
             }
         }
 
+        viewModel.setBinding(binding)
+
         // EditText handler
         binding.searchBox.addTextChangedListener(object : TextWatcher {
 

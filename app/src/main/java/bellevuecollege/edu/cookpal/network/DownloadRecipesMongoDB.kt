@@ -1,6 +1,7 @@
 package bellevuecollege.edu.cookpal.network
 
 import android.content.Context
+import bellevuecollege.edu.cookpal.recipes.RecipeFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
@@ -15,9 +16,9 @@ class DownloadRecipesMongoDB {
 
     data class Response(val documents: List<Recipe>)
 
-    suspend fun getRecipesByTitle(keyWord: String, context:Context, id:String = ""): List<Recipe>
+    suspend fun getRecipesByTitle(keyWord: String, context:Context, id:String = "", filter:RecipeFilter? = null): List<Recipe>
     {
-        return getRecipesFn(keyWord, context, "title", id)
+        return getRecipesFn(keyWord, context, "title", id, filter)
     }
 
     suspend fun getRecipesByRating(keyWord: String, context: Context): List<Recipe>
@@ -25,7 +26,7 @@ class DownloadRecipesMongoDB {
         return getRecipesFn(keyWord, context, "rating")
     }
 
-    suspend fun getRecipesFn(keyWord: String, context: Context, field:String, id:String = ""): List<Recipe>
+    suspend fun getRecipesFn(keyWord: String, context: Context, field:String, id:String = "", filter:RecipeFilter? = null): List<Recipe>
     {
         val client = OkHttpClient()
 
@@ -34,6 +35,11 @@ class DownloadRecipesMongoDB {
             val server:String = Utils.getServerUrl(context)
 
             val url:String = server + "/api/recipe/" + field + "/" + keyWord + "?cid=" + id
+          
+            if (filter != null) {
+                url += "?usefilter&" + filter.ToQueryString()
+            }
+            
             val responseString = Utils.makeAPIGetRequest(url,
 
         mapOf("Content-Type" to "application/json", "Access-Control-Request-Headers" to "*"))
