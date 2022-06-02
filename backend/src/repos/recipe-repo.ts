@@ -1,5 +1,6 @@
 import { IRecipeFilter } from "@models/recipe-filter-model";
 import { IRecipe } from "@models/recipe-model";
+import utils from "src/utils/utils";
 import dataAccess from "./data-access";
 
 /**
@@ -32,35 +33,10 @@ async function getByTitleFilter(
 ): Promise<Array<IRecipe>> {
   let results: Array<IRecipe> = await dataAccess.findByTitle(title);
   let finalResults: Array<IRecipe> = [];
-  let include: boolean = false;
 
   for (let i: number = 0; i < results.length; i++) {
-    let rating: string = results[i].rating.substring(0, 3);
-    let ratingf: number = parseFloat(rating);
-
-    let totaltime: string = results[i].totalTime.trim(); // " 5 mins"
-    let parts: Array<string> = totaltime.split(" ");
-    let minutes: number = parseInt(parts[0]);
-
-    include =
-      filter.rating <= ratingf &&
-      filter.minMins <= minutes &&
-      minutes <= filter.maxMins;
-
-    if (filter.ingredients.trim() == "") {
-      if (include) {
-        finalResults.push(results[i]);
-      }
-    } else {
-      for (let j: number = 0; j < results[i].ingredients.length; j++) {
-        let filterIngrLower: string = filter.ingredients.toLowerCase();
-        let itemIngrLower: string = results[i].ingredients[j].toLowerCase();
-
-        if (include && itemIngrLower.indexOf(filterIngrLower) >= 0) {
-          finalResults.push(results[i]);
-          break;
-        }
-      }
+    if (utils.includeItem(results[i], filter)) {
+      finalResults.push(results[i]);
     }
   }
 

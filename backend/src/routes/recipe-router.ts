@@ -76,11 +76,12 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
     var parts: any = url.parse(req.url, true);
     var query: any = parts.query;
     let data: Array<IRecipe>;
+    let filter: IRecipeFilter | undefined;
 
     if (query != undefined && query.usefilter != undefined) {
       console.log("filter");
 
-      let filter: IRecipeFilter = {
+      let filter = {
         ingredients: query.ingredients,
         rating: parseFloat(query.rating),
         minMins: parseInt(query.minMins),
@@ -115,7 +116,7 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
 
       var fn: FoodNetwork = new FoodNetwork();
       fn.setWb(io, id);
-      fn.retrieveRecipes(req.params.title, 1);
+      fn.retrieveRecipes(req.params.title, 1, filter);
     }
 
     return res.status(OK).json(finalData);

@@ -3,17 +3,25 @@ import driverPool from "../driverPool";
 import * as cheerio from "cheerio";
 import dataAccess from "@repos/data-access";
 import recipeService from "@services/recipe-service";
+import { IRecipeFilter } from "@models/recipe-filter-model";
+import utils from "src/utils/utils";
 
 abstract class BaseScraper {
   protected io: any;
   protected id: string = "";
+  protected filter: IRecipeFilter | undefined;
 
   public setWb(pio: any, pid: string): void {
     this.io = pio;
     this.id = pid;
   }
 
-  public retrieveRecipes(keyword: string, numPages: Number) {
+  public retrieveRecipes(
+    keyword: string,
+    numPages: Number,
+    pfilter: IRecipeFilter | undefined = undefined
+  ) {
+    this.filter = pfilter;
     const drivers = new driverPool();
     const allRecipes = this.returnRecipesFromKeyword(
       keyword,
@@ -82,7 +90,11 @@ abstract class BaseScraper {
               console.log(`${recipe.sourceUrl} resolved time: ${diff2}`);
 
               // Send to user here.
-              this.io.to(this.id).emit("senddata", recipe);
+              if (this.filter && utils.includeItem(recipe, this.filter)) {
+                this.io.to(this.id).emit("senddata", recipe);
+              } else {
+                this.io.to(this.id).emit("senddata", recipe);
+              }
 
               return recipe;
             });
