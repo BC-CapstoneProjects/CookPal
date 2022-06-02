@@ -19,7 +19,11 @@ class DriverPool {
   async getOutputOut(url: string): Promise<string> {
     console.log(`${url} started`);
     let options = new Chrome.Options();
-    options.addArguments("--disable-dev-shm-usage", "--log-level=3");
+    options.addArguments(
+      "--disable-dev-shm-usage",
+      "--headless",
+      "--log-level=3"
+    );
     let driver = await new webdriver.Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
