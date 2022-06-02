@@ -262,7 +262,6 @@ export default {
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
   upload,
-  filterItems,
   findByRating,
   uploadRecipe,
 } as const;

@@ -34,7 +34,7 @@ class DownloadRecipesMongoDB {
         {
             val server:String = Utils.getServerUrl(context)
 
-            val url:String = server + "/api/recipe/" + field + "/" + keyWord + "?cid=" + id
+            var url:String = server + "/api/recipe/" + field + "/" + keyWord + "?cid=" + id
           
             if (filter != null) {
                 url += "?usefilter&" + filter.ToQueryString()
