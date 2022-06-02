@@ -9,7 +9,12 @@ import mysql from "mysql";
 
 var connection: mysql.Connection;
 
-const searchType: SearchType = { TITLE: "", INGREDIENT: "", ALL: "" };
+const searchType: SearchType = {
+  TITLE: "",
+  INGREDIENTS: "",
+  ALL: "",
+  RATING: "",
+};
 
 function connectToMysql() {
   if (connection) {
@@ -74,7 +79,7 @@ function getPendingCodeUpdates(): Promise<Array<any>> {
 /**
  * get one recipe by id.
  *
- * @id the id of the receipe
+ * @id the id of the recipe
  * @returns a recipe object
  */
 async function findOne(id: string): Promise<IRecipe | null> {
@@ -97,14 +102,22 @@ async function findOne(id: string): Promise<IRecipe | null> {
 /**
  * get recipes by title.
  *
- * @title the title of the receipe
+ * @title the title of the recipe
  * @returns an array of recipe objects
  */
 
 async function findByTitle(title: string): Promise<Array<IRecipe>> {
   const searchParams = [{ searchValues: [title], searchType: searchType }];
 
-  return await getRecipesFromQuery(searchParams);
+  return await getRecipesFromQuery(searchParams, "title");
+}
+
+async function findByRating(rating: string): Promise<Array<IRecipe>> {
+  var ratingStr: string = rating + " of 5 stars";
+
+  const searchParams = [{ searchValues: [ratingStr], searchType: searchType }];
+
+  return await getRecipesFromQuery(searchParams, "rating");
 }
 
 function getFieldQuery(field: string, values: Array<string>): string {
@@ -112,9 +125,10 @@ function getFieldQuery(field: string, values: Array<string>): string {
 }
 
 async function getRecipesFromQuery(
-  param: Array<SearchParam>
+  param: Array<SearchParam>,
+  searchBy: string
 ): Promise<Array<IRecipe>> {
-  const filter = getQueryFromEnum(param[0]);
+  const filter = getQueryFromEnum(param[0], searchBy);
 
   const queryFilter = { filter: filter };
 
@@ -125,15 +139,20 @@ function getFieldArrayQuery(field: string, values: Array<string>): string {
   return getRegexQuery(field, values.join(",\n"), "i");
 }
 
-function getQueryFromEnum(param: SearchParam): any {
-  if (param.searchType) {
+function getQueryFromEnum(param: SearchParam, searchBy: string): any {
+  if (searchBy == "rating") {
+    searchType.RATING = getFieldQuery("rating", param.searchValues);
+    return searchType.RATING;
+  } else if (searchBy == "title") {
     searchType.TITLE = getFieldQuery("title", param.searchValues);
-    searchType.INGREDIENT = getFieldArrayQuery(
+    return searchType.TITLE;
+  } else {
+    searchType.INGREDIENTS = getFieldArrayQuery(
       "ingredients",
       param.searchValues
     );
+    return searchType.INGREDIENTS;
   }
-  return searchType.TITLE;
 }
 
 function getSingleFieldRegex(values: Array<string>): string {
@@ -146,6 +165,18 @@ function getRegexQuery(field: string, regex: string, options: string): any {
   query[field] = { $regex: regex, $options: options };
 
   return query;
+}
+
+async function uploadRecipe(recipe: IRecipe): Promise<IRecipe> {
+  const operation = {
+    upsert: true,
+    update: { $set: recipe },
+    filter: { id: recipe.id },
+  };
+
+  var res: IRecipe[] = await queryDB(operation, "updateOne");
+
+  return res[0];
 }
 
 function upload(recipes: Array<IRecipe>): Promise<Array<IRecipe>> {
@@ -231,4 +262,7 @@ export default {
   putInPendingCodeUpdate,
   getPendingCodeUpdates,
   upload,
+  filterItems,
+  findByRating,
+  uploadRecipe,
 } as const;

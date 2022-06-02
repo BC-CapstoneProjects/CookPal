@@ -31,6 +31,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -122,5 +123,24 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.2'
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'androidx.test:core-ktx:1.4.0'
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.2'
+    //Android runner and rules support
+    androidTestImplementation 'junit:junit:4.12'
+
+    // Android runner and rules support
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
+    androidTestImplementation('androidx.test:runner:1.4.0')
+    androidTestImplementation('androidx.test:rules:1.4.0')
+
+    // Fragment
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    debugImplementation "androidx.fragment:fragment-testing:1.4.1"
+	
+	implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 
 }

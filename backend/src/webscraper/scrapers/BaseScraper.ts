@@ -1,8 +1,18 @@
 import { IRecipe } from "@models/recipe-model";
 import driverPool from "../driverPool";
 import * as cheerio from "cheerio";
-import dataAccess from "@repos/data-access"
+import dataAccess from "@repos/data-access";
+import recipeService from "@services/recipe-service";
+
 abstract class BaseScraper {
+  protected io: any;
+  protected id: string = "";
+
+  public setWb(pio: any, pid: string): void {
+    this.io = pio;
+    this.id = pid;
+  }
+
   public retrieveRecipes(keyword: string, numPages: Number) {
     const drivers = new driverPool();
     const allRecipes = this.returnRecipesFromKeyword(
@@ -20,6 +30,70 @@ abstract class BaseScraper {
    * @param numPages
    * @returns
    */
+  async returnRecipesFromKeywordOut(
+    keyword: string,
+    drivers: driverPool,
+    numPages: Number
+  ): Promise<IRecipe[]> {
+    const pageUrls = [];
+    for (let page = 0; page < numPages; page++) {
+      pageUrls.push(this.getUrlForPage(page, keyword));
+    }
+    const pageResults = await drivers.getOutputs(pageUrls);
+    var recipeUrls: string[] = [];
+    for (const page of pageResults) {
+      recipeUrls.push(...this.getRecipeUrlsFromPage(page));
+    }
+
+    console.log(recipeUrls);
+    const recipeResults = await Promise.all(
+      recipeUrls.map((url) => {
+        var dt1: number = new Date().getTime();
+
+        return drivers.getOutput(url).then((result) => {
+          var dt2: number = new Date().getTime();
+
+          var diff: number = dt2 - dt1;
+
+          console.log(`${url} resolved time pre: ${diff}`);
+
+          const recipe = this.parseRecipeHtml(result, url);
+
+          console.log(`${url} resolved time pre next: ${diff}`);
+
+          return drivers
+            .getOutput(
+              "https://api.sni.foodnetwork.com/moderation-chitter-proxy/v1/ratings/brand/FOOD/type/recipe/id/" +
+                recipe.id
+            )
+            .then((result) => {
+              var ob: any = JSON.parse(result);
+
+              var rating: number = ob.ratingsSummaries[0].averageValue;
+
+              recipe.rating = rating.toFixed(2) + " of 5 stars";
+
+              console.log(result);
+
+              console.log(`${recipe.sourceUrl} resolved`);
+              var dt3: number = new Date().getTime();
+
+              var diff2: number = dt3 - dt1;
+              console.log(`${recipe.sourceUrl} resolved time: ${diff2}`);
+
+              // Send to user here.
+              this.io.to(this.id).emit("senddata", recipe);
+
+              return recipe;
+            });
+        });
+      })
+    );
+    console.log(`web scraping completed`);
+    dataAccess.upload(recipeResults);
+    return recipeResults;
+  }
+
   async returnRecipesFromKeyword(
     keyword: string,
     drivers: driverPool,
@@ -30,24 +104,61 @@ abstract class BaseScraper {
       pageUrls.push(this.getUrlForPage(page, keyword));
     }
     const pageResults = await drivers.getOutputs(pageUrls);
-    const recipeUrls: string[] = [];
+    var recipeUrls: string[] = [];
     for (const page of pageResults) {
       recipeUrls.push(...this.getRecipeUrlsFromPage(page));
     }
-    console.log(recipeUrls);
-    const recipeResults = await Promise.all(
-      recipeUrls.map((url) => {
-        return drivers.getOutput(url).then((result) => {
-          const recipe = this.parseRecipeHtml(result, url);
-          // Send to user here.
-          console.log(`${recipe.sourceUrl} resolved`);
-          return recipe;
-        });
-      })
-    );
-    dataAccess.upload(recipeResults);
-    return recipeResults;
+
+    recipeUrls = recipeUrls.slice(0, 4);
+
+    return this.getRecipes(drivers, recipeUrls);
   }
+
+  async getRecipes(drivers: driverPool, urls: string[]): Promise<IRecipe[]> {
+    var reps: IRecipe[] = [];
+    return new Promise((resolve, reject) => {
+      this.getRecipesEx(drivers, urls, 0, reps, resolve);
+    });
+  }
+
+  getRecipesEx(
+    drivers: driverPool,
+    urls: string[],
+    index: number,
+    recipes: IRecipe[],
+    resolve: any
+  ) {
+    if (index == urls.length) {
+      resolve(recipes);
+      return;
+    }
+
+    this.getRecipe(drivers, urls[index]).then((result: any) => {
+      recipes.push(result);
+      this.getRecipesEx(drivers, urls, index + 1, recipes, resolve);
+    });
+  }
+
+  async getRecipeBase(drivers: driverPool, url: string): Promise<IRecipe> {
+    return new Promise((resolve, _reject) => {
+      var dt1: number = new Date().getTime();
+
+      drivers.getOutput(url).then((result) => {
+        var dt2: number = new Date().getTime();
+
+        var diff: number = dt2 - dt1;
+
+        console.log(`${url} resolved time pre: ${diff}`);
+
+        const recipe = this.parseRecipeHtml(result, url);
+
+        console.log(`${url} resolved time pre next: ${diff}`);
+        resolve(recipe);
+      });
+    });
+  }
+
+  abstract getRecipe(drivers: driverPool, url: string): Promise<IRecipe>;
 
   /**
    * Given html, return urls for recipes stored on the webpage

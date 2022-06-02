@@ -223,12 +223,12 @@
         <!--Popular name settings-->
         <TextView
             android:id="@+id/popularName"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/popularBlackBox"
             android:layout_alignEnd="@+id/popularBlackBox"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="80dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/sofia_pro_bold"
             android:text="Recipe Name"
             android:textColor="#4E5156"
@@ -245,7 +245,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="70dp"
             android:fontFamily="@font/sofia_pro_regular"
-            android:text="Recipe description"
+            android:text=""
             android:textColor="#4E5156"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />

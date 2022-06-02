@@ -79,7 +79,8 @@
     "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
-    "selenium-webdriver": "^4.1.2"
+    "selenium-webdriver": "^4.1.2",
+    "socket.io": "^4.5.1"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.2.0",

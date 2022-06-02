@@ -6,15 +6,41 @@ import { IRecipe } from "@models/recipe-model";
 import { IRecipeFilter } from "@models/recipe-filter-model";
 var url = require("url");
 
+import ws from "../websocket";
+import FoodNetwork from "../webscraper/scrapers/FoodNetwork";
+var url = require("url");
+
 // Constants
 const router = Router();
 const { OK } = StatusCodes;
 
 // Paths
 export const p = {
+  getByRating: "/rating/:rating",
   get: "/:id",
   getByTitle: "/title/:title",
 } as const;
+
+router.get(p.getByRating, async (req: Request, res: Response) => {
+  try {
+    let data: Array<IRecipe> = await recipeService.getByRating(
+      req.params.rating
+    );
+
+    let finalData: any = { documents: data };
+
+    console.log(JSON.stringify(finalData));
+    utils.log(JSON.stringify(finalData));
+
+    finalData = utils.hideError(finalData);
+    console.log("title");
+
+    return res.status(OK).json(finalData);
+  } catch (e: any) {
+    utils.logerror(JSON.stringify(e));
+    return res.status(OK).json({ error: "an error has occurred" });
+  }
+});
 
 /**
  * Get one recipe.
@@ -77,7 +103,20 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
     console.log("item count: " + data.length);
 
     finalData = utils.hideError(finalData);
-    console.log("title");
+
+    var parts: any = url.parse(req.url, true);
+    var query: any = parts.query;
+    var id: string = query.cid; // id used to identify client for web socket
+
+    if (id != "" && data.length < 4) {
+      console.log("web scraping");
+
+      var io: any = ws.getWS(); // pointer to io object used to send data to client for the web socket
+
+      var fn: FoodNetwork = new FoodNetwork();
+      fn.setWb(io, id);
+      fn.retrieveRecipes(req.params.title, 1);
+    }
 
     return res.status(OK).json(finalData);
   } catch (e: any) {

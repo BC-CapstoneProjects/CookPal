@@ -67,9 +67,29 @@ async function getByTitleFilter(
   return finalResults;
 }
 
+/**
+ * Gets list of recipes by the rating
+ * @param rating the rating of the recipes we are looking for
+ * @returns an array of recipes
+ */
+async function getByRating(rating: string): Promise<Array<IRecipe>> {
+  return await dataAccess.findByRating(rating);
+}
+
+/**
+ * upload one recipe
+ * @param title the recipe to upload
+ * @returns an array of recipes
+ */
+async function uploadRecipe(recipe: IRecipe): Promise<IRecipe> {
+  return await dataAccess.uploadRecipe(recipe);
+}
+
 // Export default
 export default {
   getOne,
   getByTitle,
   getByTitleFilter,
+  getByRating,
+  uploadRecipe,
 } as const;

@@ -1,7 +1,11 @@
 import { IRecipe } from "@models/recipe-model";
 import BaseScraper from "./BaseScraper";
 import * as cheerio from "cheerio";
+import DriverPool from "../driverPool";
 class TasteOfHome extends BaseScraper {
+  getRecipe(drivers: DriverPool, url: string): Promise<IRecipe> {
+    return this.getRecipeBase(drivers, url);
+  }
   getRecipeUrlsFromPage(doc: string): string[] {
     const html = cheerio.load(doc);
 

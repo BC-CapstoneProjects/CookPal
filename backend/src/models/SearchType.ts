@@ -1,5 +1,6 @@
 export interface SearchType {
   TITLE: string;
-  INGREDIENT: string;
+  INGREDIENTS: string;
+  RATING: string;
   ALL: string;
 }
