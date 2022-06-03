@@ -81,7 +81,7 @@ router.get(p.getByTitle, async (req: Request, res: Response) => {
     if (query != undefined && query.usefilter != undefined) {
       console.log("filter");
 
-      let filter = {
+      filter = {
         ingredients: query.ingredients,
         rating: parseFloat(query.rating),
         minMins: parseInt(query.minMins),
