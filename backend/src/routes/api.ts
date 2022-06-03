@@ -15,7 +15,7 @@ baseRouter.get("/test", async (req: Request, res: Response) => {
 });
 
 baseRouter.get("/version", async (req: Request, res: Response) => {
-  return res.status(OK).json({ version: "06-02-2022b" });
+  return res.status(OK).json({ version: "06-02-2022c" });
 });
 
 // url to update server code
