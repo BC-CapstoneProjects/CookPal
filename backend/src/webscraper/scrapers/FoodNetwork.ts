@@ -3,7 +3,7 @@ import BaseScraper from "./BaseScraper";
 import * as cheerio from "cheerio";
 import DriverPool from "../driverPool";
 import recipeService from "@services/recipe-service";
-import utils from "src/utils/utils";
+import utils from "../../utils/utils";
 
 class FoodNetwork extends BaseScraper {
   async getRecipe(drivers: DriverPool, url: string): Promise<IRecipe> {

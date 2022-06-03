@@ -1,6 +1,6 @@
 import { IRecipeFilter } from "@models/recipe-filter-model";
 import { IRecipe } from "@models/recipe-model";
-import utils from "src/utils/utils";
+import utils from "../utils/utils";
 import dataAccess from "./data-access";
 
 /**

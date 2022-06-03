@@ -4,7 +4,7 @@ import * as cheerio from "cheerio";
 import dataAccess from "@repos/data-access";
 import recipeService from "@services/recipe-service";
 import { IRecipeFilter } from "@models/recipe-filter-model";
-import utils from "src/utils/utils";
+import utils from "../../utils/utils";
 
 abstract class BaseScraper {
   protected io: any;
