@@ -1,6 +1,7 @@
 package bellevuecollege.edu.cookpal.network
 
 import android.content.Context
+import bellevuecollege.edu.cookpal.recipes.RecipeFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
@@ -15,48 +16,33 @@ class DownloadRecipesMongoDB {
 
     data class Response(val documents: List<Recipe>)
 
-    suspend fun getRecipes(keyWord: String, context: Context): List<Recipe>
+    suspend fun getRecipesByTitle(keyWord: String, context:Context, id:String = "", filter:RecipeFilter? = null): List<Recipe>
+    {
+        return getRecipesFn(keyWord, context, "title", id, filter)
+    }
+
+    suspend fun getRecipesByRating(keyWord: String, context: Context): List<Recipe>
+    {
+        return getRecipesFn(keyWord, context, "rating")
+    }
+
+    suspend fun getRecipesFn(keyWord: String, context: Context, field:String, id:String = "", filter:RecipeFilter? = null): List<Recipe>
     {
         val client = OkHttpClient()
 
         try
         {
+            val server:String = Utils.getServerUrl(context)
 
-            val inputStream = context.assets.open("configenv.yaml")
-            val mapper = ObjectMapper(YAMLFactory())
-            configenv = mapper.readValue(inputStream, ConfigEnv::class.java)
-
-            var server = "";
-
-            server = when (configenv.env){
-                "local"->configenv.localserver
-                "aws"->configenv.awsserver
-                else -> {
-                    throw Exception("invalid env value")
-                }
+            var url:String = server + "/api/recipe/" + field + "/" + keyWord + "?cid=" + id
+          
+            if (filter != null) {
+                url += "?usefilter&" + filter.ToQueryString()
             }
+            
+            val responseString = Utils.makeAPIGetRequest(url,
 
-            /**
-             * Note
-             * May need to add another /
-             * line 46 should look like .url(server + "/api/recipe/title/" + keyWord)
-             * if getting 404 from local web server
-             */
-            val request = Request.Builder()
-                    .url(server + "/api/recipe/title/" + keyWord)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Access-Control-Request-Headers", "*")
-                    .build()
-            val response = withContext(Dispatchers.IO) {
-                client.newCall(request).execute()
-
-            }
-            //logger.info { "Response code: ${response.code()}" }
-            val responseBody = response.body
-
-            val responseString = withContext(Dispatchers.IO) {
-                responseBody?.string()
-            }
+        mapOf("Content-Type" to "application/json", "Access-Control-Request-Headers" to "*"))
 
             val typeRef = object : com.fasterxml.jackson.core.type.TypeReference<Response>() {}
             return jacksonObjectMapper().readValue(responseString, typeRef).documents
