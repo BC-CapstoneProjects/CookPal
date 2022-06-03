@@ -38,6 +38,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
     private lateinit var bd:RecipeResultsFragmentBinding
     private var showingFilterPopupMenu:Boolean = false
     private lateinit var popupWindow:PopupWindow
+    private var view: View? = null
 
     data class Response(val document: Recipe)
 
@@ -66,9 +67,13 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
     fun setSearchTerm(searchKeyWord: String) {
         _searchTerm = searchKeyWord
-
         _searchButtonVisible.value = searchKeyWord.isNotEmpty()
+    }
 
+    fun Context.hideKeyboard(pview: View) {
+
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(pview.windowToken, 0)
     }
 
     private lateinit var sk:Socket
@@ -316,11 +321,18 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             System.out.println(e.message)
         }
     }
-
+    
+    fun setView(pview:View) {
+        view = pview
+    }
     /**
      * Sets the value of the status LiveData to the IngredientSearch API status.
      */
     fun getIngredientSearchRecipes() {
+        if (view != null) {
+            context.hideKeyboard(view!!)
+            bd.searchBox.clearFocus()
+        }
 
         viewModelScope.launch {
             Log.d("RecipeResultsViewModel", "Retrieving recipes for $_searchTerm")
