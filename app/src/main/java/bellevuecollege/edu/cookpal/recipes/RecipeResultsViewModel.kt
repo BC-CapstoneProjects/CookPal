@@ -38,6 +38,7 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
     private lateinit var bd:RecipeResultsFragmentBinding
     private var showingFilterPopupMenu:Boolean = false
     private lateinit var popupWindow:PopupWindow
+    private var view: View? = null
 
     data class Response(val document: Recipe)
 
@@ -66,9 +67,13 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
     fun setSearchTerm(searchKeyWord: String) {
         _searchTerm = searchKeyWord
-
         _searchButtonVisible.value = searchKeyWord.isNotEmpty()
+    }
 
+    fun Context.hideKeyboard(pview: View) {
+
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(pview.windowToken, 0)
     }
 
     private lateinit var sk:Socket
@@ -89,17 +94,10 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
 
             var rep:Recipe = jacksonObjectMapper().readValue(ob.toString(), typeRef)
 
-            // if recs is empty then we need to add all the results from our search result that we got from mongodb
-            var addToList:Boolean = (recs.count() == 0)
-
             for (rec in _recipes.value!!) {
                 // if item from webscraper result is already in list we are done no need to add it to the list
                 if (rec.id == rep.id && rep.id != "") {
                     return@on
-                }
-
-                if (addToList) {
-                    recs.add(rec)
                 }
             }
 
@@ -323,12 +321,18 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
             System.out.println(e.message)
         }
     }
-
+    
+    fun setView(pview:View) {
+        view = pview
+    }
     /**
      * Sets the value of the status LiveData to the IngredientSearch API status.
      */
     fun getIngredientSearchRecipes() {
-        recs = ArrayList()
+        if (view != null) {
+            context.hideKeyboard(view!!)
+            bd.searchBox.clearFocus()
+        }
 
         viewModelScope.launch {
             Log.d("RecipeResultsViewModel", "Retrieving recipes for $_searchTerm")
@@ -341,10 +345,12 @@ class RecipeResultsViewModel(application: Application) : AndroidViewModel(applic
                 Log.d("RecipeResultsViewModel", "Successfully get recipes")
 
                 _recipes.value = searchResponse
+                recs = searchResponse as ArrayList<Recipe>
                 _status.value = IngredientSearchApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = IngredientSearchApiStatus.ERROR
                 _recipes.value = ArrayList()
+                recs = ArrayList()
             }
         }
     }

@@ -3,6 +3,7 @@ import BaseScraper from "./BaseScraper";
 import * as cheerio from "cheerio";
 import DriverPool from "../driverPool";
 import recipeService from "@services/recipe-service";
+import utils from "src/utils/utils";
 
 class FoodNetwork extends BaseScraper {
   async getRecipe(drivers: DriverPool, url: string): Promise<IRecipe> {
@@ -27,7 +28,11 @@ class FoodNetwork extends BaseScraper {
       console.log(`${recipe.sourceUrl} resolved`);
       var dt3: number = new Date().getTime();
 
-      this.io.to(this.id).emit("senddata", recipe);
+      // Send to user here.
+      if (this.filter == undefined || utils.includeItem(recipe, this.filter)) {
+        this.io.to(this.id).emit("senddata", recipe);
+      }
+
       recipeService.uploadRecipe(recipe);
       resolve(recipe);
     });

@@ -85,6 +85,7 @@ class RecipeResultsFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable) {
                 viewModel.setSearchTerm(s.toString())
+                viewModel.setView(view!!)
             }
 
             override fun beforeTextChanged(
