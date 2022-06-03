@@ -1,33 +1,35 @@
 package bellevuecollege.edu.cookpal.favorites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import bellevuecollege.edu.cookpal.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import bellevuecollege.edu.cookpal.databinding.FragmentFavoriteRecipesBinding
+import bellevuecollege.edu.cookpal.network.Recipe
+import bellevuecollege.edu.cookpal.profile.UserProfile
+import bellevuecollege.edu.cookpal.profile.UserProfileHelper
+import bellevuecollege.edu.cookpal.recipe_parser.TAG
+import com.google.common.collect.ImmutableList
+import com.google.gson.Gson
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteRecipesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FavoriteRecipesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var binding: FragmentFavoriteRecipesBinding
+    private val up: UserProfile = UserProfile()
+
+    //private val _recipes = MutableLiveData<ArrayList<Recipe>>()
+    lateinit var favoriteRecipes: ArrayList<Recipe>
+
+    private val viewModel: FavoriteRecipesViewModel by lazy {
+        ViewModelProvider(this).get(FavoriteRecipesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -35,26 +37,66 @@ class FavoriteRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_recipes, container, false)
+        binding = FragmentFavoriteRecipesBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+
+        //Load profile
+        setArrayAdapter()
+
+        var selectedRecipe: Recipe
+        binding.favoriteRecipeView.setOnItemClickListener { parent, view, position, id ->
+            val map : HashMap<String, Any> = binding.favoriteRecipeView.getItemAtPosition(position) as HashMap<String, Any>
+            selectedRecipe = mapToRecipe(map)
+            navigateToSelected(selectedRecipe)
+            }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteRecipesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteRecipesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun setArrayAdapter() {
+        UserProfileHelper.loadProfile { data ->
+            up.setProfile(data)
+            favoriteRecipes = up.favoriteRecipes
+
+            val arrayAdapter =
+                FavoriteRecipeAdapter(requireActivity().applicationContext, favoriteRecipes)
+            binding.favoriteRecipeView.adapter = arrayAdapter
+        }
+    }
+
+    private fun navigateToSelected(selectedRecipe: Recipe){
+        viewModel.displayRecipeDetails(selectedRecipe)
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner) {
+            if(null != it){
+                view?.findNavController()?.navigate(
+                    FavoriteRecipesFragmentDirections.
+                    actionFavoriteRecipesFragmentToRecipeDetailsFragment(it)
+                )
+                viewModel.displayRecipeDetailsComplete()
             }
+        }
+    }
+
+    private fun mapToRecipe(recipeMap : HashMap<String, Any>) : Recipe{
+        var result = Recipe()
+
+        result.summary = recipeMap["summary"] as String
+        result.totalTime = recipeMap["totalTime"] as String
+        result.rating = recipeMap["rating"] as String
+        result.label = recipeMap["label"] as String
+        if (recipeMap["rId"] != null)
+            result.rId = recipeMap["rId"] as String
+        result.title = recipeMap["title"] as String
+        result.steps = recipeMap["steps"] as ArrayList<String>
+        result.sourceUrl = recipeMap["sourceUrl"] as String
+        result.imageUrl = recipeMap["imageUrl"] as String
+        result.isLoadedSuccessful = recipeMap["loadedSuccessful"] as Boolean
+        result.ingredients = recipeMap["ingredients"] as ArrayList<String>
+        result.reviewNumber = recipeMap["reviewNumber"].toString().toInt()
+        result._id = recipeMap["_id"] as String
+        result.id = recipeMap["id"] as String
+
+        return result
     }
 }
+

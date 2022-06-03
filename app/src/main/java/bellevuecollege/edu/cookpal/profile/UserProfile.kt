@@ -1,5 +1,6 @@
 package bellevuecollege.edu.cookpal.profile
 
+import android.util.Log
 import bellevuecollege.edu.cookpal.network.Recipe
 
 class UserProfile {
@@ -20,11 +21,7 @@ class UserProfile {
         }
 
         try {
-            val favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
-
-            for (value in favoriteRecipes) {
-                this.favoriteRecipes.add(value)
-            }
+            favoriteRecipes = mp["favoriteRecipes"] as ArrayList<Recipe>
         } catch (e: Exception) {
 
         }
@@ -50,5 +47,6 @@ class UserProfile {
     var name : String = ""
     var emailAddress : String = ""
     var profilePhotoPath : String = ""
-    val favoriteRecipes : ArrayList<Recipe> = ArrayList<Recipe>()
+    var favoriteRecipes : ArrayList<Recipe> = ArrayList()
+    var tempFR : ArrayList<Recipe> = ArrayList()
 }
