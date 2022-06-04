@@ -37,7 +37,6 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var recipe : Recipe
     private lateinit var textTranslator: Translator
     private val espanol: Locale = Locale("es","es")
-    //private lateinit var instructions: String
     private lateinit var translatedText: String
     private var flag: Int = -1
 
@@ -54,6 +53,8 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        createTTS("English")
+
         val application = requireNotNull(activity).application
         binding = RecipeDetailsFragmentBinding.inflate(inflater)
 
@@ -90,6 +91,9 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     context?.cacheDir?.absolutePath,
                     tempView.selectedRecipe.value?.rId + ".wav"
                 )
+                var inFavs = checkFavorites(up.favoriteRecipes, recipe.title)
+                if(inFavs)
+                    binding.addFavorite.isChecked = true
                 // Always record recipe
                 recordRecipe()
             }
@@ -101,10 +105,22 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             spinner.adapter = aa
             spinner.onItemSelectedListener = this
 
-            binding.addFavorite.setOnClickListener {
-
-                up.favoriteRecipes.add(recipe)
-                UserProfileHelper.saveProfile(up)
+            //Favorite button listener
+            binding.addFavorite.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    //Add recipe to favorites
+                    //Not sure why up.favoriteRecipes.contains does not work.....
+                    var isIn = checkFavorites(up.favoriteRecipes, recipe.title)
+                    if(!isIn){
+                        up.favoriteRecipes.add(recipe)
+                        UserProfileHelper.saveProfile(up)
+                    }
+                } else {
+                    //Remove recipe from favorites, currently does not work...
+                    up.favoriteRecipes.remove(recipe)
+                    UserProfileHelper.saveProfile(up)
+                    //recipe.isFavorite = false
+                }
             }
 
             // Setup Play button handler
@@ -293,6 +309,37 @@ class RecipeDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
         }
+    }
+
+    //Check if recipe name is in favorite recipes
+    private fun checkFavorites(favoriteRecipes: ArrayList<Recipe>, name: String) : Boolean{
+        var result = false
+        var end = false
+
+        if(favoriteRecipes.isEmpty()){
+            return result
+        }
+
+        val asString = favoriteRecipes.toString()
+        var toEdit = asString
+
+        while(!end) {
+            var oneRec = toEdit.substringBefore("}")
+            toEdit = toEdit.replace("$oneRec}", "")
+
+            val title = oneRec.substringAfter("title=").substringBefore(", steps")
+            if(title == name)
+            {
+                result = true
+                break
+            }
+
+            if (!toEdit.contains("title="))
+            {
+                end = true
+            }
+        }
+        return result
     }
 
     override fun onPause() {
